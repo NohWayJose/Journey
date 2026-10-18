@@ -25,7 +25,7 @@ uses **synthetic** fixtures in `tests/fixtures/`. Each has a VTT file and a hand
 | ID | Transcript | Exercises |
 |---|---|---|
 | F1 | Single participant, short linear task | Baseline: actor, goal, steps, flow |
-| F2 | Single participant with branches, errors and retries | Decisions, error and recovery points, attempts, outcomes |
+| F2 | Single participant with branches, errors and retries | Decisions, error flows (one returning to the main flow, one ending the task), attempts, outcomes and their frequency, threshold judgements |
 | F3 | Two people on one connection who agree | Shared speaker label, consensus |
 | F4 | Two participants who do the task differently | Divergence: main speaker's flow + timestamped alternative view |
 | F5 | Interviewer asks for scales on some steps, not others | Scale vs free text, scale preferred, inferred values marked, questions excluded |
@@ -66,7 +66,7 @@ These are a first look, not results. The checks below confirm or refute them.
 | PT-02 | Does each actor get a lane, with every node inside one? | Render F2–F4, F6; inspect | One labelled lane per actor; no unlabelled area; outcomes and notes placed deliberately |
 | PT-03 | Are decisions and their branches unambiguous? | Render F2, F6; reviewer traces each branch | Every branch label is next to the edge it belongs to; no misreadings |
 | PT-04 | Can step properties be shown inside a step? | Render F5: Likert label + value, quote-only values, inferred values | Scale shown as label and value (e.g. *Difficulty: Hard (4)*); inferred values visibly marked; text fits |
-| PT-05 | Can all completion metrics be shown? | Render F2 | Success / failure / abandonment outcomes distinguishable; time on task and attempts visible; error and recovery points marked and loops readable |
+| PT-05 | Can all completion metrics be shown? | Render F2 | Success / failure / abandonment outcomes distinguishable, with their frequency; time on task and attempts visible |
 | PT-06 | Do annotations stay attached to their step? | Render F4, F6; try note node in same lane, edge label, tooltip | Each annotation is visibly linked to and near its step; alternative views show speaker and timestamp |
 | PT-07 | Can evidence (cue IDs, timestamps) travel in the SVG without clutter? | Try tooltips, `<title>`, links, data attributes | Every element can carry its cue references; hidden or unobtrusive by default |
 | PT-08 | Does it hold up at realistic size? | Render F6 (30–60 steps, 3–5 actors) | Legible at a sensible zoom; render < 1 s in Node; within pele's limits (`maxEdges`, `outputLimit`), raising them if needed |
@@ -76,6 +76,8 @@ These are a first look, not results. The checks below confirm or refute them.
 | PT-12 | Do Node and browser output match? | Render F2 with `render()` in Node and `mount()` in Firefox | Same structure and content; any layout differences understood (e.g. `responsive`, `maxWidth`) |
 | PT-13 | Can pele be replaced if needed? | Review: does `swimlane-beta` tie us to pele? Is a fallback viable? | Renderer sits behind `renderTaskFlow(model) → svg`; `flowchart` (standard Mermaid 12.1) confirmed as fallback |
 | PT-14 | Is the SVG a usable standalone file? | Open CLI output directly in Firefox, Chrome and Inkscape | Correct colours and fonts with no external CSS; text selectable |
+| PT-15 | Can error flows follow the [visual standard](30-design.md#visual-standard-for-error-links)? | Render F2's main flow and error flows to one directory; open in Firefox and follow the links | Link-out, entry, return and re-entry connectors use the standard shapes and styles, sit in the right lane, and their relative links open the matching diagram |
+| PT-16 | Can threshold judgements be shown? | Render F2 with `above` and `below` measures | `above` shows a clear frustration marker; `below` doesn't clutter the diagram |
 
 ## Part B: Extraction (Claude)
 
@@ -99,7 +101,7 @@ At current `claude-opus-5-5` prices ($4 / $20 per million tokens) that is roughl
 
 ## Go / no-go
 
-- **Go:** PT-01 to PT-07, PT-10, PT-11, PT-13, PT-14 and PE-01 to PE-04 pass.
+- **Go:** PT-01 to PT-07, PT-10, PT-11, PT-13 to PT-15 and PE-01 to PE-04 pass.
 - **Conditional go:** a failure has a workaround that fits the timebox (e.g. annotations
   as tooltips instead of note nodes). The workaround is recorded in decisions.
 - **No-go on pele:** lanes with unambiguous decisions can't be drawn legibly, output isn't
@@ -133,4 +135,6 @@ At current `claude-opus-5-5` prices ($4 / $20 per million tokens) that is roughl
 | PT-12 | Pending | | |
 | PT-13 | Pending | | |
 | PT-14 | Pending | | Renders correctly without pele CSS in Firefox |
+| PT-15 | Pending | | Shapes, red dashed edges and relative links work; connectors land in the declared lane, not the step's lane, so the compiler must place them |
+| PT-16 | Pending | | |
 | PE-01 to PE-07 | Pending | | Blocked on Task Flow Model schema draft |

@@ -1,9 +1,9 @@
 {
   "schemaVersion": "0.1.0",
   "source": {
-    "fileName": "checkout-interview.vtt",
+    "path": "/home/greg/research/interviews/checkout-interview.vtt",
     "sha256": "0000000000000000000000000000000000000000000000000000000000000000",
-    "cueCount": 12,
+    "cueCount": 13,
     "durationMs": 330000
   },
   "extraction": {
@@ -23,7 +23,8 @@
     { "id": "c9", "startMs": 104000, "endMs": 108000, "speaker": "Alex" },
     { "id": "c10", "startMs": 108000, "endMs": 125000, "speaker": "Alex" },
     { "id": "c11", "startMs": 252000, "endMs": 268000, "speaker": "Sam" },
-    { "id": "c12", "startMs": 300000, "endMs": 330000, "speaker": "Alex" }
+    { "id": "c12", "startMs": 300000, "endMs": 318000, "speaker": "Alex" },
+    { "id": "c13", "startMs": 318000, "endMs": 330000, "speaker": "Alex" }
   ],
   "flow": {
     "title": "Buying office supplies online",
@@ -42,9 +43,9 @@
       {
         "id": "s1", "actorId": "a1", "kind": "action", "label": "Find product",
         "description": "Searches the supplier's site for the usual paper and toner",
-        "outcome": null, "errorRecovery": "none",
-        "frequency": { "value": 4, "basis": "scale", "text": "four, pretty much every day", "evidence": ["c3", "c4"] },
-        "difficulty": { "value": 2, "basis": "inferred", "text": "that bit's easy enough", "evidence": ["c5"] },
+        "outcome": null, "returnToStepId": null,
+        "frequency": { "value": 4, "basis": "scale", "threshold": null, "text": "four, pretty much every day", "evidence": ["c3", "c4"] },
+        "difficulty": { "value": 2, "basis": "inferred", "threshold": null, "text": "that bit's easy enough", "evidence": ["c5"] },
         "attributes": [{ "name": "Tool", "value": "Supplier website", "evidence": ["c5"] }],
         "states": [],
         "metrics": { "timeOnTask": null, "attempts": null },
@@ -52,59 +53,78 @@
       },
       {
         "id": "s2", "actorId": "a1", "kind": "decision", "label": "In stock?",
-        "description": null, "outcome": null, "errorRecovery": "none",
+        "description": null, "outcome": null, "returnToStepId": null,
         "frequency": null, "difficulty": null, "attributes": [], "states": [],
         "metrics": { "timeOnTask": null, "attempts": null },
         "evidence": ["c6"]
       },
       {
         "id": "s3", "actorId": "a2", "kind": "action", "label": "Authorise card",
-        "description": null, "outcome": null, "errorRecovery": "error",
+        "description": null, "outcome": null, "returnToStepId": null,
         "frequency": null, "difficulty": null, "attributes": [], "states": [],
         "metrics": { "timeOnTask": null, "attempts": null },
         "evidence": ["c7"]
-      },
-      {
-        "id": "s7", "actorId": "a2", "kind": "decision", "label": "Approved?",
-        "description": null, "outcome": null, "errorRecovery": "none",
-        "frequency": null, "difficulty": null, "attributes": [], "states": [],
-        "metrics": { "timeOnTask": null, "attempts": null },
-        "evidence": ["c7"]
-      },
-      {
-        "id": "s4", "actorId": "a1", "kind": "action", "label": "Re-enter card details",
-        "description": "Card is often declined first time; types the details again",
-        "outcome": null, "errorRecovery": "recovery",
-        "frequency": null,
-        "difficulty": { "value": 4, "basis": "scale", "text": "I'd say a four, it's a real pain", "evidence": ["c8", "c9", "c10"] },
-        "attributes": [],
-        "states": [{ "name": "Payment", "value": "Declined", "evidence": ["c7"] }],
-        "metrics": { "timeOnTask": null, "attempts": { "count": 2, "text": "usually takes two goes", "evidence": ["c10"] } },
-        "evidence": ["c7", "c10"]
       },
       {
         "id": "s5", "actorId": "a1", "kind": "outcome", "label": "Order placed",
-        "description": null, "outcome": "success", "errorRecovery": "none",
+        "description": null, "outcome": "success", "returnToStepId": null,
         "frequency": null, "difficulty": null, "attributes": [], "states": [],
         "metrics": { "timeOnTask": null, "attempts": null },
         "evidence": ["c12"]
       },
       {
         "id": "s6", "actorId": "a1", "kind": "outcome", "label": "Give up and try another supplier",
-        "description": null, "outcome": "abandonment", "errorRecovery": "none",
-        "frequency": null, "difficulty": null, "attributes": [], "states": [],
+        "description": null, "outcome": "abandonment", "returnToStepId": null,
+        "frequency": { "value": null, "basis": "text", "threshold": "below", "text": "doesn't happen often enough to bother me", "evidence": ["c13"] },
+        "difficulty": null, "attributes": [], "states": [],
         "metrics": { "timeOnTask": null, "attempts": null },
         "evidence": ["c6"]
       }
     ],
     "transitions": [
-      { "id": "t1", "from": "s1", "to": "s2", "condition": null, "kind": "normal", "evidence": ["c6"] },
-      { "id": "t2", "from": "s2", "to": "s3", "condition": "Yes", "kind": "normal", "evidence": ["c6"] },
-      { "id": "t3", "from": "s2", "to": "s6", "condition": "No", "kind": "normal", "evidence": ["c6"] },
-      { "id": "t4", "from": "s3", "to": "s7", "condition": null, "kind": "normal", "evidence": ["c7"] },
-      { "id": "t5", "from": "s7", "to": "s5", "condition": "Yes", "kind": "normal", "evidence": ["c12"] },
-      { "id": "t6", "from": "s7", "to": "s4", "condition": "No", "kind": "normal", "evidence": ["c7"] },
-      { "id": "t7", "from": "s4", "to": "s3", "condition": null, "kind": "retry", "evidence": ["c10"] }
+      { "id": "t1", "from": "s1", "to": "s2", "condition": null, "evidence": ["c6"] },
+      { "id": "t2", "from": "s2", "to": "s3", "condition": "Yes", "evidence": ["c6"] },
+      { "id": "t3", "from": "s2", "to": "s6", "condition": "No", "evidence": ["c6"] },
+      { "id": "t4", "from": "s3", "to": "s5", "condition": null, "evidence": ["c12"] }
+    ],
+    "errorFlows": [
+      {
+        "id": "E1",
+        "title": "Card declined",
+        "triggers": [
+          {
+            "fromStepId": "s3",
+            "condition": "Card declined",
+            "frequency": { "value": null, "basis": "text", "threshold": "above", "text": "it happens way too often", "evidence": ["c7"] },
+            "evidence": ["c7"]
+          }
+        ],
+        "startStepId": "e1",
+        "steps": [
+          {
+            "id": "e1", "actorId": "a1", "kind": "action", "label": "Re-enter card details",
+            "description": "Types the card details in again",
+            "outcome": null, "returnToStepId": null,
+            "frequency": null,
+            "difficulty": { "value": 4, "basis": "scale", "threshold": null, "text": "I'd say a four, it's a real pain", "evidence": ["c8", "c9", "c10"] },
+            "attributes": [],
+            "states": [{ "name": "Payment", "value": "Declined", "evidence": ["c7"] }],
+            "metrics": { "timeOnTask": null, "attempts": { "count": 2, "text": "usually takes two goes", "evidence": ["c10"] } },
+            "evidence": ["c10"]
+          },
+          {
+            "id": "e2", "actorId": "a1", "kind": "return", "label": "Try authorisation again",
+            "description": null, "outcome": null, "returnToStepId": "s3",
+            "frequency": null, "difficulty": null, "attributes": [], "states": [],
+            "metrics": { "timeOnTask": null, "attempts": null },
+            "evidence": ["c10"]
+          }
+        ],
+        "transitions": [
+          { "id": "t10", "from": "e1", "to": "e2", "condition": null, "evidence": ["c10"] }
+        ],
+        "evidence": ["c7", "c10"]
+      }
     ],
     "metrics": {
       "timeOnTask": { "minutes": 10, "text": "the whole thing's about ten minutes", "evidence": ["c12"] },
@@ -112,7 +132,7 @@
     },
     "annotations": [
       { "id": "n1", "targetId": "s1", "kind": "alternativeView", "text": "Checks reviews before choosing a product", "speaker": "Sam", "evidence": ["c11"] },
-      { "id": "n2", "targetId": "s4", "kind": "workaround", "text": "Keeps the card details in a notes app to paste in", "speaker": "Alex", "evidence": ["c10"] }
+      { "id": "n2", "targetId": "e1", "kind": "workaround", "text": "Keeps the card details in a notes app to paste in", "speaker": "Alex", "evidence": ["c10"] }
     ]
   }
 }

@@ -5,34 +5,83 @@
   "description": "A task flow extracted from a WebVTT transcript. `flow` is what Claude produces (see $defs/flow, used as the structured-output schema); everything else is added by the API.",
   "type": "object",
   "additionalProperties": false,
-  "required": ["schemaVersion", "source", "extraction", "cues", "flow"],
+  "required": [
+    "schemaVersion",
+    "source",
+    "extraction",
+    "cues",
+    "flow"
+  ],
   "properties": {
-    "schemaVersion": { "const": "0.1.0" },
+    "schemaVersion": {
+      "const": "0.1.0"
+    },
     "source": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["fileName", "sha256", "cueCount", "durationMs"],
+      "required": [
+        "path",
+        "sha256",
+        "cueCount",
+        "durationMs"
+      ],
       "properties": {
-        "fileName": { "type": "string" },
-        "sha256": { "type": "string" },
-        "cueCount": { "type": "integer" },
-        "durationMs": { "type": "integer" }
+        "path": {
+          "description": "Fully qualified path to the source VTT file, resolved when the flow was extracted.",
+          "type": "string"
+        },
+        "sha256": {
+          "description": "Hash of the VTT file at extraction time, to detect later changes.",
+          "type": "string"
+        },
+        "cueCount": {
+          "type": "integer"
+        },
+        "durationMs": {
+          "type": "integer"
+        }
       }
     },
     "extraction": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["model", "createdAt", "options"],
+      "required": [
+        "model",
+        "createdAt",
+        "options"
+      ],
       "properties": {
-        "model": { "type": "string" },
-        "createdAt": { "type": "string", "format": "date-time" },
+        "model": {
+          "type": "string"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
         "options": {
           "type": "object",
           "additionalProperties": false,
-          "required": ["mainSpeaker", "interviewers"],
+          "required": [
+            "mainSpeaker",
+            "interviewers"
+          ],
           "properties": {
-            "mainSpeaker": { "anyOf": [{ "type": "string" }, { "type": "null" }] },
-            "interviewers": { "type": "array", "items": { "type": "string" } }
+            "mainSpeaker": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "interviewers": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
           }
         }
       }
@@ -43,210 +92,660 @@
       "items": {
         "type": "object",
         "additionalProperties": false,
-        "required": ["id", "startMs", "endMs", "speaker"],
+        "required": [
+          "id",
+          "startMs",
+          "endMs",
+          "speaker"
+        ],
         "properties": {
-          "id": { "type": "string" },
-          "startMs": { "type": "integer" },
-          "endMs": { "type": "integer" },
-          "speaker": { "anyOf": [{ "type": "string" }, { "type": "null" }] }
+          "id": {
+            "type": "string"
+          },
+          "startMs": {
+            "type": "integer"
+          },
+          "endMs": {
+            "type": "integer"
+          },
+          "speaker": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
         }
       }
     },
-    "flow": { "$ref": "#/$defs/flow" }
+    "flow": {
+      "$ref": "#/$defs/flow"
+    }
   },
   "$defs": {
     "evidence": {
       "description": "IDs of the transcript cues that support this element. Must not be empty.",
       "type": "array",
-      "items": { "type": "string" }
+      "items": {
+        "type": "string"
+      }
     },
     "likert": {
       "description": "5-point Likert value. Labels are derived from the value by measure type, not stored.",
-      "anyOf": [{ "enum": [1, 2, 3, 4, 5] }, { "type": "null" }]
+      "anyOf": [
+        {
+          "enum": [
+            1,
+            2,
+            3,
+            4,
+            5
+          ]
+        },
+        {
+          "type": "null"
+        }
+      ]
     },
     "measure": {
-      "description": "A frequency or difficulty measure. `basis`: scale = participant gave a scale value (spontaneously or when asked); inferred = value mapped from free text by the extractor; text = free text only, no value.",
+      "description": "A frequency or difficulty measure. `basis`: scale = participant gave a scale value (spontaneously or when asked); inferred = value mapped from free text by the extractor; text = free text only, no value. `threshold`: the participant's binary judgement relative to their own (often unstated) tolerance; above = a frustration signal.",
       "type": "object",
       "additionalProperties": false,
-      "required": ["value", "basis", "text", "evidence"],
+      "required": [
+        "value",
+        "basis",
+        "threshold",
+        "text",
+        "evidence"
+      ],
       "properties": {
-        "value": { "$ref": "#/$defs/likert" },
-        "basis": { "enum": ["scale", "inferred", "text"] },
-        "text": { "anyOf": [{ "type": "string" }, { "type": "null" }] },
-        "evidence": { "$ref": "#/$defs/evidence" }
+        "value": {
+          "$ref": "#/$defs/likert"
+        },
+        "basis": {
+          "enum": [
+            "scale",
+            "inferred",
+            "text"
+          ]
+        },
+        "threshold": {
+          "anyOf": [
+            {
+              "enum": [
+                "above",
+                "below"
+              ]
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "text": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "evidence": {
+          "$ref": "#/$defs/evidence"
+        }
       }
     },
     "duration": {
       "description": "Time as described by the participant, not measured from the recording.",
       "type": "object",
       "additionalProperties": false,
-      "required": ["minutes", "text", "evidence"],
+      "required": [
+        "minutes",
+        "text",
+        "evidence"
+      ],
       "properties": {
-        "minutes": { "anyOf": [{ "type": "number" }, { "type": "null" }] },
-        "text": { "type": "string" },
-        "evidence": { "$ref": "#/$defs/evidence" }
+        "minutes": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "text": {
+          "type": "string"
+        },
+        "evidence": {
+          "$ref": "#/$defs/evidence"
+        }
       }
     },
     "attempts": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["count", "text", "evidence"],
+      "required": [
+        "count",
+        "text",
+        "evidence"
+      ],
       "properties": {
-        "count": { "anyOf": [{ "type": "number" }, { "type": "null" }] },
-        "text": { "type": "string" },
-        "evidence": { "$ref": "#/$defs/evidence" }
+        "count": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "text": {
+          "type": "string"
+        },
+        "evidence": {
+          "$ref": "#/$defs/evidence"
+        }
       }
     },
     "metrics": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["timeOnTask", "attempts"],
+      "required": [
+        "timeOnTask",
+        "attempts"
+      ],
       "properties": {
-        "timeOnTask": { "anyOf": [{ "$ref": "#/$defs/duration" }, { "type": "null" }] },
-        "attempts": { "anyOf": [{ "$ref": "#/$defs/attempts" }, { "type": "null" }] }
+        "timeOnTask": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/duration"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "attempts": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/attempts"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
       }
     },
     "namedValue": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["name", "value", "evidence"],
+      "required": [
+        "name",
+        "value",
+        "evidence"
+      ],
       "properties": {
-        "name": { "type": "string" },
-        "value": { "type": "string" },
-        "evidence": { "$ref": "#/$defs/evidence" }
+        "name": {
+          "type": "string"
+        },
+        "value": {
+          "type": "string"
+        },
+        "evidence": {
+          "$ref": "#/$defs/evidence"
+        }
       }
     },
     "participant": {
       "description": "A VTT speaker label and how it was interpreted.",
       "type": "object",
       "additionalProperties": false,
-      "required": ["speakerLabel", "role", "isMainSpeaker", "sharedConnection", "people"],
+      "required": [
+        "speakerLabel",
+        "role",
+        "isMainSpeaker",
+        "sharedConnection",
+        "people"
+      ],
       "properties": {
-        "speakerLabel": { "type": "string" },
-        "role": { "enum": ["interviewer", "participant", "other"] },
-        "isMainSpeaker": { "type": "boolean" },
-        "sharedConnection": { "type": "boolean" },
+        "speakerLabel": {
+          "type": "string"
+        },
+        "role": {
+          "enum": [
+            "interviewer",
+            "participant",
+            "other"
+          ]
+        },
+        "isMainSpeaker": {
+          "type": "boolean"
+        },
+        "sharedConnection": {
+          "type": "boolean"
+        },
         "people": {
           "description": "Names or descriptions of people speaking under this label, when distinguishable.",
           "type": "array",
-          "items": { "type": "string" }
+          "items": {
+            "type": "string"
+          }
         }
       }
     },
     "actor": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["id", "name", "kind", "speakerLabels", "evidence"],
+      "required": [
+        "id",
+        "name",
+        "kind",
+        "speakerLabels",
+        "evidence"
+      ],
       "properties": {
-        "id": { "type": "string" },
-        "name": { "type": "string" },
-        "kind": { "enum": ["person", "role", "team", "system", "organisation"] },
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "kind": {
+          "enum": [
+            "person",
+            "role",
+            "team",
+            "system",
+            "organisation"
+          ]
+        },
         "speakerLabels": {
           "description": "VTT speaker labels that are this actor. Empty for actors who are only talked about.",
           "type": "array",
-          "items": { "type": "string" }
+          "items": {
+            "type": "string"
+          }
         },
-        "evidence": { "$ref": "#/$defs/evidence" }
+        "evidence": {
+          "$ref": "#/$defs/evidence"
+        }
       }
     },
     "step": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["id", "actorId", "kind", "label", "description", "outcome", "errorRecovery", "frequency", "difficulty", "attributes", "states", "metrics", "evidence"],
+      "required": [
+        "id",
+        "actorId",
+        "kind",
+        "label",
+        "description",
+        "outcome",
+        "returnToStepId",
+        "frequency",
+        "difficulty",
+        "attributes",
+        "states",
+        "metrics",
+        "evidence"
+      ],
       "properties": {
-        "id": { "type": "string" },
-        "actorId": { "type": "string" },
-        "kind": {
-          "description": "action = something an actor does; decision = a point where the path depends on a condition (label is the question); outcome = how the task ends.",
-          "enum": ["action", "decision", "outcome"]
+        "id": {
+          "type": "string"
         },
-        "label": { "type": "string" },
-        "description": { "anyOf": [{ "type": "string" }, { "type": "null" }] },
+        "actorId": {
+          "type": "string"
+        },
+        "kind": {
+          "description": "action = something an actor does; decision = a point where the path depends on a condition (label is the question); outcome = how the task ends; return = (error flows only) the error flow ends by continuing the main flow at returnToStepId.",
+          "enum": [
+            "action",
+            "decision",
+            "outcome",
+            "return"
+          ]
+        },
+        "label": {
+          "type": "string"
+        },
+        "description": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
         "outcome": {
           "description": "Required when kind is outcome, otherwise null.",
-          "anyOf": [{ "enum": ["success", "failure", "abandonment"] }, { "type": "null" }]
+          "anyOf": [
+            {
+              "enum": [
+                "success",
+                "failure",
+                "abandonment"
+              ]
+            },
+            {
+              "type": "null"
+            }
+          ]
         },
-        "errorRecovery": {
-          "description": "error = something goes wrong at this step; recovery = this step puts it right.",
-          "enum": ["none", "error", "recovery"]
+        "returnToStepId": {
+          "description": "Required when kind is return: the main-flow step the task continues at. Otherwise null.",
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
         },
-        "frequency": { "anyOf": [{ "$ref": "#/$defs/measure" }, { "type": "null" }] },
-        "difficulty": { "anyOf": [{ "$ref": "#/$defs/measure" }, { "type": "null" }] },
+        "frequency": {
+          "description": "How often this step happens; on an outcome, how often the task ends this way.",
+          "anyOf": [
+            {
+              "$ref": "#/$defs/measure"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "difficulty": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/measure"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
         "attributes": {
           "description": "Other properties of the step (e.g. tool used: spreadsheet).",
           "type": "array",
-          "items": { "$ref": "#/$defs/namedValue" }
+          "items": {
+            "$ref": "#/$defs/namedValue"
+          }
         },
         "states": {
           "description": "States of things at this step (e.g. order: on hold).",
           "type": "array",
-          "items": { "$ref": "#/$defs/namedValue" }
+          "items": {
+            "$ref": "#/$defs/namedValue"
+          }
         },
-        "metrics": { "$ref": "#/$defs/metrics" },
-        "evidence": { "$ref": "#/$defs/evidence" }
+        "metrics": {
+          "$ref": "#/$defs/metrics"
+        },
+        "evidence": {
+          "$ref": "#/$defs/evidence"
+        }
       }
     },
     "transition": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["id", "from", "to", "condition", "kind", "evidence"],
+      "required": [
+        "id",
+        "from",
+        "to",
+        "condition",
+        "evidence"
+      ],
       "properties": {
-        "id": { "type": "string" },
-        "from": { "type": "string" },
-        "to": { "type": "string" },
+        "id": {
+          "type": "string"
+        },
+        "from": {
+          "type": "string"
+        },
+        "to": {
+          "type": "string"
+        },
         "condition": {
           "description": "Branch label. Required on transitions leaving a decision, otherwise usually null.",
-          "anyOf": [{ "type": "string" }, { "type": "null" }]
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
         },
-        "kind": {
-          "description": "retry = loops back after an error.",
-          "enum": ["normal", "retry"]
+        "evidence": {
+          "$ref": "#/$defs/evidence"
+        }
+      }
+    },
+    "errorTrigger": {
+      "description": "Where and why the main flow links out to an error flow.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "fromStepId",
+        "condition",
+        "frequency",
+        "evidence"
+      ],
+      "properties": {
+        "fromStepId": {
+          "description": "Main-flow step where the error occurs.",
+          "type": "string"
         },
-        "evidence": { "$ref": "#/$defs/evidence" }
+        "condition": {
+          "description": "What goes wrong, e.g. Card declined.",
+          "type": "string"
+        },
+        "frequency": {
+          "description": "How often this error happens.",
+          "anyOf": [
+            {
+              "$ref": "#/$defs/measure"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "evidence": {
+          "$ref": "#/$defs/evidence"
+        }
+      }
+    },
+    "errorFlow": {
+      "description": "A separate flow followed when something goes wrong. Rendered as its own diagram. Ends in outcomes and/or return steps.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "title",
+        "triggers",
+        "startStepId",
+        "steps",
+        "transitions",
+        "evidence"
+      ],
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        },
+        "triggers": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/errorTrigger"
+          }
+        },
+        "startStepId": {
+          "type": "string"
+        },
+        "steps": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/step"
+          }
+        },
+        "transitions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/transition"
+          }
+        },
+        "evidence": {
+          "$ref": "#/$defs/evidence"
+        }
       }
     },
     "annotation": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["id", "targetId", "kind", "text", "speaker", "evidence"],
+      "required": [
+        "id",
+        "targetId",
+        "kind",
+        "text",
+        "speaker",
+        "evidence"
+      ],
       "properties": {
-        "id": { "type": "string" },
+        "id": {
+          "type": "string"
+        },
         "targetId": {
-          "description": "ID of the step, transition or actor this note is about; null for the whole task.",
-          "anyOf": [{ "type": "string" }, { "type": "null" }]
+          "description": "ID of the step, transition, actor or error flow this note is about (in any flow); null for the whole task.",
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
         },
         "kind": {
           "description": "alternativeView = a participant's different approach or view (D-004).",
-          "enum": ["note", "hesitation", "workaround", "opinion", "quote", "alternativeView"]
+          "enum": [
+            "note",
+            "hesitation",
+            "workaround",
+            "opinion",
+            "quote",
+            "alternativeView"
+          ]
         },
-        "text": { "type": "string" },
-        "speaker": { "anyOf": [{ "type": "string" }, { "type": "null" }] },
-        "evidence": { "$ref": "#/$defs/evidence" }
+        "text": {
+          "type": "string"
+        },
+        "speaker": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "evidence": {
+          "$ref": "#/$defs/evidence"
+        }
       }
     },
     "flow": {
       "description": "The task flow as extracted by Claude. Used as the structured-output schema.",
       "type": "object",
       "additionalProperties": false,
-      "required": ["title", "goal", "participants", "actors", "startStepId", "steps", "transitions", "metrics", "annotations"],
+      "required": [
+        "title",
+        "goal",
+        "participants",
+        "actors",
+        "startStepId",
+        "steps",
+        "transitions",
+        "errorFlows",
+        "metrics",
+        "annotations"
+      ],
       "properties": {
-        "title": { "type": "string" },
+        "title": {
+          "type": "string"
+        },
         "goal": {
           "type": "object",
           "additionalProperties": false,
-          "required": ["text", "evidence"],
+          "required": [
+            "text",
+            "evidence"
+          ],
           "properties": {
-            "text": { "type": "string" },
-            "evidence": { "$ref": "#/$defs/evidence" }
+            "text": {
+              "type": "string"
+            },
+            "evidence": {
+              "$ref": "#/$defs/evidence"
+            }
           }
         },
-        "participants": { "type": "array", "items": { "$ref": "#/$defs/participant" } },
-        "actors": { "type": "array", "items": { "$ref": "#/$defs/actor" } },
-        "startStepId": { "type": "string" },
-        "steps": { "type": "array", "items": { "$ref": "#/$defs/step" } },
-        "transitions": { "type": "array", "items": { "$ref": "#/$defs/transition" } },
-        "metrics": { "$ref": "#/$defs/metrics" },
-        "annotations": { "type": "array", "items": { "$ref": "#/$defs/annotation" } }
+        "participants": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/participant"
+          }
+        },
+        "actors": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/actor"
+          }
+        },
+        "startStepId": {
+          "type": "string"
+        },
+        "steps": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/step"
+          }
+        },
+        "transitions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/transition"
+          }
+        },
+        "errorFlows": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/errorFlow"
+          }
+        },
+        "metrics": {
+          "$ref": "#/$defs/metrics"
+        },
+        "annotations": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/annotation"
+          }
+        }
       }
     }
   }

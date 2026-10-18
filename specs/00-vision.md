@@ -34,7 +34,8 @@ every element traceable to the moment in the transcript it came from.
 | **Step properties** | Attributes and state of a step, including **frequency** and **difficulty** (see [Measures](#measures-frequency-and-difficulty)) | Text and styling within the node |
 | **Flow** | The order steps happen in | Arrows between nodes |
 | **Conditionality** | Points where the path depends on a condition ("if it's out of stock…") | Decision node with labelled branches |
-| **Completion metrics** | All of: **outcome** (success / failure / abandonment), **time on task**, **number of attempts**, **error and recovery points** | Outcome nodes, metric labels, error/recovery markers on steps |
+| **Completion metrics** | All of: **outcome** (success / failure / abandonment, and how often each happens), **time on task**, **number of attempts**, **error and recovery points** | Outcome nodes and metric labels |
+| **Error flows** | What happens when something goes wrong, and whether the task continues afterwards | A **separate diagram** per error flow, with standard link-out and return connectors (see [design](30-design.md#error-flows)) |
 | **Annotations** | Other meta notes: hesitations, workarounds, opinions, quotes, **alternative views** | Note shapes attached to the relevant node |
 | **Evidence** | Which transcript cue(s) and timestamp(s) each element came from | Cue references in the model (and, optionally, the SVG) |
 
@@ -68,6 +69,10 @@ When more than one participant describes the task:
   styling; the quote is kept as evidence.
 - Free-text-only measures are kept as spoken and may be mapped to a suggested scale
   value, clearly marked as inferred.
+- Participants often speak in **binary** terms relative to a tolerance of their own:
+  *"not often enough to bother me"* versus *"way too often"*. The threshold is vague, but
+  which side of it something falls on is recorded: **above the threshold is a frustration
+  signal**.
 
 ## How it works (in outline)
 
@@ -197,4 +202,4 @@ None at present.
 
 ## Decisions
 
-See [decisions.md](decisions.md) (D-001 to D-010).
+See [decisions.md](decisions.md) (D-001 to D-015).
