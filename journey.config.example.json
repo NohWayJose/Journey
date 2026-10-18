@@ -1,0 +1,20 @@
+{
+  "llm": {
+    "defaultProfile": "default",
+    "profiles": {
+      "default": {
+        "provider": "anthropic",
+        "model": "claude-opus-5-5",
+        "effort": "high",
+        "credential": "provider-default"
+      },
+      "bob": {
+        "notes": "EXAMPLE ONLY, NOT VERIFIED. IBM Bob (installed here: Bob IDE 1.0.2) has no officially documented API for external applications as of 2026-10-18. Fill in baseUrl and model only from IBM documentation or your Bob administrator. Needs the openai-compatible provider (not built yet) and must pass the PE checks before use.",
+        "provider": "openai-compatible",
+        "baseUrl": "https://<bob-gateway-host>/<path>/v1",
+        "model": "<model-id-from-ibm>",
+        "credential": "env:BOB_API_KEY"
+      }
+    }
+  }
+}

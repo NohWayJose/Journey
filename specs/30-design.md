@@ -413,6 +413,16 @@ generateStructured({ system, prompt, schema, schemaName, maxOutputTokens })
 - Provider-specific failures (refusals, output cut off at the token limit, rate limits)
   are mapped to common error types; no partial model is ever written (PE-07).
 
+| ID | Rule |
+|---|---|
+| LL-01 | A request's `llm` selection resolves to a configured profile: none → `defaultProfile`; an unknown profile, or a model not in the profile's `allowedModels`, is an error |
+| LL-02 | Credentials resolve per [Credentials](#credentials): `provider-default` passes nothing (the SDK's own chain applies); `env:NAME` reads that variable and errors (naming the variable) if it's unset; `null` uses none; any other scheme is an error |
+| LL-03 | Secret values never appear in error messages, results or logs |
+| LL-04 | Anthropic requests: the profile's model; streamed; `max_tokens` 64,000; adaptive thinking; `effort` from the profile; `output_config.format` = the JSON Schema; server-side refusal fallbacks (`fallbacks: "default"`) |
+| LL-05 | Results: the JSON from the final text block, token usage, stop reason, and the provider and **model that actually served the request** (it can differ after a fallback) |
+| LL-06 | A refusal raises `RefusalError` (with its category); output cut off at the token limit raises `TruncatedOutputError`; unparseable output raises `InvalidOutputError` |
+| LL-07 | A prompt estimated to exceed the context window (less the output allowance) is checked with the provider's token counter, and if it really doesn't fit raises `ContextTooLongError` **before** any generation request |
+
 ### Providers
 
 | Provider | Status | Notes |
@@ -420,6 +430,7 @@ generateStructured({ system, prompt, schema, schemaName, maxOutputTokens })
 | `anthropic` | **Default**, PoC | Official Anthropic SDK; `claude-opus-5-5`; structured outputs; adaptive thinking; streaming for long requests |
 | `openai-compatible` | Later | Any server with an OpenAI-compatible API, including **local models** (e.g. Ollama, vLLM) that keep transcripts in-house |
 | Others (e.g. Bedrock, Vertex, Gemini) | Later | Added as needed behind the same interface |
+| IBM Bob | Example only | Bob is an AI IDE; IBM documents no API for external applications (checked 2026-10-18). An unofficial package suggests its gateway is OpenAI-style. An unverified example profile is in `journey.config.example.json`, to complete only from IBM documentation or a Bob administrator, using `openai-compatible` |
 
 ### Model profiles
 
