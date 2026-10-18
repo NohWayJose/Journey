@@ -29,6 +29,8 @@
   "flow": {
     "title": "Buying office supplies online",
     "goal": { "text": "Restock the team's printer paper and toner before it runs out", "evidence": ["c2"] },
+    "frequency": { "value": 4, "basis": "inferred", "threshold": null, "text": "pretty much every day", "evidence": ["c4"] },
+    "difficulty": null,
     "participants": [
       { "speakerLabel": "Interviewer", "role": "interviewer", "isMainSpeaker": false, "sharedConnection": false, "people": [] },
       { "speakerLabel": "Alex", "role": "participant", "isMainSpeaker": true, "sharedConnection": false, "people": ["Alex"] },

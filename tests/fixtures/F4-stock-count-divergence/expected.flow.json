@@ -1,0 +1,58 @@
+{
+  "title": "Monthly café stock count",
+  "goal": { "text": "Give the area manager accurate stock figures so the next order is right", "evidence": ["c2", "c3"] },
+  "frequency": { "value": 2, "basis": "inferred", "threshold": null, "text": "It's the last Sunday of the month, after close", "evidence": ["c2"] },
+  "difficulty": null,
+  "participants": [
+    { "speakerLabel": "Interviewer", "role": "interviewer", "isMainSpeaker": false, "sharedConnection": false, "people": [] },
+    { "speakerLabel": "Tom", "role": "participant", "isMainSpeaker": true, "sharedConnection": false, "people": ["Tom"] },
+    { "speakerLabel": "Grace", "role": "participant", "isMainSpeaker": false, "sharedConnection": false, "people": ["Grace"] }
+  ],
+  "actors": [
+    { "id": "a1", "name": "Café supervisor", "kind": "role", "speakerLabels": ["Tom", "Grace"], "evidence": ["c2", "c4"] },
+    { "id": "a2", "name": "Stock spreadsheet", "kind": "system", "speakerLabels": [], "evidence": ["c4", "c10"] },
+    { "id": "a3", "name": "Area manager", "kind": "role", "speakerLabels": [], "evidence": ["c2", "c13"] }
+  ],
+  "startStepId": "s1",
+  "steps": [
+    { "id": "s1", "actorId": "a1", "kind": "action", "label": "Print count sheet", "description": "Every item listed by shelf", "outcome": null, "returnToStepId": null, "frequency": null, "difficulty": null,
+      "attributes": [{ "name": "Tool", "value": "Stock spreadsheet", "evidence": ["c4"] }], "states": [], "metrics": { "timeOnTask": null, "attempts": null }, "evidence": ["c4"] },
+    { "id": "s2", "actorId": "a1", "kind": "action", "label": "Count stock shelf by shelf", "description": "Dry store, fridges, freezer", "outcome": null, "returnToStepId": null, "frequency": null,
+      "difficulty": { "value": 4, "basis": "scale", "threshold": null, "text": "A four. It's cold, it's late, and the freezer labels are always iced over.", "evidence": ["c7", "c8"] },
+      "attributes": [{ "name": "Tool", "value": "Paper count sheet", "evidence": ["c6"] }], "states": [], "metrics": { "timeOnTask": null, "attempts": null }, "evidence": ["c6"] },
+    { "id": "s3", "actorId": "a1", "kind": "action", "label": "Type counts into spreadsheet", "description": null, "outcome": null, "returnToStepId": null, "frequency": null, "difficulty": null,
+      "attributes": [], "states": [], "metrics": { "timeOnTask": null, "attempts": null }, "evidence": ["c10"] },
+    { "id": "s4", "actorId": "a2", "kind": "decision", "label": "Count way off expected?", "description": null, "outcome": null, "returnToStepId": null, "frequency": null, "difficulty": null,
+      "attributes": [], "states": [], "metrics": { "timeOnTask": null, "attempts": null }, "evidence": ["c10", "c11"] },
+    { "id": "s5", "actorId": "a1", "kind": "action", "label": "Recount the item", "description": null, "outcome": null, "returnToStepId": null, "frequency": null, "difficulty": null,
+      "attributes": [], "states": [], "metrics": { "timeOnTask": null, "attempts": null }, "evidence": ["c11"] },
+    { "id": "s6", "actorId": "a1", "kind": "action", "label": "Email spreadsheet to area manager", "description": null, "outcome": null, "returnToStepId": null, "frequency": null, "difficulty": null,
+      "attributes": [], "states": [], "metrics": { "timeOnTask": null, "attempts": null }, "evidence": ["c13"] },
+    { "id": "s7", "actorId": "a3", "kind": "action", "label": "Review and sign off figures", "description": null, "outcome": null, "returnToStepId": null, "frequency": null, "difficulty": null,
+      "attributes": [], "states": [], "metrics": { "timeOnTask": { "minutes": null, "text": "usually by Tuesday", "evidence": ["c14"] }, "attempts": null }, "evidence": ["c14"] },
+    { "id": "s8", "actorId": "a3", "kind": "outcome", "label": "Stock count signed off", "description": null, "outcome": "success", "returnToStepId": null, "frequency": null, "difficulty": null,
+      "attributes": [], "states": [], "metrics": { "timeOnTask": null, "attempts": null }, "evidence": ["c14"] }
+  ],
+  "transitions": [
+    { "id": "t1", "from": "s1", "to": "s2", "condition": null, "evidence": ["c6"] },
+    { "id": "t2", "from": "s2", "to": "s3", "condition": null, "evidence": ["c10"] },
+    { "id": "t3", "from": "s3", "to": "s4", "condition": null, "evidence": ["c10"] },
+    { "id": "t4", "from": "s4", "to": "s5", "condition": "Yes", "evidence": ["c11"] },
+    { "id": "t5", "from": "s4", "to": "s6", "condition": "No", "evidence": ["c13"] },
+    { "id": "t6", "from": "s5", "to": "s6", "condition": null, "evidence": ["c13"] },
+    { "id": "t7", "from": "s6", "to": "s7", "condition": null, "evidence": ["c14"] },
+    { "id": "t8", "from": "s7", "to": "s8", "condition": null, "evidence": ["c14"] }
+  ],
+  "errorFlows": [],
+  "metrics": {
+    "timeOnTask": { "minutes": 150, "text": "About two and a half hours for me, start to finish", "evidence": ["c16"] },
+    "attempts": null
+  },
+  "annotations": [
+    { "id": "n1", "targetId": "s1", "kind": "alternativeView", "text": "Doesn't print a sheet; counts straight into the stock app on the tablet", "speaker": "Grace", "evidence": ["c5"] },
+    { "id": "n2", "targetId": "s2", "kind": "alternativeView", "text": "Rates counting a 2 (easy): the tablet is quicker", "speaker": "Grace", "evidence": ["c9"] },
+    { "id": "n3", "targetId": "s5", "kind": "alternativeView", "text": "Doesn't recount; adjusts the figure and adds a note for the manager", "speaker": "Grace", "evidence": ["c12"] },
+    { "id": "n4", "targetId": null, "kind": "alternativeView", "text": "The whole task takes more like an hour and a half", "speaker": "Grace", "evidence": ["c17"] },
+    { "id": "n5", "targetId": "s5", "kind": "note", "text": "Recounts because nine times out of ten the discrepancy is a miscount", "speaker": "Tom", "evidence": ["c11"] }
+  ]
+}

@@ -1,0 +1,51 @@
+{
+  "title": "Ordering \"critical\" reagents for R&D",
+  "goal": { "text": "Never run out of \"critical\" reagents mid-experiment", "evidence": ["c2"] },
+  "frequency": null,
+  "difficulty": null,
+  "participants": [
+    { "speakerLabel": "Interviewer", "role": "interviewer", "isMainSpeaker": false, "sharedConnection": false, "people": [] },
+    { "speakerLabel": "Zoë O'Brien", "role": "participant", "isMainSpeaker": true, "sharedConnection": false, "people": ["Zoë O'Brien"] }
+  ],
+  "actors": [
+    { "id": "a1", "name": "Zoë O'Brien", "kind": "person", "speakerLabels": ["Zoë O'Brien"], "evidence": ["c2"] },
+    { "id": "a2", "name": "Müller & Søn", "kind": "organisation", "speakerLabels": [], "evidence": ["c7"] }
+  ],
+  "startStepId": "s1",
+  "steps": [
+    { "id": "s1", "actorId": "a1", "kind": "action", "label": "Open [Orders] tab", "description": null, "outcome": null, "returnToStepId": null, "frequency": null, "difficulty": null,
+      "attributes": [{ "name": "Tool", "value": "Procurement portal", "evidence": ["c3"] }], "states": [], "metrics": { "timeOnTask": null, "attempts": null }, "evidence": ["c3"] },
+    { "id": "s2", "actorId": "a1", "kind": "action", "label": "Copy template {T-3} #3 | v2", "description": "Uses `Ctrl+V`; never retypes anything", "outcome": null, "returnToStepId": null, "frequency": null, "difficulty": null,
+      "attributes": [], "states": [], "metrics": { "timeOnTask": null, "attempts": null }, "evidence": ["c4"] },
+    { "id": "s3", "actorId": "a1", "kind": "decision", "label": "Marked \"urgent\" (< 5% stock)?", "description": null, "outcome": null, "returnToStepId": null, "frequency": null, "difficulty": null,
+      "attributes": [], "states": [], "metrics": { "timeOnTask": null, "attempts": null }, "evidence": ["c5"] },
+    { "id": "s4", "actorId": "a1", "kind": "action", "label": "Tick express box", "description": null, "outcome": null, "returnToStepId": null, "frequency": null, "difficulty": null,
+      "attributes": [], "states": [], "metrics": { "timeOnTask": null, "attempts": null }, "evidence": ["c5"] },
+    { "id": "s5", "actorId": "a1", "kind": "action", "label": "Choose standard delivery", "description": null, "outcome": null, "returnToStepId": null, "frequency": null, "difficulty": null,
+      "attributes": [], "states": [], "metrics": { "timeOnTask": null, "attempts": null }, "evidence": ["c5"] },
+    { "id": "s6", "actorId": "a1", "kind": "action", "label": "Email R&D <lab-orders@example.com> 🙂", "description": null, "outcome": null, "returnToStepId": null, "frequency": null, "difficulty": null,
+      "attributes": [], "states": [], "metrics": { "timeOnTask": null, "attempts": null }, "evidence": ["c6"] },
+    { "id": "s7", "actorId": "a2", "kind": "action", "label": "Confirm order by email", "description": null, "outcome": null, "returnToStepId": null, "frequency": null, "difficulty": null,
+      "attributes": [], "states": [], "metrics": { "timeOnTask": null, "attempts": null }, "evidence": ["c7"] },
+    { "id": "s8", "actorId": "a1", "kind": "action", "label": "File confirmation", "description": null, "outcome": null, "returnToStepId": null, "frequency": null, "difficulty": null,
+      "attributes": [{ "name": "Folder", "value": "end", "evidence": ["c7"] }], "states": [], "metrics": { "timeOnTask": null, "attempts": null }, "evidence": ["c7"] },
+    { "id": "s9", "actorId": "a1", "kind": "outcome", "label": "Reagents arrive", "description": "About 50% on time; 100% eventually", "outcome": "success", "returnToStepId": null, "frequency": null, "difficulty": null,
+      "attributes": [], "states": [], "metrics": { "timeOnTask": null, "attempts": null }, "evidence": ["c8"] }
+  ],
+  "transitions": [
+    { "id": "t1", "from": "s1", "to": "s2", "condition": null, "evidence": ["c4"] },
+    { "id": "t2", "from": "s2", "to": "s3", "condition": null, "evidence": ["c5"] },
+    { "id": "t3", "from": "s3", "to": "s4", "condition": "Yes: \"urgent\"", "evidence": ["c5"] },
+    { "id": "t4", "from": "s3", "to": "s5", "condition": "No [standard]", "evidence": ["c5"] },
+    { "id": "t5", "from": "s4", "to": "s6", "condition": null, "evidence": ["c6"] },
+    { "id": "t6", "from": "s5", "to": "s6", "condition": null, "evidence": ["c6"] },
+    { "id": "t7", "from": "s6", "to": "s7", "condition": null, "evidence": ["c7"] },
+    { "id": "t8", "from": "s7", "to": "s8", "condition": null, "evidence": ["c7"] },
+    { "id": "t9", "from": "s8", "to": "s9", "condition": null, "evidence": ["c8"] }
+  ],
+  "errorFlows": [],
+  "metrics": { "timeOnTask": null, "attempts": null },
+  "annotations": [
+    { "id": "n1", "targetId": "s8", "kind": "quote", "text": "We joke it should be %%end%% because nobody reads it", "speaker": "Zoë O'Brien", "evidence": ["c7"] }
+  ]
+}

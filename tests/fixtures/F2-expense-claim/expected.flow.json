@@ -1,0 +1,98 @@
+{
+  "title": "Submitting an expense claim",
+  "goal": { "text": "Get reimbursed for travel costs before the credit card bill arrives", "evidence": ["c2"] },
+  "frequency": { "value": 2, "basis": "inferred", "threshold": null, "text": "I do one most months", "evidence": ["c17"] },
+  "difficulty": null,
+  "participants": [
+    { "speakerLabel": "Interviewer", "role": "interviewer", "isMainSpeaker": false, "sharedConnection": false, "people": [] },
+    { "speakerLabel": "Marcus Lee", "role": "participant", "isMainSpeaker": true, "sharedConnection": false, "people": ["Marcus Lee"] }
+  ],
+  "actors": [
+    { "id": "a1", "name": "Marcus Lee", "kind": "person", "speakerLabels": ["Marcus Lee"], "evidence": ["c2"] },
+    { "id": "a2", "name": "Expenses app", "kind": "system", "speakerLabels": [], "evidence": ["c4", "c9"] },
+    { "id": "a3", "name": "Line manager", "kind": "role", "speakerLabels": [], "evidence": ["c9", "c11"] },
+    { "id": "a4", "name": "Finance", "kind": "team", "speakerLabels": [], "evidence": ["c15"] }
+  ],
+  "startStepId": "s1",
+  "steps": [
+    { "id": "s1", "actorId": "a1", "kind": "action", "label": "Photograph receipts", "description": null, "outcome": null, "returnToStepId": null, "frequency": null, "difficulty": null,
+      "attributes": [{ "name": "Tool", "value": "Phone camera", "evidence": ["c3"] }], "states": [], "metrics": { "timeOnTask": null, "attempts": null }, "evidence": ["c3"] },
+    { "id": "s2", "actorId": "a1", "kind": "action", "label": "Fill in claim form and attach photos", "description": null, "outcome": null, "returnToStepId": null, "frequency": null,
+      "difficulty": { "value": 3, "basis": "scale", "threshold": null, "text": "I'd give it a three. The cost codes are confusing.", "evidence": ["c5", "c6"] },
+      "attributes": [{ "name": "Tool", "value": "Expenses app", "evidence": ["c4"] }], "states": [], "metrics": { "timeOnTask": null, "attempts": null }, "evidence": ["c4"] },
+    { "id": "s3", "actorId": "a2", "kind": "decision", "label": "Over £50?", "description": null, "outcome": null, "returnToStepId": null, "frequency": null, "difficulty": null,
+      "attributes": [], "states": [], "metrics": { "timeOnTask": null, "attempts": null }, "evidence": ["c9", "c10"] },
+    { "id": "s4", "actorId": "a3", "kind": "action", "label": "Approve claim", "description": null, "outcome": null, "returnToStepId": null, "frequency": null, "difficulty": null,
+      "attributes": [{ "name": "Tool", "value": "Expenses app", "evidence": ["c11"] }], "states": [],
+      "metrics": { "timeOnTask": { "minutes": null, "text": "normally within a day or two", "evidence": ["c11"] }, "attempts": null }, "evidence": ["c11"] },
+    { "id": "s5", "actorId": "a4", "kind": "action", "label": "Process claim", "description": null, "outcome": null, "returnToStepId": null, "frequency": null, "difficulty": null,
+      "attributes": [], "states": [], "metrics": { "timeOnTask": null, "attempts": null }, "evidence": ["c15"] },
+    { "id": "s6", "actorId": "a1", "kind": "outcome", "label": "Paid in next payroll", "description": null, "outcome": "success", "returnToStepId": null, "frequency": null, "difficulty": null,
+      "attributes": [], "states": [], "metrics": { "timeOnTask": null, "attempts": null }, "evidence": ["c15"] }
+  ],
+  "transitions": [
+    { "id": "t1", "from": "s1", "to": "s2", "condition": null, "evidence": ["c4"] },
+    { "id": "t2", "from": "s2", "to": "s3", "condition": null, "evidence": ["c9"] },
+    { "id": "t3", "from": "s3", "to": "s4", "condition": "Yes", "evidence": ["c9"] },
+    { "id": "t4", "from": "s3", "to": "s5", "condition": "No", "evidence": ["c10"] },
+    { "id": "t5", "from": "s4", "to": "s5", "condition": null, "evidence": ["c13"] },
+    { "id": "t6", "from": "s5", "to": "s6", "condition": null, "evidence": ["c15"] }
+  ],
+  "errorFlows": [
+    {
+      "id": "E1",
+      "title": "Receipt photo rejected",
+      "triggers": [
+        { "fromStepId": "s2", "condition": "Photo rejected as blurry",
+          "frequency": { "value": null, "basis": "text", "threshold": "above", "text": "That happens way too often", "evidence": ["c7"] },
+          "evidence": ["c7"] }
+      ],
+      "startStepId": "e1",
+      "steps": [
+        { "id": "e1", "actorId": "a1", "kind": "action", "label": "Retake and re-attach photo", "description": null, "outcome": null, "returnToStepId": null, "frequency": null, "difficulty": null,
+          "attributes": [], "states": [{ "name": "Receipt photo", "value": "Rejected", "evidence": ["c7"] }],
+          "metrics": { "timeOnTask": null, "attempts": { "count": null, "text": "Usually takes three or four goes", "evidence": ["c8"] } }, "evidence": ["c8"] },
+        { "id": "e2", "actorId": "a1", "kind": "return", "label": "Back to the claim form", "description": null, "outcome": null, "returnToStepId": "s2", "frequency": null, "difficulty": null,
+          "attributes": [], "states": [], "metrics": { "timeOnTask": null, "attempts": null }, "evidence": ["c8"] }
+      ],
+      "transitions": [
+        { "id": "t10", "from": "e1", "to": "e2", "condition": null, "evidence": ["c8"] }
+      ],
+      "evidence": ["c7", "c8"]
+    },
+    {
+      "id": "E2",
+      "title": "Manager doesn't respond",
+      "triggers": [
+        { "fromStepId": "s4", "condition": "Manager doesn't respond",
+          "frequency": { "value": null, "basis": "text", "threshold": null, "text": "maybe one claim in ten", "evidence": ["c12"] },
+          "evidence": ["c12"] }
+      ],
+      "startStepId": "e3",
+      "steps": [
+        { "id": "e3", "actorId": "a1", "kind": "action", "label": "Chase manager by email", "description": null, "outcome": null, "returnToStepId": null, "frequency": null, "difficulty": null,
+          "attributes": [{ "name": "Tool", "value": "Email", "evidence": ["c12"] }], "states": [], "metrics": { "timeOnTask": null, "attempts": null }, "evidence": ["c12"] },
+        { "id": "e4", "actorId": "a3", "kind": "decision", "label": "Replies within a week?", "description": null, "outcome": null, "returnToStepId": null, "frequency": null, "difficulty": null,
+          "attributes": [], "states": [], "metrics": { "timeOnTask": null, "attempts": null }, "evidence": ["c13", "c14"] },
+        { "id": "e5", "actorId": "a1", "kind": "return", "label": "Continue to finance", "description": null, "outcome": null, "returnToStepId": "s5", "frequency": null, "difficulty": null,
+          "attributes": [], "states": [], "metrics": { "timeOnTask": null, "attempts": null }, "evidence": ["c13"] },
+        { "id": "e6", "actorId": "a1", "kind": "outcome", "label": "Give up on the claim", "description": null, "outcome": "abandonment", "returnToStepId": null,
+          "frequency": { "value": 1, "basis": "inferred", "threshold": "below", "text": "That's happened twice this year, so it's not a big deal", "evidence": ["c14"] },
+          "difficulty": null, "attributes": [], "states": [], "metrics": { "timeOnTask": null, "attempts": null }, "evidence": ["c14"] }
+      ],
+      "transitions": [
+        { "id": "t11", "from": "e3", "to": "e4", "condition": null, "evidence": ["c13"] },
+        { "id": "t12", "from": "e4", "to": "e5", "condition": "Yes", "evidence": ["c13"] },
+        { "id": "t13", "from": "e4", "to": "e6", "condition": "No", "evidence": ["c14"] }
+      ],
+      "evidence": ["c12", "c13", "c14"]
+    }
+  ],
+  "metrics": {
+    "timeOnTask": { "minutes": 20, "text": "My part, about twenty minutes a claim", "evidence": ["c17"] },
+    "attempts": null
+  },
+  "annotations": [
+    { "id": "n1", "targetId": "s2", "kind": "opinion", "text": "The cost codes are confusing", "speaker": "Marcus Lee", "evidence": ["c6"] }
+  ]
+}

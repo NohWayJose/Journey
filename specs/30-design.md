@@ -32,6 +32,7 @@ case cue references may no longer match.
 | Element | Maps to vision concept | Notes |
 |---|---|---|
 | `title`, `goal` | Goal | |
+| `frequency`, `difficulty` | Step properties (for the whole task) | `measure`s for the task as a whole, e.g. *"a couple of times a week"* |
 | `participants` | Speakers | How each VTT speaker label was interpreted: interviewer / participant, main speaker, shared connection, people heard under the label |
 | `actors` | Actor | Anyone who performs a step, including organisations and systems that are only talked about. Linked to speaker labels where they spoke. Shared by the main flow and error flows |
 | `steps` | Step, Conditionality, Outcomes | `kind`: `action`, `decision` (label is the question), `outcome` (`outcome`: success / failure / abandonment), or `return` (error flows only) |

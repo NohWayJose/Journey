@@ -1,0 +1,48 @@
+{
+  "title": "Booking a meeting room",
+  "goal": { "text": "Get a quiet room for a client call so the client has a good experience", "evidence": ["c2"] },
+  "frequency": { "value": 3, "basis": "inferred", "threshold": null, "text": "A couple of times a week", "evidence": ["c11"] },
+  "difficulty": { "value": 2, "basis": "inferred", "threshold": "below", "text": "It's honestly fine", "evidence": ["c9"] },
+  "participants": [
+    { "speakerLabel": "Interviewer", "role": "interviewer", "isMainSpeaker": false, "sharedConnection": false, "people": [] },
+    { "speakerLabel": "Priya Shah", "role": "participant", "isMainSpeaker": true, "sharedConnection": false, "people": ["Priya Shah"] }
+  ],
+  "actors": [
+    { "id": "a1", "name": "Priya Shah", "kind": "person", "speakerLabels": ["Priya Shah"], "evidence": ["c2"] },
+    { "id": "a2", "name": "Room booking site", "kind": "system", "speakerLabels": [], "evidence": ["c3", "c5"] }
+  ],
+  "startStepId": "s1",
+  "steps": [
+    { "id": "s1", "actorId": "a1", "kind": "action", "label": "Open room booking site", "description": null, "outcome": null, "returnToStepId": null, "frequency": null, "difficulty": null,
+      "attributes": [{ "name": "Tool", "value": "Intranet booking site (bookmarked)", "evidence": ["c3"] }], "states": [], "metrics": { "timeOnTask": null, "attempts": null }, "evidence": ["c3"] },
+    { "id": "s2", "actorId": "a1", "kind": "action", "label": "Choose day and time slot", "description": "Usually an hour", "outcome": null, "returnToStepId": null, "frequency": null, "difficulty": null,
+      "attributes": [], "states": [], "metrics": { "timeOnTask": null, "attempts": null }, "evidence": ["c4"] },
+    { "id": "s3", "actorId": "a2", "kind": "action", "label": "Show free rooms", "description": null, "outcome": null, "returnToStepId": null, "frequency": null, "difficulty": null,
+      "attributes": [], "states": [], "metrics": { "timeOnTask": null, "attempts": null }, "evidence": ["c5"] },
+    { "id": "s4", "actorId": "a1", "kind": "action", "label": "Pick a room", "description": null, "outcome": null, "returnToStepId": null, "frequency": null, "difficulty": null,
+      "attributes": [{ "name": "Preference", "value": "Small room near desk", "evidence": ["c5"] }], "states": [], "metrics": { "timeOnTask": null, "attempts": null }, "evidence": ["c5"] },
+    { "id": "s5", "actorId": "a1", "kind": "action", "label": "Confirm booking", "description": null, "outcome": null, "returnToStepId": null, "frequency": null, "difficulty": null,
+      "attributes": [], "states": [], "metrics": { "timeOnTask": null, "attempts": null }, "evidence": ["c6"] },
+    { "id": "s6", "actorId": "a2", "kind": "action", "label": "Send confirmation email", "description": null, "outcome": null, "returnToStepId": null, "frequency": null, "difficulty": null,
+      "attributes": [], "states": [], "metrics": { "timeOnTask": null, "attempts": null }, "evidence": ["c6"] },
+    { "id": "s7", "actorId": "a1", "kind": "action", "label": "Accept calendar invite", "description": null, "outcome": null, "returnToStepId": null, "frequency": null, "difficulty": null,
+      "attributes": [{ "name": "Tool", "value": "Outlook", "evidence": ["c7"] }], "states": [], "metrics": { "timeOnTask": null, "attempts": null }, "evidence": ["c7"] },
+    { "id": "s8", "actorId": "a1", "kind": "outcome", "label": "Room booked", "description": null, "outcome": "success", "returnToStepId": null, "frequency": null, "difficulty": null,
+      "attributes": [], "states": [], "metrics": { "timeOnTask": null, "attempts": null }, "evidence": ["c7"] }
+  ],
+  "transitions": [
+    { "id": "t1", "from": "s1", "to": "s2", "condition": null, "evidence": ["c4"] },
+    { "id": "t2", "from": "s2", "to": "s3", "condition": null, "evidence": ["c5"] },
+    { "id": "t3", "from": "s3", "to": "s4", "condition": null, "evidence": ["c5"] },
+    { "id": "t4", "from": "s4", "to": "s5", "condition": null, "evidence": ["c6"] },
+    { "id": "t5", "from": "s5", "to": "s6", "condition": null, "evidence": ["c6"] },
+    { "id": "t6", "from": "s6", "to": "s7", "condition": null, "evidence": ["c7"] },
+    { "id": "t7", "from": "s7", "to": "s8", "condition": null, "evidence": ["c7"] }
+  ],
+  "errorFlows": [],
+  "metrics": {
+    "timeOnTask": { "minutes": 2, "text": "two minutes, maybe less", "evidence": ["c9"] },
+    "attempts": null
+  },
+  "annotations": []
+}

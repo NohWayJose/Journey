@@ -1,0 +1,55 @@
+{
+  "title": "Setting up a laptop for a new starter",
+  "goal": { "text": "The new starter can log in and work on day one", "evidence": ["c2", "c3"] },
+  "frequency": { "value": 3, "basis": "inferred", "threshold": null, "text": "Pretty much every week. Sometimes three or four in a week.", "evidence": ["c15"] },
+  "difficulty": null,
+  "participants": [
+    { "speakerLabel": "Interviewer", "role": "interviewer", "isMainSpeaker": false, "sharedConnection": false, "people": [] },
+    { "speakerLabel": "Meeting Room 2", "role": "participant", "isMainSpeaker": true, "sharedConnection": true, "people": ["Dev", "Aisha"] }
+  ],
+  "actors": [
+    { "id": "a1", "name": "IT support analyst", "kind": "role", "speakerLabels": ["Meeting Room 2"], "evidence": ["c2", "c3"] },
+    { "id": "a2", "name": "HR", "kind": "team", "speakerLabels": [], "evidence": ["c4"] },
+    { "id": "a3", "name": "Asset system", "kind": "system", "speakerLabels": [], "evidence": ["c5", "c6"] },
+    { "id": "a4", "name": "New starter", "kind": "role", "speakerLabels": [], "evidence": ["c12"] }
+  ],
+  "startStepId": "s1",
+  "steps": [
+    { "id": "s1", "actorId": "a2", "kind": "action", "label": "Raise new starter ticket", "description": null, "outcome": null, "returnToStepId": null, "frequency": null, "difficulty": null,
+      "attributes": [{ "name": "Timing", "value": "About a week before the start date", "evidence": ["c4"] }], "states": [], "metrics": { "timeOnTask": null, "attempts": null }, "evidence": ["c4"] },
+    { "id": "s2", "actorId": "a1", "kind": "action", "label": "Pick laptop from stock", "description": null, "outcome": null, "returnToStepId": null, "frequency": null, "difficulty": null,
+      "attributes": [{ "name": "Location", "value": "Stock cupboard", "evidence": ["c5"] }], "states": [], "metrics": { "timeOnTask": null, "attempts": null }, "evidence": ["c5"] },
+    { "id": "s3", "actorId": "a1", "kind": "action", "label": "Record serial number against new starter", "description": null, "outcome": null, "returnToStepId": null, "frequency": null, "difficulty": null,
+      "attributes": [], "states": [], "metrics": { "timeOnTask": null, "attempts": null }, "evidence": ["c5", "c6"] },
+    { "id": "s4", "actorId": "a3", "kind": "action", "label": "Link laptop to user account", "description": null, "outcome": null, "returnToStepId": null, "frequency": null, "difficulty": null,
+      "attributes": [], "states": [], "metrics": { "timeOnTask": null, "attempts": null }, "evidence": ["c6"] },
+    { "id": "s5", "actorId": "a1", "kind": "action", "label": "Image laptop with standard build", "description": "Mostly waiting while it runs", "outcome": null, "returnToStepId": null, "frequency": null, "difficulty": null,
+      "attributes": [], "states": [], "metrics": { "timeOnTask": { "minutes": 60, "text": "about an hour, mostly waiting", "evidence": ["c7", "c8"] }, "attempts": null }, "evidence": ["c7"] },
+    { "id": "s6", "actorId": "a1", "kind": "action", "label": "Hand over laptop", "description": "On the new starter's first morning", "outcome": null, "returnToStepId": null, "frequency": null, "difficulty": null,
+      "attributes": [], "states": [], "metrics": { "timeOnTask": null, "attempts": null }, "evidence": ["c12"] },
+    { "id": "s7", "actorId": "a4", "kind": "action", "label": "Sign asset form", "description": null, "outcome": null, "returnToStepId": null, "frequency": null, "difficulty": null,
+      "attributes": [], "states": [], "metrics": { "timeOnTask": null, "attempts": null }, "evidence": ["c12"] },
+    { "id": "s8", "actorId": "a4", "kind": "action", "label": "Log in", "description": null, "outcome": null, "returnToStepId": null, "frequency": null, "difficulty": null,
+      "attributes": [], "states": [], "metrics": { "timeOnTask": null, "attempts": null }, "evidence": ["c13"] },
+    { "id": "s9", "actorId": "a1", "kind": "action", "label": "Close ticket", "description": null, "outcome": null, "returnToStepId": null, "frequency": null, "difficulty": null,
+      "attributes": [], "states": [], "metrics": { "timeOnTask": null, "attempts": null }, "evidence": ["c13"] },
+    { "id": "s10", "actorId": "a1", "kind": "outcome", "label": "Ready to work on day one", "description": null, "outcome": "success", "returnToStepId": null, "frequency": null, "difficulty": null,
+      "attributes": [], "states": [], "metrics": { "timeOnTask": null, "attempts": null }, "evidence": ["c13"] }
+  ],
+  "transitions": [
+    { "id": "t1", "from": "s1", "to": "s2", "condition": null, "evidence": ["c5"] },
+    { "id": "t2", "from": "s2", "to": "s3", "condition": null, "evidence": ["c5"] },
+    { "id": "t3", "from": "s3", "to": "s4", "condition": null, "evidence": ["c6"] },
+    { "id": "t4", "from": "s4", "to": "s5", "condition": null, "evidence": ["c7"] },
+    { "id": "t5", "from": "s5", "to": "s6", "condition": null, "evidence": ["c12"] },
+    { "id": "t6", "from": "s6", "to": "s7", "condition": null, "evidence": ["c12"] },
+    { "id": "t7", "from": "s7", "to": "s8", "condition": null, "evidence": ["c13"] },
+    { "id": "t8", "from": "s8", "to": "s9", "condition": null, "evidence": ["c13"] },
+    { "id": "t9", "from": "s9", "to": "s10", "condition": null, "evidence": ["c13"] }
+  ],
+  "errorFlows": [],
+  "metrics": { "timeOnTask": null, "attempts": null },
+  "annotations": [
+    { "id": "n1", "targetId": null, "kind": "quote", "text": "Both follow a checklist they wrote together", "speaker": "Meeting Room 2", "evidence": ["c10", "c11"] }
+  ]
+}

@@ -1,0 +1,58 @@
+{
+  "title": "Getting a repeat prescription",
+  "goal": { "text": "Get blood pressure tablets every month without a gap", "evidence": ["c2"] },
+  "frequency": { "value": 2, "basis": "inferred", "threshold": null, "text": "I do that once a month, regular as clockwork", "evidence": ["c6"] },
+  "difficulty": null,
+  "participants": [
+    { "speakerLabel": "Interviewer", "role": "interviewer", "isMainSpeaker": false, "sharedConnection": false, "people": [] },
+    { "speakerLabel": "Joan", "role": "participant", "isMainSpeaker": true, "sharedConnection": false, "people": ["Joan"] }
+  ],
+  "actors": [
+    { "id": "a1", "name": "Joan", "kind": "person", "speakerLabels": ["Joan"], "evidence": ["c2"] },
+    { "id": "a2", "name": "GP surgery", "kind": "organisation", "speakerLabels": [], "evidence": ["c13"] },
+    { "id": "a3", "name": "Pharmacy", "kind": "organisation", "speakerLabels": [], "evidence": ["c14"] }
+  ],
+  "startStepId": "s1",
+  "steps": [
+    { "id": "s1", "actorId": "a1", "kind": "action", "label": "Log in to GP surgery app", "description": null, "outcome": null, "returnToStepId": null, "frequency": null,
+      "difficulty": { "value": 2, "basis": "scale", "threshold": null, "text": "Oh, a two I suppose. Fiddly, not hard.", "evidence": ["c3", "c4", "c5"] },
+      "attributes": [{ "name": "Tool", "value": "GP surgery app", "evidence": ["c3"] }], "states": [], "metrics": { "timeOnTask": null, "attempts": null }, "evidence": ["c3"] },
+    { "id": "s2", "actorId": "a1", "kind": "action", "label": "Select medicines from list", "description": null, "outcome": null, "returnToStepId": null, "frequency": null, "difficulty": null,
+      "attributes": [], "states": [], "metrics": { "timeOnTask": null, "attempts": null }, "evidence": ["c6"] },
+    { "id": "s3", "actorId": "a1", "kind": "action", "label": "Choose pharmacy", "description": null, "outcome": null, "returnToStepId": null, "frequency": null,
+      "difficulty": { "value": null, "basis": "text", "threshold": null, "text": "It's not hard, it just depends on my week", "evidence": ["c9"] },
+      "attributes": [{ "name": "Choice", "value": "Whichever pharmacy she'll be passing", "evidence": ["c7", "c9"] }], "states": [], "metrics": { "timeOnTask": null, "attempts": null }, "evidence": ["c7"] },
+    { "id": "s4", "actorId": "a1", "kind": "action", "label": "Submit request", "description": null, "outcome": null, "returnToStepId": null, "frequency": null, "difficulty": null,
+      "attributes": [], "states": [], "metrics": { "timeOnTask": null, "attempts": null }, "evidence": ["c10"] },
+    { "id": "s5", "actorId": "a2", "kind": "action", "label": "Approve prescription", "description": null, "outcome": null, "returnToStepId": null, "frequency": null, "difficulty": null,
+      "attributes": [], "states": [], "metrics": { "timeOnTask": { "minutes": null, "text": "that takes two working days", "evidence": ["c13"] }, "attempts": null }, "evidence": ["c13"] },
+    { "id": "s6", "actorId": "a3", "kind": "action", "label": "Prepare medication", "description": null, "outcome": null, "returnToStepId": null, "frequency": null, "difficulty": null,
+      "attributes": [], "states": [], "metrics": { "timeOnTask": null, "attempts": null }, "evidence": ["c14"] },
+    { "id": "s7", "actorId": "a3", "kind": "action", "label": "Text when ready", "description": null, "outcome": null, "returnToStepId": null, "frequency": null, "difficulty": null,
+      "attributes": [], "states": [], "metrics": { "timeOnTask": null, "attempts": null }, "evidence": ["c14"] },
+    { "id": "s8", "actorId": "a1", "kind": "action", "label": "Collect from pharmacy", "description": null, "outcome": null, "returnToStepId": null, "frequency": null,
+      "difficulty": { "value": 5, "basis": "scale", "threshold": "above", "text": "Honestly, that part's a five. The queue is ridiculous", "evidence": ["c15"] },
+      "attributes": [], "states": [], "metrics": { "timeOnTask": { "minutes": 40, "text": "I've stood there forty minutes", "evidence": ["c15"] }, "attempts": null }, "evidence": ["c15"] },
+    { "id": "s9", "actorId": "a1", "kind": "outcome", "label": "Medication collected", "description": null, "outcome": "success", "returnToStepId": null, "frequency": null, "difficulty": null,
+      "attributes": [], "states": [], "metrics": { "timeOnTask": null, "attempts": null }, "evidence": ["c15"] }
+  ],
+  "transitions": [
+    { "id": "t1", "from": "s1", "to": "s2", "condition": null, "evidence": ["c6"] },
+    { "id": "t2", "from": "s2", "to": "s3", "condition": null, "evidence": ["c7"] },
+    { "id": "t3", "from": "s3", "to": "s4", "condition": null, "evidence": ["c10"] },
+    { "id": "t4", "from": "s4", "to": "s5", "condition": null, "evidence": ["c13"] },
+    { "id": "t5", "from": "s5", "to": "s6", "condition": null, "evidence": ["c14"] },
+    { "id": "t6", "from": "s6", "to": "s7", "condition": null, "evidence": ["c14"] },
+    { "id": "t7", "from": "s7", "to": "s8", "condition": null, "evidence": ["c15"] },
+    { "id": "t8", "from": "s8", "to": "s9", "condition": null, "evidence": ["c15"] }
+  ],
+  "errorFlows": [],
+  "metrics": {
+    "timeOnTask": { "minutes": null, "text": "The app bit, five minutes. The queue is the killer.", "evidence": ["c17"] },
+    "attempts": null
+  },
+  "annotations": [
+    { "id": "n1", "targetId": "s1", "kind": "note", "text": "The app keeps asking her to change her password", "speaker": "Joan", "evidence": ["c3"] },
+    { "id": "n2", "targetId": "s8", "kind": "opinion", "text": "The queue is the killer", "speaker": "Joan", "evidence": ["c17"] }
+  ]
+}

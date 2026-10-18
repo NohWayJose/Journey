@@ -675,6 +675,8 @@
       "required": [
         "title",
         "goal",
+        "frequency",
+        "difficulty",
         "participants",
         "actors",
         "startStepId",
@@ -703,6 +705,28 @@
               "$ref": "#/$defs/evidence"
             }
           }
+        },
+        "frequency": {
+          "description": "How often the participant does the whole task.",
+          "anyOf": [
+            {
+              "$ref": "#/$defs/measure"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "difficulty": {
+          "description": "How hard the participant finds the whole task.",
+          "anyOf": [
+            {
+              "$ref": "#/$defs/measure"
+            },
+            {
+              "type": "null"
+            }
+          ]
         },
         "participants": {
           "type": "array",

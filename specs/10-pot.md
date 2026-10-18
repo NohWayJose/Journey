@@ -32,6 +32,11 @@ uses **synthetic** fixtures in `tests/fixtures/`. Each has a VTT file and a hand
 | F6 | ~60-minute interview, 30–60 steps, 3–5 actors | Size, time, cost, legibility at scale |
 | F7 | Text with quotes, brackets, `<` `>`, `&`, emoji, accented names | Escaping and robustness |
 
+The fixtures are in `tests/fixtures/` (see its README); unit tests check every expected
+result against the schema and semantic rules. **F6 is about 8 minutes of dialogue** with
+33 steps: large enough for rendering checks (PT-08), but the 60-minute target in PE-06
+needs a real transcript.
+
 ## Part A: Rendering (pele)
 
 ### Initial findings (2026-10-18)

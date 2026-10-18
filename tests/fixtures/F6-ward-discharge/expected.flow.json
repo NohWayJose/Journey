@@ -1,0 +1,1326 @@
+{
+  "title": "Discharging a patient from the ward",
+  "goal": {
+    "text": "Get the patient home safely with the right medicines and support, and free the bed",
+    "evidence": [
+      "c2"
+    ]
+  },
+  "frequency": {
+    "value": 5,
+    "basis": "inferred",
+    "threshold": null,
+    "text": "Every day. Several a shift, usually.",
+    "evidence": [
+      "c6"
+    ]
+  },
+  "difficulty": {
+    "value": 4,
+    "basis": "scale",
+    "threshold": null,
+    "text": "A four. On a bad day a five.",
+    "evidence": [
+      "c44",
+      "c45"
+    ]
+  },
+  "participants": [
+    {
+      "speakerLabel": "Interviewer",
+      "role": "interviewer",
+      "isMainSpeaker": false,
+      "sharedConnection": false,
+      "people": []
+    },
+    {
+      "speakerLabel": "Helen",
+      "role": "participant",
+      "isMainSpeaker": true,
+      "sharedConnection": false,
+      "people": [
+        "Helen"
+      ]
+    },
+    {
+      "speakerLabel": "Ravi",
+      "role": "participant",
+      "isMainSpeaker": false,
+      "sharedConnection": false,
+      "people": [
+        "Ravi"
+      ]
+    }
+  ],
+  "actors": [
+    {
+      "id": "a1",
+      "name": "Ward nurse",
+      "kind": "role",
+      "speakerLabels": [
+        "Helen"
+      ],
+      "evidence": [
+        "c3"
+      ]
+    },
+    {
+      "id": "a2",
+      "name": "Doctor",
+      "kind": "role",
+      "speakerLabels": [
+        "Ravi"
+      ],
+      "evidence": [
+        "c4",
+        "c7"
+      ]
+    },
+    {
+      "id": "a3",
+      "name": "Pharmacy",
+      "kind": "team",
+      "speakerLabels": [],
+      "evidence": [
+        "c14"
+      ]
+    },
+    {
+      "id": "a4",
+      "name": "Patient transport",
+      "kind": "organisation",
+      "speakerLabels": [],
+      "evidence": [
+        "c22",
+        "c23"
+      ]
+    },
+    {
+      "id": "a5",
+      "name": "Patient and family",
+      "kind": "role",
+      "speakerLabels": [],
+      "evidence": [
+        "c29",
+        "c35"
+      ]
+    }
+  ],
+  "startStepId": "s1",
+  "steps": [
+    {
+      "id": "s1",
+      "actorId": "a2",
+      "kind": "action",
+      "label": "Confirm patient is medically fit",
+      "description": "On the ward round",
+      "outcome": null,
+      "returnToStepId": null,
+      "frequency": null,
+      "difficulty": null,
+      "attributes": [],
+      "states": [],
+      "metrics": {
+        "timeOnTask": null,
+        "attempts": null
+      },
+      "evidence": [
+        "c7"
+      ]
+    },
+    {
+      "id": "s2",
+      "actorId": "a2",
+      "kind": "action",
+      "label": "Write discharge summary",
+      "description": null,
+      "outcome": null,
+      "returnToStepId": null,
+      "frequency": null,
+      "difficulty": {
+        "value": 3,
+        "basis": "scale",
+        "threshold": null,
+        "text": "A three. It's not hard, it's just time I don't have.",
+        "evidence": [
+          "c10",
+          "c11"
+        ]
+      },
+      "attributes": [],
+      "states": [],
+      "metrics": {
+        "timeOnTask": null,
+        "attempts": null
+      },
+      "evidence": [
+        "c8"
+      ]
+    },
+    {
+      "id": "s3",
+      "actorId": "a2",
+      "kind": "decision",
+      "label": "Medicines changed?",
+      "description": null,
+      "outcome": null,
+      "returnToStepId": null,
+      "frequency": null,
+      "difficulty": null,
+      "attributes": [],
+      "states": [],
+      "metrics": {
+        "timeOnTask": null,
+        "attempts": null
+      },
+      "evidence": [
+        "c12",
+        "c13"
+      ]
+    },
+    {
+      "id": "s4",
+      "actorId": "a2",
+      "kind": "action",
+      "label": "Write TTO prescription",
+      "description": "To-take-out prescription",
+      "outcome": null,
+      "returnToStepId": null,
+      "frequency": null,
+      "difficulty": null,
+      "attributes": [],
+      "states": [],
+      "metrics": {
+        "timeOnTask": null,
+        "attempts": null
+      },
+      "evidence": [
+        "c12"
+      ]
+    },
+    {
+      "id": "s5",
+      "actorId": "a3",
+      "kind": "action",
+      "label": "Dispense TTO medicines",
+      "description": null,
+      "outcome": null,
+      "returnToStepId": null,
+      "frequency": null,
+      "difficulty": null,
+      "attributes": [],
+      "states": [],
+      "metrics": {
+        "timeOnTask": {
+          "minutes": null,
+          "text": "That can take two to four hours",
+          "evidence": [
+            "c14"
+          ]
+        },
+        "attempts": null
+      },
+      "evidence": [
+        "c14"
+      ]
+    },
+    {
+      "id": "s6",
+      "actorId": "a1",
+      "kind": "action",
+      "label": "Check medicines against discharge summary",
+      "description": "Every item",
+      "outcome": null,
+      "returnToStepId": null,
+      "frequency": null,
+      "difficulty": null,
+      "attributes": [],
+      "states": [],
+      "metrics": {
+        "timeOnTask": null,
+        "attempts": null
+      },
+      "evidence": [
+        "c20"
+      ]
+    },
+    {
+      "id": "s7",
+      "actorId": "a1",
+      "kind": "decision",
+      "label": "Needs hospital transport?",
+      "description": null,
+      "outcome": null,
+      "returnToStepId": null,
+      "frequency": null,
+      "difficulty": null,
+      "attributes": [],
+      "states": [],
+      "metrics": {
+        "timeOnTask": null,
+        "attempts": null
+      },
+      "evidence": [
+        "c22",
+        "c24"
+      ]
+    },
+    {
+      "id": "s8",
+      "actorId": "a1",
+      "kind": "action",
+      "label": "Return patient's own medicines",
+      "description": null,
+      "outcome": null,
+      "returnToStepId": null,
+      "frequency": null,
+      "difficulty": null,
+      "attributes": [
+        {
+          "name": "Location",
+          "value": "Bedside locker",
+          "evidence": [
+            "c13"
+          ]
+        }
+      ],
+      "states": [],
+      "metrics": {
+        "timeOnTask": null,
+        "attempts": null
+      },
+      "evidence": [
+        "c13"
+      ]
+    },
+    {
+      "id": "s9",
+      "actorId": "a1",
+      "kind": "action",
+      "label": "Book patient transport",
+      "description": null,
+      "outcome": null,
+      "returnToStepId": null,
+      "frequency": null,
+      "difficulty": null,
+      "attributes": [
+        {
+          "name": "Tool",
+          "value": "Transport portal",
+          "evidence": [
+            "c22"
+          ]
+        }
+      ],
+      "states": [],
+      "metrics": {
+        "timeOnTask": null,
+        "attempts": null
+      },
+      "evidence": [
+        "c22"
+      ]
+    },
+    {
+      "id": "s10",
+      "actorId": "a4",
+      "kind": "action",
+      "label": "Confirm pickup slot",
+      "description": null,
+      "outcome": null,
+      "returnToStepId": null,
+      "frequency": null,
+      "difficulty": null,
+      "attributes": [
+        {
+          "name": "Channel",
+          "value": "Email",
+          "evidence": [
+            "c23"
+          ]
+        }
+      ],
+      "states": [],
+      "metrics": {
+        "timeOnTask": null,
+        "attempts": null
+      },
+      "evidence": [
+        "c23"
+      ]
+    },
+    {
+      "id": "s11",
+      "actorId": "a1",
+      "kind": "decision",
+      "label": "Needs care package?",
+      "description": null,
+      "outcome": null,
+      "returnToStepId": null,
+      "frequency": null,
+      "difficulty": null,
+      "attributes": [],
+      "states": [],
+      "metrics": {
+        "timeOnTask": null,
+        "attempts": null
+      },
+      "evidence": [
+        "c25",
+        "c27"
+      ]
+    },
+    {
+      "id": "s12",
+      "actorId": "a1",
+      "kind": "action",
+      "label": "Refer to community care team",
+      "description": null,
+      "outcome": null,
+      "returnToStepId": null,
+      "frequency": null,
+      "difficulty": null,
+      "attributes": [],
+      "states": [],
+      "metrics": {
+        "timeOnTask": {
+          "minutes": null,
+          "text": "That can add a day, easily",
+          "evidence": [
+            "c26"
+          ]
+        },
+        "attempts": null
+      },
+      "evidence": [
+        "c25"
+      ]
+    },
+    {
+      "id": "s13",
+      "actorId": "a1",
+      "kind": "action",
+      "label": "Confirm care start date with family",
+      "description": null,
+      "outcome": null,
+      "returnToStepId": null,
+      "frequency": null,
+      "difficulty": null,
+      "attributes": [],
+      "states": [],
+      "metrics": {
+        "timeOnTask": null,
+        "attempts": null
+      },
+      "evidence": [
+        "c26"
+      ]
+    },
+    {
+      "id": "s14",
+      "actorId": "a1",
+      "kind": "action",
+      "label": "Remove cannula",
+      "description": null,
+      "outcome": null,
+      "returnToStepId": null,
+      "frequency": null,
+      "difficulty": null,
+      "attributes": [],
+      "states": [],
+      "metrics": {
+        "timeOnTask": null,
+        "attempts": null
+      },
+      "evidence": [
+        "c28"
+      ]
+    },
+    {
+      "id": "s15",
+      "actorId": "a1",
+      "kind": "action",
+      "label": "Go through discharge letter and medicines",
+      "description": null,
+      "outcome": null,
+      "returnToStepId": null,
+      "frequency": null,
+      "difficulty": null,
+      "attributes": [],
+      "states": [],
+      "metrics": {
+        "timeOnTask": null,
+        "attempts": null
+      },
+      "evidence": [
+        "c29"
+      ]
+    },
+    {
+      "id": "s16",
+      "actorId": "a5",
+      "kind": "action",
+      "label": "Ask questions and tell back",
+      "description": null,
+      "outcome": null,
+      "returnToStepId": null,
+      "frequency": null,
+      "difficulty": null,
+      "attributes": [],
+      "states": [],
+      "metrics": {
+        "timeOnTask": null,
+        "attempts": null
+      },
+      "evidence": [
+        "c31"
+      ]
+    },
+    {
+      "id": "s17",
+      "actorId": "a1",
+      "kind": "action",
+      "label": "Give copy of discharge letter",
+      "description": null,
+      "outcome": null,
+      "returnToStepId": null,
+      "frequency": null,
+      "difficulty": null,
+      "attributes": [],
+      "states": [],
+      "metrics": {
+        "timeOnTask": null,
+        "attempts": null
+      },
+      "evidence": [
+        "c32"
+      ]
+    },
+    {
+      "id": "s18",
+      "actorId": "a1",
+      "kind": "decision",
+      "label": "Transport booked?",
+      "description": null,
+      "outcome": null,
+      "returnToStepId": null,
+      "frequency": null,
+      "difficulty": null,
+      "attributes": [],
+      "states": [],
+      "metrics": {
+        "timeOnTask": null,
+        "attempts": null
+      },
+      "evidence": [
+        "c34",
+        "c35"
+      ]
+    },
+    {
+      "id": "s19",
+      "actorId": "a4",
+      "kind": "action",
+      "label": "Collect patient from ward",
+      "description": null,
+      "outcome": null,
+      "returnToStepId": null,
+      "frequency": null,
+      "difficulty": null,
+      "attributes": [],
+      "states": [],
+      "metrics": {
+        "timeOnTask": null,
+        "attempts": null
+      },
+      "evidence": [
+        "c34"
+      ]
+    },
+    {
+      "id": "s20",
+      "actorId": "a5",
+      "kind": "action",
+      "label": "Family collect patient",
+      "description": null,
+      "outcome": null,
+      "returnToStepId": null,
+      "frequency": null,
+      "difficulty": null,
+      "attributes": [],
+      "states": [],
+      "metrics": {
+        "timeOnTask": null,
+        "attempts": null
+      },
+      "evidence": [
+        "c35"
+      ]
+    },
+    {
+      "id": "s21",
+      "actorId": "a1",
+      "kind": "action",
+      "label": "Update bed status",
+      "description": null,
+      "outcome": null,
+      "returnToStepId": null,
+      "frequency": null,
+      "difficulty": null,
+      "attributes": [
+        {
+          "name": "Tool",
+          "value": "Bed management system",
+          "evidence": [
+            "c41"
+          ]
+        }
+      ],
+      "states": [],
+      "metrics": {
+        "timeOnTask": null,
+        "attempts": null
+      },
+      "evidence": [
+        "c41"
+      ]
+    },
+    {
+      "id": "s22",
+      "actorId": "a1",
+      "kind": "action",
+      "label": "Tell bed manager the bed is free",
+      "description": null,
+      "outcome": null,
+      "returnToStepId": null,
+      "frequency": null,
+      "difficulty": null,
+      "attributes": [],
+      "states": [],
+      "metrics": {
+        "timeOnTask": null,
+        "attempts": null
+      },
+      "evidence": [
+        "c42"
+      ]
+    },
+    {
+      "id": "s23",
+      "actorId": "a1",
+      "kind": "outcome",
+      "label": "Patient discharged home",
+      "description": null,
+      "outcome": "success",
+      "returnToStepId": null,
+      "frequency": null,
+      "difficulty": null,
+      "attributes": [],
+      "states": [],
+      "metrics": {
+        "timeOnTask": null,
+        "attempts": null
+      },
+      "evidence": [
+        "c43"
+      ]
+    }
+  ],
+  "transitions": [
+    {
+      "id": "t1",
+      "from": "s1",
+      "to": "s2",
+      "condition": null,
+      "evidence": [
+        "c8"
+      ]
+    },
+    {
+      "id": "t2",
+      "from": "s2",
+      "to": "s3",
+      "condition": null,
+      "evidence": [
+        "c12"
+      ]
+    },
+    {
+      "id": "t3",
+      "from": "s3",
+      "to": "s4",
+      "condition": "Yes",
+      "evidence": [
+        "c12"
+      ]
+    },
+    {
+      "id": "t4",
+      "from": "s3",
+      "to": "s8",
+      "condition": "No",
+      "evidence": [
+        "c13"
+      ]
+    },
+    {
+      "id": "t5",
+      "from": "s4",
+      "to": "s5",
+      "condition": null,
+      "evidence": [
+        "c14"
+      ]
+    },
+    {
+      "id": "t6",
+      "from": "s5",
+      "to": "s6",
+      "condition": null,
+      "evidence": [
+        "c20"
+      ]
+    },
+    {
+      "id": "t7",
+      "from": "s6",
+      "to": "s7",
+      "condition": null,
+      "evidence": [
+        "c22"
+      ]
+    },
+    {
+      "id": "t8",
+      "from": "s8",
+      "to": "s7",
+      "condition": null,
+      "evidence": [
+        "c22"
+      ]
+    },
+    {
+      "id": "t9",
+      "from": "s7",
+      "to": "s9",
+      "condition": "Yes",
+      "evidence": [
+        "c22"
+      ]
+    },
+    {
+      "id": "t10",
+      "from": "s7",
+      "to": "s11",
+      "condition": "No",
+      "evidence": [
+        "c24"
+      ]
+    },
+    {
+      "id": "t11",
+      "from": "s9",
+      "to": "s10",
+      "condition": null,
+      "evidence": [
+        "c23"
+      ]
+    },
+    {
+      "id": "t12",
+      "from": "s10",
+      "to": "s11",
+      "condition": null,
+      "evidence": [
+        "c25"
+      ]
+    },
+    {
+      "id": "t13",
+      "from": "s11",
+      "to": "s12",
+      "condition": "Yes",
+      "evidence": [
+        "c25"
+      ]
+    },
+    {
+      "id": "t14",
+      "from": "s11",
+      "to": "s14",
+      "condition": "No",
+      "evidence": [
+        "c27"
+      ]
+    },
+    {
+      "id": "t15",
+      "from": "s12",
+      "to": "s13",
+      "condition": null,
+      "evidence": [
+        "c26"
+      ]
+    },
+    {
+      "id": "t16",
+      "from": "s13",
+      "to": "s14",
+      "condition": null,
+      "evidence": [
+        "c28"
+      ]
+    },
+    {
+      "id": "t17",
+      "from": "s14",
+      "to": "s15",
+      "condition": null,
+      "evidence": [
+        "c29"
+      ]
+    },
+    {
+      "id": "t18",
+      "from": "s15",
+      "to": "s16",
+      "condition": null,
+      "evidence": [
+        "c31"
+      ]
+    },
+    {
+      "id": "t19",
+      "from": "s16",
+      "to": "s17",
+      "condition": null,
+      "evidence": [
+        "c32"
+      ]
+    },
+    {
+      "id": "t20",
+      "from": "s17",
+      "to": "s18",
+      "condition": null,
+      "evidence": [
+        "c34"
+      ]
+    },
+    {
+      "id": "t21",
+      "from": "s18",
+      "to": "s19",
+      "condition": "Yes",
+      "evidence": [
+        "c34"
+      ]
+    },
+    {
+      "id": "t22",
+      "from": "s18",
+      "to": "s20",
+      "condition": "No",
+      "evidence": [
+        "c35"
+      ]
+    },
+    {
+      "id": "t23",
+      "from": "s19",
+      "to": "s21",
+      "condition": null,
+      "evidence": [
+        "c41"
+      ]
+    },
+    {
+      "id": "t24",
+      "from": "s20",
+      "to": "s21",
+      "condition": null,
+      "evidence": [
+        "c41"
+      ]
+    },
+    {
+      "id": "t25",
+      "from": "s21",
+      "to": "s22",
+      "condition": null,
+      "evidence": [
+        "c42"
+      ]
+    },
+    {
+      "id": "t26",
+      "from": "s22",
+      "to": "s23",
+      "condition": null,
+      "evidence": [
+        "c43"
+      ]
+    }
+  ],
+  "errorFlows": [
+    {
+      "id": "E1",
+      "title": "TTO medicines delayed",
+      "triggers": [
+        {
+          "fromStepId": "s5",
+          "condition": "TTO medicines late from pharmacy",
+          "frequency": {
+            "value": 4,
+            "basis": "inferred",
+            "threshold": "above",
+            "text": "It happens most days, it drives me mad",
+            "evidence": [
+              "c15"
+            ]
+          },
+          "evidence": [
+            "c15"
+          ]
+        }
+      ],
+      "startStepId": "e1",
+      "steps": [
+        {
+          "id": "e1",
+          "actorId": "a1",
+          "kind": "action",
+          "label": "Phone pharmacy to chase",
+          "description": null,
+          "outcome": null,
+          "returnToStepId": null,
+          "frequency": null,
+          "difficulty": null,
+          "attributes": [],
+          "states": [],
+          "metrics": {
+            "timeOnTask": null,
+            "attempts": null
+          },
+          "evidence": [
+            "c16"
+          ]
+        },
+        {
+          "id": "e2",
+          "actorId": "a3",
+          "kind": "decision",
+          "label": "Ready within two hours?",
+          "description": null,
+          "outcome": null,
+          "returnToStepId": null,
+          "frequency": null,
+          "difficulty": null,
+          "attributes": [],
+          "states": [],
+          "metrics": {
+            "timeOnTask": null,
+            "attempts": null
+          },
+          "evidence": [
+            "c17",
+            "c18"
+          ]
+        },
+        {
+          "id": "e3",
+          "actorId": "a1",
+          "kind": "return",
+          "label": "Carry on; check medicines when they arrive",
+          "description": null,
+          "outcome": null,
+          "returnToStepId": "s6",
+          "frequency": null,
+          "difficulty": null,
+          "attributes": [],
+          "states": [],
+          "metrics": {
+            "timeOnTask": null,
+            "attempts": null
+          },
+          "evidence": [
+            "c17"
+          ]
+        },
+        {
+          "id": "e4",
+          "actorId": "a1",
+          "kind": "action",
+          "label": "Collect medicines from pharmacy in person",
+          "description": null,
+          "outcome": null,
+          "returnToStepId": null,
+          "frequency": {
+            "value": null,
+            "basis": "text",
+            "threshold": null,
+            "text": "I've done that loads of times, sometimes twice in a shift",
+            "evidence": [
+              "c18"
+            ]
+          },
+          "difficulty": null,
+          "attributes": [],
+          "states": [],
+          "metrics": {
+            "timeOnTask": null,
+            "attempts": null
+          },
+          "evidence": [
+            "c18"
+          ]
+        },
+        {
+          "id": "e5",
+          "actorId": "a1",
+          "kind": "return",
+          "label": "Back to checking the medicines",
+          "description": null,
+          "outcome": null,
+          "returnToStepId": "s6",
+          "frequency": null,
+          "difficulty": null,
+          "attributes": [],
+          "states": [],
+          "metrics": {
+            "timeOnTask": null,
+            "attempts": null
+          },
+          "evidence": [
+            "c19"
+          ]
+        }
+      ],
+      "transitions": [
+        {
+          "id": "t30",
+          "from": "e1",
+          "to": "e2",
+          "condition": null,
+          "evidence": [
+            "c17"
+          ]
+        },
+        {
+          "id": "t31",
+          "from": "e2",
+          "to": "e3",
+          "condition": "Yes",
+          "evidence": [
+            "c17"
+          ]
+        },
+        {
+          "id": "t32",
+          "from": "e2",
+          "to": "e4",
+          "condition": "No",
+          "evidence": [
+            "c18"
+          ]
+        },
+        {
+          "id": "t33",
+          "from": "e4",
+          "to": "e5",
+          "condition": null,
+          "evidence": [
+            "c19"
+          ]
+        }
+      ],
+      "evidence": [
+        "c15",
+        "c16",
+        "c17",
+        "c18",
+        "c19"
+      ]
+    },
+    {
+      "id": "E2",
+      "title": "Transport doesn't arrive",
+      "triggers": [
+        {
+          "fromStepId": "s19",
+          "condition": "Transport doesn't turn up",
+          "frequency": {
+            "value": null,
+            "basis": "text",
+            "threshold": null,
+            "text": "That happens maybe once a week",
+            "evidence": [
+              "c36"
+            ]
+          },
+          "evidence": [
+            "c36"
+          ]
+        }
+      ],
+      "startStepId": "e6",
+      "steps": [
+        {
+          "id": "e6",
+          "actorId": "a1",
+          "kind": "action",
+          "label": "Ring transport desk",
+          "description": null,
+          "outcome": null,
+          "returnToStepId": null,
+          "frequency": null,
+          "difficulty": null,
+          "attributes": [
+            {
+              "name": "Tool",
+              "value": "Phone numbers on a sticky note",
+              "evidence": [
+                "c37"
+              ]
+            }
+          ],
+          "states": [],
+          "metrics": {
+            "timeOnTask": null,
+            "attempts": null
+          },
+          "evidence": [
+            "c37"
+          ]
+        },
+        {
+          "id": "e7",
+          "actorId": "a4",
+          "kind": "decision",
+          "label": "Rebooked for later today?",
+          "description": null,
+          "outcome": null,
+          "returnToStepId": null,
+          "frequency": null,
+          "difficulty": null,
+          "attributes": [],
+          "states": [],
+          "metrics": {
+            "timeOnTask": null,
+            "attempts": null
+          },
+          "evidence": [
+            "c38",
+            "c39"
+          ]
+        },
+        {
+          "id": "e8",
+          "actorId": "a1",
+          "kind": "return",
+          "label": "Keep waiting for the crew",
+          "description": null,
+          "outcome": null,
+          "returnToStepId": "s19",
+          "frequency": null,
+          "difficulty": null,
+          "attributes": [],
+          "states": [],
+          "metrics": {
+            "timeOnTask": null,
+            "attempts": null
+          },
+          "evidence": [
+            "c38"
+          ]
+        },
+        {
+          "id": "e9",
+          "actorId": "a1",
+          "kind": "action",
+          "label": "Tell patient they're staying another night",
+          "description": null,
+          "outcome": null,
+          "returnToStepId": null,
+          "frequency": null,
+          "difficulty": null,
+          "attributes": [],
+          "states": [],
+          "metrics": {
+            "timeOnTask": null,
+            "attempts": null
+          },
+          "evidence": [
+            "c39"
+          ]
+        },
+        {
+          "id": "e10",
+          "actorId": "a1",
+          "kind": "outcome",
+          "label": "Discharge postponed to next day",
+          "description": null,
+          "outcome": "failure",
+          "returnToStepId": null,
+          "frequency": {
+            "value": null,
+            "basis": "text",
+            "threshold": "above",
+            "text": "That happens a couple of times a month, and it breaks my heart every time",
+            "evidence": [
+              "c40"
+            ]
+          },
+          "difficulty": null,
+          "attributes": [],
+          "states": [],
+          "metrics": {
+            "timeOnTask": null,
+            "attempts": null
+          },
+          "evidence": [
+            "c39",
+            "c40"
+          ]
+        }
+      ],
+      "transitions": [
+        {
+          "id": "t40",
+          "from": "e6",
+          "to": "e7",
+          "condition": null,
+          "evidence": [
+            "c38"
+          ]
+        },
+        {
+          "id": "t41",
+          "from": "e7",
+          "to": "e8",
+          "condition": "Yes",
+          "evidence": [
+            "c38"
+          ]
+        },
+        {
+          "id": "t42",
+          "from": "e7",
+          "to": "e9",
+          "condition": "No",
+          "evidence": [
+            "c39"
+          ]
+        },
+        {
+          "id": "t43",
+          "from": "e9",
+          "to": "e10",
+          "condition": null,
+          "evidence": [
+            "c40"
+          ]
+        }
+      ],
+      "evidence": [
+        "c36",
+        "c37",
+        "c38",
+        "c39",
+        "c40"
+      ]
+    }
+  ],
+  "metrics": {
+    "timeOnTask": {
+      "minutes": null,
+      "text": "Four or five hours on a good day",
+      "evidence": [
+        "c47"
+      ]
+    },
+    "attempts": null
+  },
+  "annotations": [
+    {
+      "id": "n1",
+      "targetId": "s2",
+      "kind": "alternativeView",
+      "text": "Decides fitness and writes the summary the evening before when he can, so it's ready first thing",
+      "speaker": "Ravi",
+      "evidence": [
+        "c9"
+      ]
+    },
+    {
+      "id": "n2",
+      "targetId": "s15",
+      "kind": "alternativeView",
+      "text": "Sometimes does the medicines talk himself if it is complicated, e.g. a new anticoagulant",
+      "speaker": "Ravi",
+      "evidence": [
+        "c30"
+      ]
+    },
+    {
+      "id": "n3",
+      "targetId": "s14",
+      "kind": "note",
+      "text": "Always removes the cannula before the teaching so the patient isn't distracted",
+      "speaker": "Helen",
+      "evidence": [
+        "c28"
+      ]
+    },
+    {
+      "id": "n4",
+      "targetId": "s17",
+      "kind": "hesitation",
+      "text": "Unsure how the GP receives the letter; thinks the system sends it electronically",
+      "speaker": "Helen",
+      "evidence": [
+        "c32"
+      ]
+    },
+    {
+      "id": "n5",
+      "targetId": "e6",
+      "kind": "workaround",
+      "text": "Keeps the transport desk's numbers on a sticky note at the nurses' station; the portal doesn't help",
+      "speaker": "Helen",
+      "evidence": [
+        "c37"
+      ]
+    },
+    {
+      "id": "n6",
+      "targetId": "s22",
+      "kind": "note",
+      "text": "Tells the bed manager directly because they don't trust the system",
+      "speaker": "Helen",
+      "evidence": [
+        "c42"
+      ]
+    },
+    {
+      "id": "n7",
+      "targetId": null,
+      "kind": "alternativeView",
+      "text": "His part is about half an hour of actual work, spread across the day",
+      "speaker": "Ravi",
+      "evidence": [
+        "c48"
+      ]
+    },
+    {
+      "id": "n8",
+      "targetId": "E1",
+      "kind": "opinion",
+      "text": "Waiting for TTOs is the biggest hold-up",
+      "speaker": "Helen",
+      "evidence": [
+        "c15"
+      ]
+    }
+  ]
+}

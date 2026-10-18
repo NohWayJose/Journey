@@ -1,0 +1,35 @@
+WEBVTT
+
+NOTE F7: escaping and robustness. Zoom-style "Name: text" speakers (no voice tags); quotes, brackets, pipes, hashes, percent signs, ampersands, angle brackets (escaped as VTT requires), backticks, emoji and accented names. Synthetic.
+
+1
+00:00:00.000 --> 00:00:04.000
+Interviewer: How do you order reagents for the lab?
+
+2
+00:00:04.000 --> 00:00:14.000
+Zoë O'Brien: So the goal is we never run out of the "critical" reagents mid-experiment. That's the R&amp;D team's nightmare.
+
+3
+00:00:14.000 --> 00:00:21.000
+Zoë O'Brien: I open the [Orders] tab in the procurement portal.
+
+4
+00:00:21.000 --> 00:00:33.000
+Zoë O'Brien: I copy the order from template {T-3} #3 | v2, it has everything pre-filled. I use `Ctrl+V`; I never retype anything.
+
+5
+00:00:33.000 --> 00:00:45.000
+Zoë O'Brien: If it's marked "urgent" (anything under 5% stock), I tick the express box. Otherwise it's standard delivery.
+
+6
+00:00:45.000 --> 00:00:54.000
+Zoë O'Brien: Then I email R&amp;D &lt;lab-orders@example.com&gt; so they know it's coming 🙂
+
+7
+00:00:54.000 --> 00:01:05.000
+Zoë O'Brien: The supplier, Müller &amp; Søn, confirms by email, and I file that in a folder literally called "end". We joke it should be %%end%% because nobody reads it.
+
+8
+00:01:05.000 --> 00:01:14.000
+Zoë O'Brien: Then it arrives. About 50% of the time it's on time; 100% eventually.
