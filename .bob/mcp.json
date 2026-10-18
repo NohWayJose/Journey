@@ -1,0 +1,14 @@
+{
+  "mcpServers": {
+    "journey": {
+      "command": "node",
+      "args": ["/home/greg/Development/Journey/src/adapters/mcp/server.js"],
+      "cwd": "/home/greg/Development/Journey",
+      "env": {
+        "JOURNEY_ALLOWED_DIRS": "/home/greg/Development/Journey/tests/fixtures:/home/greg/Development/Journey/out"
+      },
+      "alwaysAllow": [],
+      "disabled": false
+    }
+  }
+}

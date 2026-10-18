@@ -5,6 +5,7 @@ Change the spec first, then the code.
 
 | File | Purpose |
 |---|---|
+| `status.md` | Where the project is, what's next, loose ends |
 | `00-vision.md` | Problem, users, non-goals, timebox and exit criteria |
 | `10-pot.md` | Proof of Technology: rendering (pele) and extraction (Claude) checks, with pass/fail criteria |
 | `20-requirements.md` | User stories with numbered, testable acceptance criteria (`R-01`, `R-01a`, …) |

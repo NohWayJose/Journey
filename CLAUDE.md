@@ -28,12 +28,15 @@ Model (JSON), which is compiled to Mermaid and rendered with pele.
 
 ## Spec-driven development
 
-- `specs/` is the source of truth. Read `specs/00-vision.md` and the spec relevant to the
-  task before writing code.
+- `specs/` is the source of truth. Read `specs/00-vision.md`, `specs/status.md` (where we
+  are, what's next) and the spec relevant to the task before writing code.
 - **Change the spec first, then the code.** If implementation shows a spec is wrong, update
   the spec (and `specs/decisions.md` for decisions) before changing code.
 - Record decisions in `specs/decisions.md` (next ID, date, reason, alternatives).
 - Fill in the results table in `specs/10-pot.md` as PoT checks run.
+- Keep `specs/status.md` current: update it in the same commit as any step that changes
+  what's done, what's next or what's loose. Anything decided in conversation that a future
+  session needs belongs in the specs, not only in chat.
 
 ## Architecture rules
 
