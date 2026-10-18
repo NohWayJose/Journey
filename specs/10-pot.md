@@ -29,12 +29,12 @@ uses **synthetic** fixtures in `tests/fixtures/`. Each has a VTT file and a hand
 | F3 | Two people on one connection who agree | Shared speaker label, consensus |
 | F4 | Two participants who do the task differently | Divergence: main speaker's flow + timestamped alternative view |
 | F5 | Interviewer asks for scales on some steps, not others | Scale vs free text, scale preferred, inferred values marked, questions excluded |
-| F6 | ~60-minute interview, 30–60 steps, 3–5 actors | Size, time, cost, legibility at scale |
+| F6 | Long interview, 30–60 steps, 3–5 actors, told non-linearly | Size, time, cost, legibility at scale; non-linear telling at scale |
 | F7 | Text with quotes, brackets, `<` `>`, `&`, emoji, accented names | Escaping and robustness |
 | F8 | Single participant who tells the task out of order: jumps ahead, goes back, adds detail later, corrects themselves | Non-linear accounts: task order, merged late detail, corrections |
 
 The fixtures are in `tests/fixtures/` (see its README); unit tests check every expected
-result against the schema and semantic rules. **F6 is about 8 minutes of dialogue** with
+result against the schema and semantic rules. **F6 is about 6 minutes of dialogue** with
 33 steps: large enough for rendering checks (PT-08), but the 60-minute target in PE-06
 needs a real transcript.
 

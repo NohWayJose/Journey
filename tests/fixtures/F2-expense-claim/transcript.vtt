@@ -1,6 +1,6 @@
 WEBVTT
 
-NOTE F2: single participant; branches, two error flows (one returns, one can end the task), attempts, outcome frequency, threshold judgements. Synthetic.
+NOTE F2: single participant; branches, two error flows (one returns, one can end the task), attempts, outcome frequency, threshold judgements. Late correction of the approval threshold (c18) and late detail on the first step (c19). Synthetic.
 
 1
 00:00:00.000 --> 00:00:05.000
@@ -69,3 +69,11 @@ NOTE F2: single participant; branches, two error flows (one returns, one can end
 17
 00:02:20.000 --> 00:02:28.000
 <v Marcus Lee>My part, about twenty minutes a claim. I do one most months.</v>
+
+18
+00:02:28.000 --> 00:02:38.000
+<v Marcus Lee>Oh, I said fifty pounds for manager approval. Actually they raised it to a hundred in April, I keep forgetting.</v>
+
+19
+00:02:38.000 --> 00:02:50.000
+<v Marcus Lee>And going back to the photos: if it's a faded till receipt, I scan it on the office printer instead of using my phone.</v>

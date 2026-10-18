@@ -13,11 +13,11 @@ Each `F<n>-<name>/` folder holds:
 | Fixture | Cues | Steps | Actors | Error flows | Exercises |
 |---|---|---|---|---|---|
 | F1 meeting room | 11 | 8 | 2 | 0 | Baseline: actor, goal, linear flow, task frequency and difficulty, time on task |
-| F2 expense claim | 17 | 12 | 4 | 2 | Decisions; error flow that returns; error flow that can end in abandonment; attempts; outcome frequency; `above`/`below` thresholds; requested scale |
+| F2 expense claim | 19 | 12 | 4 | 2 | Decisions; error flow that returns; error flow that can end in abandonment; attempts; outcome frequency; `above`/`below` thresholds; requested scale; late correction (approval threshold) and late detail on the first step |
 | F3 laptop setup | 15 | 10 | 4 | 0 | Two people on one connection (`Meeting Room 2`) in agreement |
 | F4 stock count | 17 | 8 | 3 | 0 | Divergence: main speaker's flow, timestamped alternative views (approach, difficulty, time) |
 | F5 repeat prescription | 17 | 9 | 3 | 0 | Requested scale, spontaneous scale, inferred value, text-only measure; interviewer questions that must not become steps (c11–c12) |
-| F6 ward discharge | 48 | 33 | 5 | 2 | Size and legibility; second participant's alternative views; hesitation, workaround, notes; failure outcome |
+| F6 ward discharge | 44 | 33 | 5 | 2 | Size and legibility; non-linear telling at scale (jump to the end, jump ahead and retract, late error-flow detail prompted by the interviewer, back-filled step, two corrections); second participant's alternative views; hesitation, workaround, notes; failure outcome |
 | F7 lab order | 8 | 9 | 2 | 0 | Escaping: quotes, brackets, `\|`, `#`, `%%`, `&`, `<…>`, backticks, emoji, accented names; Zoom-style speakers |
 | F8 VAT return | 19 | 11 | 3 | 1 | Non-linear telling: jumps ahead and back, back-filled step with a corrected position, late detail merged into an earlier step, late error flow, corrected scale and time (`correction` annotations) |
 

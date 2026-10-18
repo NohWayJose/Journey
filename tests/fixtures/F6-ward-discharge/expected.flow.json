@@ -12,7 +12,7 @@
     "threshold": null,
     "text": "Every day. Several a shift, usually.",
     "evidence": [
-      "c6"
+      "c9"
     ]
   },
   "difficulty": {
@@ -21,8 +21,8 @@
     "threshold": null,
     "text": "A four. On a bad day a five.",
     "evidence": [
-      "c44",
-      "c45"
+      "c39",
+      "c40"
     ]
   },
   "participants": [
@@ -73,7 +73,7 @@
       ],
       "evidence": [
         "c4",
-        "c7"
+        "c6"
       ]
     },
     {
@@ -82,7 +82,7 @@
       "kind": "team",
       "speakerLabels": [],
       "evidence": [
-        "c14"
+        "c13"
       ]
     },
     {
@@ -91,8 +91,7 @@
       "kind": "organisation",
       "speakerLabels": [],
       "evidence": [
-        "c22",
-        "c23"
+        "c17"
       ]
     },
     {
@@ -101,8 +100,8 @@
       "kind": "role",
       "speakerLabels": [],
       "evidence": [
-        "c29",
-        "c35"
+        "c28",
+        "c32"
       ]
     }
   ],
@@ -125,7 +124,7 @@
         "attempts": null
       },
       "evidence": [
-        "c7"
+        "c6"
       ]
     },
     {
@@ -143,8 +142,8 @@
         "threshold": null,
         "text": "A three. It's not hard, it's just time I don't have.",
         "evidence": [
-          "c10",
-          "c11"
+          "c22",
+          "c23"
         ]
       },
       "attributes": [],
@@ -154,7 +153,7 @@
         "attempts": null
       },
       "evidence": [
-        "c8"
+        "c7"
       ]
     },
     {
@@ -174,8 +173,8 @@
         "attempts": null
       },
       "evidence": [
-        "c12",
-        "c13"
+        "c11",
+        "c12"
       ]
     },
     {
@@ -195,7 +194,7 @@
         "attempts": null
       },
       "evidence": [
-        "c12"
+        "c11"
       ]
     },
     {
@@ -215,13 +214,13 @@
           "minutes": null,
           "text": "That can take two to four hours",
           "evidence": [
-            "c14"
+            "c13"
           ]
         },
         "attempts": null
       },
       "evidence": [
-        "c14"
+        "c13"
       ]
     },
     {
@@ -241,7 +240,7 @@
         "attempts": null
       },
       "evidence": [
-        "c20"
+        "c16"
       ]
     },
     {
@@ -261,8 +260,8 @@
         "attempts": null
       },
       "evidence": [
-        "c22",
-        "c24"
+        "c17",
+        "c18"
       ]
     },
     {
@@ -280,7 +279,7 @@
           "name": "Location",
           "value": "Bedside locker",
           "evidence": [
-            "c13"
+            "c12"
           ]
         }
       ],
@@ -290,7 +289,7 @@
         "attempts": null
       },
       "evidence": [
-        "c13"
+        "c12"
       ]
     },
     {
@@ -308,7 +307,7 @@
           "name": "Tool",
           "value": "Transport portal",
           "evidence": [
-            "c22"
+            "c17"
           ]
         }
       ],
@@ -318,7 +317,7 @@
         "attempts": null
       },
       "evidence": [
-        "c22"
+        "c17"
       ]
     },
     {
@@ -336,7 +335,7 @@
           "name": "Channel",
           "value": "Email",
           "evidence": [
-            "c23"
+            "c17"
           ]
         }
       ],
@@ -346,7 +345,7 @@
         "attempts": null
       },
       "evidence": [
-        "c23"
+        "c17"
       ]
     },
     {
@@ -366,7 +365,7 @@
         "attempts": null
       },
       "evidence": [
-        "c25",
+        "c24",
         "c27"
       ]
     },
@@ -387,13 +386,13 @@
           "minutes": null,
           "text": "That can add a day, easily",
           "evidence": [
-            "c26"
+            "c24"
           ]
         },
         "attempts": null
       },
       "evidence": [
-        "c25"
+        "c24"
       ]
     },
     {
@@ -413,6 +412,7 @@
         "attempts": null
       },
       "evidence": [
+        "c25",
         "c26"
       ]
     },
@@ -433,7 +433,7 @@
         "attempts": null
       },
       "evidence": [
-        "c28"
+        "c29"
       ]
     },
     {
@@ -453,7 +453,8 @@
         "attempts": null
       },
       "evidence": [
-        "c29"
+        "c10",
+        "c28"
       ]
     },
     {
@@ -473,7 +474,7 @@
         "attempts": null
       },
       "evidence": [
-        "c31"
+        "c28"
       ]
     },
     {
@@ -493,7 +494,7 @@
         "attempts": null
       },
       "evidence": [
-        "c32"
+        "c31"
       ]
     },
     {
@@ -513,8 +514,7 @@
         "attempts": null
       },
       "evidence": [
-        "c34",
-        "c35"
+        "c32"
       ]
     },
     {
@@ -534,7 +534,7 @@
         "attempts": null
       },
       "evidence": [
-        "c34"
+        "c32"
       ]
     },
     {
@@ -554,7 +554,7 @@
         "attempts": null
       },
       "evidence": [
-        "c35"
+        "c32"
       ]
     },
     {
@@ -572,7 +572,7 @@
           "name": "Tool",
           "value": "Bed management system",
           "evidence": [
-            "c41"
+            "c37"
           ]
         }
       ],
@@ -582,7 +582,7 @@
         "attempts": null
       },
       "evidence": [
-        "c41"
+        "c37"
       ]
     },
     {
@@ -602,7 +602,8 @@
         "attempts": null
       },
       "evidence": [
-        "c42"
+        "c5",
+        "c37"
       ]
     },
     {
@@ -622,7 +623,7 @@
         "attempts": null
       },
       "evidence": [
-        "c43"
+        "c38"
       ]
     }
   ],
@@ -633,7 +634,7 @@
       "to": "s2",
       "condition": null,
       "evidence": [
-        "c8"
+        "c7"
       ]
     },
     {
@@ -642,7 +643,7 @@
       "to": "s3",
       "condition": null,
       "evidence": [
-        "c12"
+        "c11"
       ]
     },
     {
@@ -651,7 +652,7 @@
       "to": "s4",
       "condition": "Yes",
       "evidence": [
-        "c12"
+        "c11"
       ]
     },
     {
@@ -660,7 +661,7 @@
       "to": "s8",
       "condition": "No",
       "evidence": [
-        "c13"
+        "c12"
       ]
     },
     {
@@ -669,7 +670,7 @@
       "to": "s5",
       "condition": null,
       "evidence": [
-        "c14"
+        "c13"
       ]
     },
     {
@@ -678,7 +679,7 @@
       "to": "s6",
       "condition": null,
       "evidence": [
-        "c20"
+        "c16"
       ]
     },
     {
@@ -687,7 +688,7 @@
       "to": "s7",
       "condition": null,
       "evidence": [
-        "c22"
+        "c17"
       ]
     },
     {
@@ -696,7 +697,7 @@
       "to": "s7",
       "condition": null,
       "evidence": [
-        "c22"
+        "c17"
       ]
     },
     {
@@ -705,7 +706,7 @@
       "to": "s9",
       "condition": "Yes",
       "evidence": [
-        "c22"
+        "c17"
       ]
     },
     {
@@ -714,7 +715,7 @@
       "to": "s11",
       "condition": "No",
       "evidence": [
-        "c24"
+        "c18"
       ]
     },
     {
@@ -723,7 +724,7 @@
       "to": "s10",
       "condition": null,
       "evidence": [
-        "c23"
+        "c17"
       ]
     },
     {
@@ -732,7 +733,7 @@
       "to": "s11",
       "condition": null,
       "evidence": [
-        "c25"
+        "c24"
       ]
     },
     {
@@ -741,7 +742,7 @@
       "to": "s12",
       "condition": "Yes",
       "evidence": [
-        "c25"
+        "c24"
       ]
     },
     {
@@ -759,7 +760,7 @@
       "to": "s13",
       "condition": null,
       "evidence": [
-        "c26"
+        "c25"
       ]
     },
     {
@@ -768,7 +769,7 @@
       "to": "s14",
       "condition": null,
       "evidence": [
-        "c28"
+        "c29"
       ]
     },
     {
@@ -786,7 +787,7 @@
       "to": "s16",
       "condition": null,
       "evidence": [
-        "c31"
+        "c28"
       ]
     },
     {
@@ -795,7 +796,7 @@
       "to": "s17",
       "condition": null,
       "evidence": [
-        "c32"
+        "c31"
       ]
     },
     {
@@ -804,7 +805,7 @@
       "to": "s18",
       "condition": null,
       "evidence": [
-        "c34"
+        "c32"
       ]
     },
     {
@@ -813,7 +814,7 @@
       "to": "s19",
       "condition": "Yes",
       "evidence": [
-        "c34"
+        "c32"
       ]
     },
     {
@@ -822,7 +823,7 @@
       "to": "s20",
       "condition": "No",
       "evidence": [
-        "c35"
+        "c32"
       ]
     },
     {
@@ -831,7 +832,7 @@
       "to": "s21",
       "condition": null,
       "evidence": [
-        "c41"
+        "c37"
       ]
     },
     {
@@ -840,7 +841,7 @@
       "to": "s21",
       "condition": null,
       "evidence": [
-        "c41"
+        "c37"
       ]
     },
     {
@@ -849,7 +850,7 @@
       "to": "s22",
       "condition": null,
       "evidence": [
-        "c42"
+        "c37"
       ]
     },
     {
@@ -858,7 +859,7 @@
       "to": "s23",
       "condition": null,
       "evidence": [
-        "c43"
+        "c38"
       ]
     }
   ],
@@ -876,11 +877,11 @@
             "threshold": "above",
             "text": "It happens most days, it drives me mad",
             "evidence": [
-              "c15"
+              "c14"
             ]
           },
           "evidence": [
-            "c15"
+            "c14"
           ]
         }
       ],
@@ -903,7 +904,7 @@
             "attempts": null
           },
           "evidence": [
-            "c16"
+            "c15"
           ]
         },
         {
@@ -923,8 +924,7 @@
             "attempts": null
           },
           "evidence": [
-            "c17",
-            "c18"
+            "c20"
           ]
         },
         {
@@ -944,7 +944,7 @@
             "attempts": null
           },
           "evidence": [
-            "c17"
+            "c20"
           ]
         },
         {
@@ -961,7 +961,7 @@
             "threshold": null,
             "text": "I've done that loads of times, sometimes twice in a shift",
             "evidence": [
-              "c18"
+              "c20"
             ]
           },
           "difficulty": null,
@@ -972,7 +972,7 @@
             "attempts": null
           },
           "evidence": [
-            "c18"
+            "c20"
           ]
         },
         {
@@ -992,7 +992,7 @@
             "attempts": null
           },
           "evidence": [
-            "c19"
+            "c20"
           ]
         }
       ],
@@ -1003,7 +1003,7 @@
           "to": "e2",
           "condition": null,
           "evidence": [
-            "c17"
+            "c20"
           ]
         },
         {
@@ -1012,7 +1012,7 @@
           "to": "e3",
           "condition": "Yes",
           "evidence": [
-            "c17"
+            "c20"
           ]
         },
         {
@@ -1021,7 +1021,7 @@
           "to": "e4",
           "condition": "No",
           "evidence": [
-            "c18"
+            "c20"
           ]
         },
         {
@@ -1030,16 +1030,14 @@
           "to": "e5",
           "condition": null,
           "evidence": [
-            "c19"
+            "c20"
           ]
         }
       ],
       "evidence": [
+        "c14",
         "c15",
-        "c16",
-        "c17",
-        "c18",
-        "c19"
+        "c20"
       ]
     },
     {
@@ -1055,11 +1053,11 @@
             "threshold": null,
             "text": "That happens maybe once a week",
             "evidence": [
-              "c36"
+              "c33"
             ]
           },
           "evidence": [
-            "c36"
+            "c33"
           ]
         }
       ],
@@ -1080,7 +1078,7 @@
               "name": "Tool",
               "value": "Phone numbers on a sticky note",
               "evidence": [
-                "c37"
+                "c34"
               ]
             }
           ],
@@ -1090,7 +1088,7 @@
             "attempts": null
           },
           "evidence": [
-            "c37"
+            "c34"
           ]
         },
         {
@@ -1110,8 +1108,8 @@
             "attempts": null
           },
           "evidence": [
-            "c38",
-            "c39"
+            "c35",
+            "c36"
           ]
         },
         {
@@ -1131,7 +1129,7 @@
             "attempts": null
           },
           "evidence": [
-            "c38"
+            "c35"
           ]
         },
         {
@@ -1151,7 +1149,7 @@
             "attempts": null
           },
           "evidence": [
-            "c39"
+            "c36"
           ]
         },
         {
@@ -1168,7 +1166,7 @@
             "threshold": "above",
             "text": "That happens a couple of times a month, and it breaks my heart every time",
             "evidence": [
-              "c40"
+              "c36"
             ]
           },
           "difficulty": null,
@@ -1179,8 +1177,7 @@
             "attempts": null
           },
           "evidence": [
-            "c39",
-            "c40"
+            "c36"
           ]
         }
       ],
@@ -1191,7 +1188,7 @@
           "to": "e7",
           "condition": null,
           "evidence": [
-            "c38"
+            "c35"
           ]
         },
         {
@@ -1200,7 +1197,7 @@
           "to": "e8",
           "condition": "Yes",
           "evidence": [
-            "c38"
+            "c35"
           ]
         },
         {
@@ -1209,7 +1206,7 @@
           "to": "e9",
           "condition": "No",
           "evidence": [
-            "c39"
+            "c36"
           ]
         },
         {
@@ -1218,16 +1215,15 @@
           "to": "e10",
           "condition": null,
           "evidence": [
-            "c40"
+            "c36"
           ]
         }
       ],
       "evidence": [
-        "c36",
-        "c37",
-        "c38",
-        "c39",
-        "c40"
+        "c33",
+        "c34",
+        "c35",
+        "c36"
       ]
     }
   ],
@@ -1236,7 +1232,8 @@
       "minutes": null,
       "text": "Four or five hours on a good day",
       "evidence": [
-        "c47"
+        "c42",
+        "c43"
       ]
     },
     "attempts": null
@@ -1249,14 +1246,14 @@
       "text": "Decides fitness and writes the summary the evening before when he can, so it's ready first thing",
       "speaker": "Ravi",
       "evidence": [
-        "c9"
+        "c21"
       ]
     },
     {
       "id": "n2",
       "targetId": "s15",
       "kind": "alternativeView",
-      "text": "Sometimes does the medicines talk himself if it is complicated, e.g. a new anticoagulant",
+      "text": "Sometimes does the medicines talk himself if it's complicated, e.g. a new anticoagulant",
       "speaker": "Ravi",
       "evidence": [
         "c30"
@@ -1269,7 +1266,7 @@
       "text": "Always removes the cannula before the teaching so the patient isn't distracted",
       "speaker": "Helen",
       "evidence": [
-        "c28"
+        "c29"
       ]
     },
     {
@@ -1279,7 +1276,7 @@
       "text": "Unsure how the GP receives the letter; thinks the system sends it electronically",
       "speaker": "Helen",
       "evidence": [
-        "c32"
+        "c31"
       ]
     },
     {
@@ -1289,7 +1286,7 @@
       "text": "Keeps the transport desk's numbers on a sticky note at the nurses' station; the portal doesn't help",
       "speaker": "Helen",
       "evidence": [
-        "c37"
+        "c34"
       ]
     },
     {
@@ -1299,7 +1296,7 @@
       "text": "Tells the bed manager directly because they don't trust the system",
       "speaker": "Helen",
       "evidence": [
-        "c42"
+        "c5"
       ]
     },
     {
@@ -1309,7 +1306,7 @@
       "text": "His part is about half an hour of actual work, spread across the day",
       "speaker": "Ravi",
       "evidence": [
-        "c48"
+        "c44"
       ]
     },
     {
@@ -1319,7 +1316,40 @@
       "text": "Waiting for TTOs is the biggest hold-up",
       "speaker": "Helen",
       "evidence": [
-        "c15"
+        "c14"
+      ]
+    },
+    {
+      "id": "n9",
+      "targetId": "s15",
+      "kind": "correction",
+      "text": "First placed straight after the discharge summary (00:01:08), then moved later in the flow (00:01:16)",
+      "speaker": "Helen",
+      "evidence": [
+        "c10",
+        "c11"
+      ]
+    },
+    {
+      "id": "n10",
+      "targetId": "s13",
+      "kind": "correction",
+      "text": "First said the care start date is confirmed with the patient (00:03:20), then corrected to the family (00:03:26)",
+      "speaker": "Helen",
+      "evidence": [
+        "c25",
+        "c26"
+      ]
+    },
+    {
+      "id": "n11",
+      "targetId": null,
+      "kind": "correction",
+      "text": "Time on task first given as three or four hours (00:05:30), corrected to four or five (00:05:35)",
+      "speaker": "Helen",
+      "evidence": [
+        "c42",
+        "c43"
       ]
     }
   ]

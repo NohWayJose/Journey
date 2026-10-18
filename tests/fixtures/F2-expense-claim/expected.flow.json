@@ -15,13 +15,16 @@
   ],
   "startStepId": "s1",
   "steps": [
-    { "id": "s1", "actorId": "a1", "kind": "action", "label": "Photograph receipts", "description": null, "outcome": null, "returnToStepId": null, "frequency": null, "difficulty": null,
-      "attributes": [{ "name": "Tool", "value": "Phone camera", "evidence": ["c3"] }], "states": [], "metrics": { "timeOnTask": null, "attempts": null }, "evidence": ["c3"] },
+    { "id": "s1", "actorId": "a1", "kind": "action", "label": "Photograph receipts", "description": "Faded till receipts are scanned on the office printer instead", "outcome": null, "returnToStepId": null, "frequency": null, "difficulty": null,
+      "attributes": [
+        { "name": "Tool", "value": "Phone camera", "evidence": ["c3"] },
+        { "name": "Tool (faded receipts)", "value": "Office printer scanner", "evidence": ["c19"] }
+      ], "states": [], "metrics": { "timeOnTask": null, "attempts": null }, "evidence": ["c3", "c19"] },
     { "id": "s2", "actorId": "a1", "kind": "action", "label": "Fill in claim form and attach photos", "description": null, "outcome": null, "returnToStepId": null, "frequency": null,
       "difficulty": { "value": 3, "basis": "scale", "threshold": null, "text": "I'd give it a three. The cost codes are confusing.", "evidence": ["c5", "c6"] },
       "attributes": [{ "name": "Tool", "value": "Expenses app", "evidence": ["c4"] }], "states": [], "metrics": { "timeOnTask": null, "attempts": null }, "evidence": ["c4"] },
-    { "id": "s3", "actorId": "a2", "kind": "decision", "label": "Over £50?", "description": null, "outcome": null, "returnToStepId": null, "frequency": null, "difficulty": null,
-      "attributes": [], "states": [], "metrics": { "timeOnTask": null, "attempts": null }, "evidence": ["c9", "c10"] },
+    { "id": "s3", "actorId": "a2", "kind": "decision", "label": "Over £100?", "description": null, "outcome": null, "returnToStepId": null, "frequency": null, "difficulty": null,
+      "attributes": [], "states": [], "metrics": { "timeOnTask": null, "attempts": null }, "evidence": ["c9", "c10", "c18"] },
     { "id": "s4", "actorId": "a3", "kind": "action", "label": "Approve claim", "description": null, "outcome": null, "returnToStepId": null, "frequency": null, "difficulty": null,
       "attributes": [{ "name": "Tool", "value": "Expenses app", "evidence": ["c11"] }], "states": [],
       "metrics": { "timeOnTask": { "minutes": null, "text": "normally within a day or two", "evidence": ["c11"] }, "attempts": null }, "evidence": ["c11"] },
@@ -93,6 +96,7 @@
     "attempts": null
   },
   "annotations": [
-    { "id": "n1", "targetId": "s2", "kind": "opinion", "text": "The cost codes are confusing", "speaker": "Marcus Lee", "evidence": ["c6"] }
+    { "id": "n1", "targetId": "s2", "kind": "opinion", "text": "The cost codes are confusing", "speaker": "Marcus Lee", "evidence": ["c6"] },
+    { "id": "n2", "targetId": "s3", "kind": "correction", "text": "Approval threshold first given as £50 (00:01:15), corrected to £100 (00:02:28)", "speaker": "Marcus Lee", "evidence": ["c9", "c18"] }
   ]
 }

@@ -1,6 +1,9 @@
 WEBVTT
 
-NOTE F6: large flow. Ward nurse Helen (main speaker) and doctor Ravi (alternative views). 33 steps, 5 actors, 2 error flows (one returns or continues, one can end in failure). About 8 minutes of dialogue: the length target for PE-06 (60 minutes) needs a real transcript. Synthetic.
+NOTE F6: large, non-linear flow. Ward nurse Helen (main speaker) and doctor Ravi (alternative views).
+Jumps to the end (c5), jumps ahead and retracts (c10-c11), late error-flow detail prompted by the
+interviewer (c19-c20), late alternative view (c21), back-filled step (c29), corrections (c26, c43).
+33 steps, 5 actors, 2 error flows. About 6 minutes; the 60-minute target in PE-06 needs a real transcript. Synthetic.
 
 1
 00:00:00.000 --> 00:00:06.000
@@ -19,177 +22,162 @@ NOTE F6: large flow. Ward nurse Helen (main speaker) and doctor Ravi (alternativ
 <v Ravi>Hi. Yeah, I'll chip in on the medical side.</v>
 
 5
-00:00:31.000 --> 00:00:35.000
-<v Interviewer>How often do you do a discharge?</v>
+00:00:31.000 --> 00:00:43.000
+<v Helen>The bit everyone notices is the end, when I tell the bed manager the bed's free. They don't trust the system, so I tell them myself.</v>
 
 6
-00:00:35.000 --> 00:00:40.000
-<v Helen>Every day. Several a shift, usually.</v>
+00:00:43.000 --> 00:00:53.000
+<v Helen>But let me start at the beginning. It starts on the ward round. The consultant or Ravi decides the patient is medically fit to go.</v>
 
 7
-00:00:40.000 --> 00:00:50.000
-<v Helen>It starts on the ward round. The consultant or Ravi decides the patient is medically fit to go.</v>
-
-8
-00:00:50.000 --> 00:00:56.000
+00:00:53.000 --> 00:00:59.000
 <v Ravi>Then one of us writes the discharge summary on the system.</v>
 
+8
+00:00:59.000 --> 00:01:03.000
+<v Interviewer>How often do you do a discharge?</v>
+
 9
-00:00:56.000 --> 00:01:07.000
-<v Ravi>Actually, when I can, I decide the evening before and write the summary then, so it's ready first thing.</v>
+00:01:03.000 --> 00:01:08.000
+<v Helen>Every day. Several a shift, usually.</v>
 
 10
-00:01:07.000 --> 00:01:12.000
-<v Interviewer>How hard is the summary to write, on a scale of one to five?</v>
+00:01:08.000 --> 00:01:16.000
+<v Helen>Then I sit down with the patient and go through the discharge letter and every medicine.</v>
 
 11
-00:01:12.000 --> 00:01:18.000
-<v Ravi>A three. It's not hard, it's just time I don't have.</v>
+00:01:16.000 --> 00:01:28.000
+<v Helen>Sorry, no, that's later. First it's the medicines. If they've changed, the doctor writes the TTO, that's the to-take-out prescription.</v>
 
 12
-00:01:18.000 --> 00:01:28.000
-<v Helen>If their medicines have changed, the doctor writes the TTO, that's the to-take-out prescription.</v>
-
-13
 00:01:28.000 --> 00:01:35.000
 <v Helen>If nothing's changed, we just give them back their own medicines from the locker.</v>
 
-14
+13
 00:01:35.000 --> 00:01:44.000
 <v Helen>The TTO goes to pharmacy and they dispense it. That can take two to four hours.</v>
 
-15
+14
 00:01:44.000 --> 00:01:53.000
 <v Helen>Honestly, waiting for TTOs is the biggest hold-up. It happens most days, it drives me mad.</v>
 
-16
+15
 00:01:53.000 --> 00:01:58.000
 <v Helen>When it's late, I phone pharmacy to chase it.</v>
 
-17
-00:01:58.000 --> 00:02:08.000
-<v Helen>If they say it'll be ready within two hours, I carry on with everything else and check it when it comes up.</v>
-
-18
-00:02:08.000 --> 00:02:18.000
-<v Helen>If not, I walk down and collect it myself. I've done that loads of times, sometimes twice in a shift.</v>
-
-19
-00:02:18.000 --> 00:02:22.000
-<v Helen>Then I'm back to checking the medicines.</v>
-
-20
-00:02:22.000 --> 00:02:30.000
+16
+00:01:58.000 --> 00:02:06.000
 <v Helen>When the medicines arrive, I check them against the discharge summary, every item.</v>
 
-21
-00:02:30.000 --> 00:02:33.000
-<v Interviewer>What happens next?</v>
+17
+00:02:06.000 --> 00:02:18.000
+<v Helen>Then transport. If they need hospital transport, I book it on the transport portal, and transport confirm a pickup slot, usually by email.</v>
 
-22
-00:02:33.000 --> 00:02:43.000
-<v Helen>Then I think about how they're getting home. If they need hospital transport, I book it on the transport portal.</v>
-
-23
-00:02:43.000 --> 00:02:48.000
-<v Helen>Transport confirm a pickup slot, usually by email.</v>
-
-24
-00:02:48.000 --> 00:02:53.000
+18
+00:02:18.000 --> 00:02:23.000
 <v Helen>If family are collecting, I don't need to book anything.</v>
 
+19
+00:02:23.000 --> 00:02:29.000
+<v Interviewer>Going back to pharmacy, what if they can't get the TTO done in time?</v>
+
+20
+00:02:29.000 --> 00:02:47.000
+<v Helen>Oh, right. If they say it'll be ready within two hours, I carry on and check it when it comes up. If not, I walk down and collect it myself. I've done that loads of times, sometimes twice in a shift. Then I'm back to checking the medicines.</v>
+
+21
+00:02:47.000 --> 00:02:58.000
+<v Ravi>Can I add, on the summary: when I can, I decide the evening before and write it then, so it's ready first thing.</v>
+
+22
+00:02:58.000 --> 00:03:03.000
+<v Interviewer>How hard is the summary to write, on a scale of one to five?</v>
+
+23
+00:03:03.000 --> 00:03:09.000
+<v Ravi>A three. It's not hard, it's just time I don't have.</v>
+
+24
+00:03:09.000 --> 00:03:20.000
+<v Helen>Then, do they need a care package at home? If yes, I refer them to the community care team. That can add a day, easily.</v>
+
 25
-00:02:53.000 --> 00:03:02.000
-<v Helen>Then, do they need a care package at home? If yes, I refer them to the community care team.</v>
+00:03:20.000 --> 00:03:26.000
+<v Helen>Once they've agreed, I confirm the care start date with the patient.</v>
 
 26
-00:03:02.000 --> 00:03:12.000
-<v Helen>That can add a day, easily. Once they've agreed, I confirm the care start date with the family.</v>
+00:03:26.000 --> 00:03:34.000
+<v Helen>With the family, I mean, not the patient. The family sort out who's there on the first day.</v>
 
 27
-00:03:12.000 --> 00:03:16.000
+00:03:34.000 --> 00:03:38.000
 <v Helen>If they don't need care, I skip all that.</v>
 
 28
-00:03:16.000 --> 00:03:26.000
-<v Helen>Then I take out their cannula. Um, I always do that before the teaching, so they're not distracted by it.</v>
+00:03:38.000 --> 00:03:48.000
+<v Helen>Then the teaching: going through the letter and the medicines, like I said. The patient asks questions and I get them to tell it back to me.</v>
 
 29
-00:03:26.000 --> 00:03:34.000
-<v Helen>Then I sit down with the patient and go through the discharge letter and every medicine.</v>
+00:03:48.000 --> 00:03:58.000
+<v Helen>Oh, before that, I take out their cannula. Um, I always do that before the teaching, so they're not distracted by it.</v>
 
 30
-00:03:34.000 --> 00:03:42.000
+00:03:58.000 --> 00:04:06.000
 <v Ravi>I sometimes do the medicines talk myself if it's complicated, like a new anticoagulant.</v>
 
 31
-00:03:42.000 --> 00:03:51.000
-<v Helen>The patient asks questions and I check they've understood. I get them to tell it back to me.</v>
-
-32
-00:03:51.000 --> 00:04:02.000
+00:04:06.000 --> 00:04:17.000
 <v Helen>I give them a copy of the discharge letter. Um, and the GP gets it, er, electronically I think, the system sends it.</v>
 
+32
+00:04:17.000 --> 00:04:25.000
+<v Helen>Then, if transport's booked, the crew collect them from the ward. If not, family pick them up.</v>
+
 33
-00:04:02.000 --> 00:04:04.000
-<v Interviewer>And then?</v>
-
-34
-00:04:04.000 --> 00:04:11.000
-<v Helen>Then it depends. If transport's booked, the crew collect them from the ward.</v>
-
-35
-00:04:11.000 --> 00:04:14.000
-<v Helen>If not, family pick them up.</v>
-
-36
-00:04:14.000 --> 00:04:20.000
+00:04:25.000 --> 00:04:31.000
 <v Helen>Transport not turning up, that happens maybe once a week.</v>
 
-37
-00:04:20.000 --> 00:04:32.000
+34
+00:04:31.000 --> 00:04:43.000
 <v Helen>When it does, I ring the transport desk. I've got all their numbers on a sticky note on the station, the portal's useless for that.</v>
 
-38
-00:04:32.000 --> 00:04:40.000
+35
+00:04:43.000 --> 00:04:51.000
 <v Helen>Sometimes they can rebook for later that day and we carry on waiting for the crew.</v>
 
-39
-00:04:40.000 --> 00:04:46.000
-<v Helen>If they can't, I have to tell the patient they're staying another night.</v>
+36
+00:04:51.000 --> 00:05:03.000
+<v Helen>If they can't, I have to tell the patient they're staying another night. That happens a couple of times a month, and it breaks my heart every time.</v>
 
-40
-00:04:46.000 --> 00:04:54.000
-<v Helen>That happens a couple of times a month, and it breaks my heart every time.</v>
+37
+00:05:03.000 --> 00:05:11.000
+<v Helen>Once they've gone, I update the bed status on the system, and then I tell the bed manager, like I said.</v>
 
-41
-00:04:54.000 --> 00:05:00.000
-<v Helen>Once they've gone, I update the bed status on the system.</v>
-
-42
-00:05:00.000 --> 00:05:08.000
-<v Helen>And I tell the bed manager the bed's free, because they don't trust the system.</v>
-
-43
-00:05:08.000 --> 00:05:12.000
+38
+00:05:11.000 --> 00:05:15.000
 <v Helen>And that's them discharged home.</v>
 
-44
-00:05:12.000 --> 00:05:18.000
+39
+00:05:15.000 --> 00:05:21.000
 <v Interviewer>On a scale of one to five, how hard is the whole discharge for you?</v>
 
-45
-00:05:18.000 --> 00:05:22.000
+40
+00:05:21.000 --> 00:05:25.000
 <v Helen>A four. On a bad day a five.</v>
 
-46
-00:05:22.000 --> 00:05:27.000
+41
+00:05:25.000 --> 00:05:30.000
 <v Interviewer>And how long from medically fit to out the door?</v>
 
-47
-00:05:27.000 --> 00:05:32.000
-<v Helen>Four or five hours on a good day.</v>
+42
+00:05:30.000 --> 00:05:35.000
+<v Helen>Three or four hours on a good day.</v>
 
-48
-00:05:32.000 --> 00:05:40.000
+43
+00:05:35.000 --> 00:05:40.000
+<v Helen>No, be honest, Helen. Four or five hours on a good day.</v>
+
+44
+00:05:40.000 --> 00:05:48.000
 <v Ravi>From my side it's more like half an hour of actual work, spread across the day.</v>
+
