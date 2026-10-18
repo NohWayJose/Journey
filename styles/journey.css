@@ -1,0 +1,124 @@
+/*
+ * Journey default theme, based on the IBM Carbon Design System (v11).
+ *
+ * - Tokens use Carbon's names (--cds-*). Light values come from the White theme, dark
+ *   values from the Gray 100 theme. A Carbon-based corporate stylesheet can set the same
+ *   tokens to restyle every diagram.
+ * - Every selector is wrapped in :where() (zero specificity), so any rule in a corporate
+ *   stylesheet overrides this theme regardless of load order (D-017).
+ * - Hooks are documented in specs/30-design.md#styling.
+ */
+
+/* ---- Carbon tokens: White theme ------------------------------------------------ */
+:where(.pele) {
+  --cds-background: #ffffff;
+  --cds-layer-01: #f4f4f4;
+  --cds-layer-accent-01: #e0e0e0;
+  --cds-border-subtle-01: #c6c6c6;
+  --cds-border-strong-01: #8d8d8d;
+  --cds-border-interactive: #0f62fe;
+  --cds-text-primary: #161616;
+  --cds-text-secondary: #525252;
+  --cds-interactive: #0f62fe;
+  --cds-support-error: #da1e28;
+  --cds-support-success: #24a148;
+  --cds-support-warning: #f1c21b;
+  --cds-support-caution-major: #ff832b;
+  --cds-notification-background-error: #fff1f1;
+  --cds-notification-background-info: #edf5ff;
+  --cds-notification-background-warning: #fcf4d6;
+
+  /* Difficulty 1-5: diverging Carbon palette (green 20, green 10, gray 10, orange 10, red 20) */
+  --journey-difficulty-1: #a7f0ba;
+  --journey-difficulty-2: #defbe6;
+  --journey-difficulty-3: #f4f4f4;
+  --journey-difficulty-4: #fff2e8;
+  --journey-difficulty-5: #ffd7d9;
+
+  --journey-font: 'IBM Plex Sans', 'Helvetica Neue', Arial, sans-serif;
+}
+
+/* ---- Carbon tokens: Gray 100 theme (dark) -------------------------------------- */
+@media (prefers-color-scheme: dark) {
+  :where(.pele) {
+    --cds-background: #161616;
+    --cds-layer-01: #262626;
+    --cds-layer-accent-01: #393939;
+    --cds-border-subtle-01: #393939;
+    --cds-border-strong-01: #6f6f6f;
+    --cds-border-interactive: #4589ff;
+    --cds-text-primary: #f4f4f4;
+    --cds-text-secondary: #c6c6c6;
+    --cds-interactive: #4589ff;
+    --cds-support-error: #fa4d56;
+    --cds-support-success: #42be65;
+    --cds-support-warning: #f1c21b;
+    --cds-support-caution-major: #ff832b;
+    --cds-notification-background-error: #2d0709;
+    --cds-notification-background-info: #001d6c;
+    --cds-notification-background-warning: #302400;
+
+    --journey-difficulty-1: #044317;
+    --journey-difficulty-2: #022d0d;
+    --journey-difficulty-3: #262626;
+    --journey-difficulty-4: #5e2900;
+    --journey-difficulty-5: #750e13;
+  }
+}
+
+/* ---- Map Carbon tokens onto pele's theme variables ----------------------------- */
+:where(.pele) {
+  --pele-bg: var(--cds-background);
+  --pele-fg: var(--cds-text-primary);
+  --pele-muted: var(--cds-text-secondary);
+  --pele-line: var(--cds-text-secondary);
+  --pele-surface: var(--cds-layer-01);
+  --pele-surface-alt: var(--cds-layer-accent-01);
+  --pele-border: var(--cds-border-strong-01);
+  --pele-accent: var(--cds-interactive);
+  --pele-font: var(--journey-font);
+  --pele-radius: 0; /* Carbon uses square corners */
+  background: var(--cds-background);
+}
+
+/* Lanes */
+:where(.pele .pele-lane) > :is(rect, path) { stroke: var(--cds-border-subtle-01); }
+:where(.pele .pele-cluster-label) { fill: var(--cds-text-secondary); }
+
+/* ---- Nodes ------------------------------------------------------------------- */
+/* Fill goes on the first shape only (a double circle's inner ring stays unfilled). Shapes may sit inside an <a> when the node links to another diagram. */
+:where(.pele-node.difficulty-1) :is(rect, polygon, circle):first-of-type { fill: var(--journey-difficulty-1); }
+:where(.pele-node.difficulty-2) :is(rect, polygon, circle):first-of-type { fill: var(--journey-difficulty-2); }
+:where(.pele-node.difficulty-3) :is(rect, polygon, circle):first-of-type { fill: var(--journey-difficulty-3); }
+:where(.pele-node.difficulty-4) :is(rect, polygon, circle):first-of-type { fill: var(--journey-difficulty-4); }
+:where(.pele-node.difficulty-5) :is(rect, polygon, circle):first-of-type { fill: var(--journey-difficulty-5); stroke-width: 2px; }
+
+/* Frustration (threshold: above) - orange border, distinguishable without colour by width */
+:where(.pele-node.frustration) :is(rect, polygon, circle) { stroke: var(--cds-support-caution-major); stroke-width: 3px; }
+
+/* Outcomes */
+:where(.pele-node.outcome-success) :is(rect, polygon, circle) { stroke: var(--cds-support-success); stroke-width: 2px; }
+:where(.pele-node.outcome-failure) :is(rect, polygon, circle) { stroke: var(--cds-support-error); stroke-width: 2px; }
+:where(.pele-node.outcome-abandonment) :is(rect, polygon, circle) { stroke: var(--cds-border-strong-01); stroke-width: 2px; stroke-dasharray: 4 3; }
+
+/* Error connectors: link-out / entry (hexagon) and return / re-entry (double circle) - D-013 */
+:where(.pele-node.errOut) :is(rect, polygon, circle) { stroke: var(--cds-support-error); stroke-width: 2px; }
+:where(.pele-node.errOut) :is(rect, polygon, circle):first-of-type { fill: var(--cds-notification-background-error); }
+:where(.pele-node.errRet) :is(rect, polygon, circle) { stroke: var(--cds-support-error); stroke-width: 2px; }
+:where(.pele-node.errRet) :is(rect, polygon, circle):first-of-type { fill: var(--cds-background); }
+
+/* Annotations and task summary */
+:where(.pele-node.annotation) :is(rect, polygon, circle):first-of-type { fill: var(--cds-notification-background-warning); stroke: var(--cds-support-warning); }
+:where(.pele-node.summary) :is(rect, polygon, circle):first-of-type { fill: var(--cds-notification-background-info); stroke: var(--cds-border-interactive); }
+
+/* Links between diagrams */
+:where(.pele a) { cursor: pointer; }
+:where(.pele a:hover .pele-node) :is(rect, polygon, circle):first-of-type { stroke-width: 3px; }
+
+/* ---- Edges ------------------------------------------------------------------- */
+/* Error edges: every edge touching an error connector (node IDs starting x_) */
+:where(.pele-edge[data-id*="_x_"]) > path:not(.pele-marker) { stroke: var(--cds-support-error); stroke-width: 1.5px; }
+:where(.pele-edge[data-id*="_x_"]) > .pele-marker { fill: var(--cds-support-error); }
+
+/* Annotation edges (annotation node IDs start a_) */
+:where(.pele-edge[data-id^="L_a_"]) > path:not(.pele-marker) { stroke: var(--cds-support-warning); }

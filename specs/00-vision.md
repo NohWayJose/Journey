@@ -219,4 +219,4 @@ None at present.
 
 ## Decisions
 
-See [decisions.md](decisions.md) (D-001 to D-016).
+See [decisions.md](decisions.md) (D-001 to D-018).

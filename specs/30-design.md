@@ -194,6 +194,67 @@ JSON Schema can't express everything. After schema validation, the API checks:
 | DS-21 | Every error flow has at least one trigger, and every trigger's `fromStepId` is a main-flow step |
 | DS-22 | Transitions connect steps within the same flow (main-to-error links happen only through triggers and returns) |
 
+## Compiling to diagrams
+
+`compileTaskFlow(flow, cues, options)` turns a Task Flow Model into Mermaid text: one
+diagram for the main flow and one per error flow. `renderTaskFlow` passes each to pele
+and returns the SVGs with their [file names](#output-files). Compilation is deterministic
+and never calls Claude (D-006).
+
+| ID | Rule |
+|---|---|
+| CM-01 | Diagrams use `swimlane-beta` (direction `LR` by default). The title is set with front matter; error diagrams are titled *<task> — Error flow <id>: <title>* |
+| CM-02 | One lane per actor with at least one node in that diagram, in `actors` order. **Every node is declared inside a lane**, including connectors and annotations (they take the lane of the step they attach to). The main diagram ends with a `Task` lane holding a summary node (goal, task frequency and difficulty, time on task, attempts) and task-level annotations |
+| CM-03 | Node IDs are the model IDs with a prefix (`n_s1`, `x_out_E1_1`, …), so reserved words like `end` can never clash |
+| CM-04 | Shapes: action = rectangle; decision = diamond; outcome = stadium; annotation = flag; error link-out/entry = hexagon; error return/re-entry = double circle (D-013) |
+| CM-05 | Node text: the label, then (detail `full`, the default) one short line per property: frequency and difficulty as *Label (value)*, `*` if inferred, the quote if text-only; attributes as *name: value*; states as *name: value (state)*; *Time:* and *Attempts:*. Text wrapping is left to pele. Detail `summary` shows only the label and measures |
+| CM-06 | A measure with `threshold: above` adds **▲** to its line and the `frustration` class to its node. `below` is not shown |
+| CM-07 | Difficulty values 1–5 set classes `difficulty-1` … `difficulty-5`. Outcomes set `outcome-success`, `outcome-failure` or `outcome-abandonment`. Error connectors set `errOut` / `errRet`; annotations `annotation`; the task summary `summary`. **The Mermaid text contains class names only, never colours or line styles** (see [Styling](#styling)) |
+| CM-08 | Error links follow the [visual standard](#visual-standard-for-error-links): link-out hexagon per trigger, in the trigger step's lane, dashed red edge from the step, linking to the error diagram; re-entry double circle per (error flow, target step), dashed red edge into the target, linking to the error diagram; on the error diagram, an entry hexagon per trigger into its start step, and each return step drawn as a return double circle; both link to the main diagram |
+| CM-09 | Annotations are flags joined to their target by an undirected dotted line, prefixed by kind (*Note*, *Hesitation*, *Workaround*, *Opinion*, *Quote*, *Alternative view*, *Correction*). Alternative views and corrections show the speaker and the timestamp of their first cue. An annotation on a transition attaches to its source step; on an error flow, to its link-out (main) and entry (error diagram) |
+| CM-10 | All model text is escaped with Mermaid entity codes (`#quot;`, `#lt;`, `#gt;`, `#amp;`, `#35;`), so text appears exactly as written and can't inject markup or syntax |
+| CM-11 | Decision branches are labelled with their `condition` (`-->\|"…"\|`) |
+
+### Styling
+
+All visual styling comes from **CSS**, so one corporate stylesheet can style every
+diagram the tool produces (D-017).
+
+- **Semantic hooks only.** The compiler attaches class names (CM-07); it never emits
+  `classDef`, `style` or `linkStyle`, which pele would turn into inline styles that a
+  stylesheet can't override.
+- **What a stylesheet can target:**
+
+  | Target | Selector |
+  |---|---|
+  | Colours and fonts for everything | `--pele-*` variables on `.pele` (e.g. `--pele-bg`, `--pele-fg`, `--pele-border`, `--pele-accent`, `--pele-font`) |
+  | Node types | `.pele-node.difficulty-1` … `.difficulty-5`, `.frustration`, `.outcome-success` / `-failure` / `-abandonment`, `.errOut`, `.errRet`, `.annotation`, `.summary` |
+  | Node shapes | `.pele-shape-*` (e.g. `.pele-shape-hexagon`) |
+  | Error edges | `.pele-edge[data-id*="_x_"]` (every edge touching an error connector) |
+  | Annotation edges | `.pele-edge[data-id^="L_a_"]` |
+
+- **Default theme:** [`styles/journey.css`](../styles/journey.css), based on IBM Carbon (D-018), implements the
+  [visual standard](#visual-standard-for-error-links). It uses `:where()` selectors
+  (zero specificity), so any corporate rule overrides it regardless of load order.
+- **Attaching stylesheets** (`renderTaskFlow` options):
+
+  | Option | Output | Use |
+  |---|---|---|
+  | `stylesheets.embed` (default: the default theme) | `<style>` inside each SVG | Self-contained files (PT-14) |
+  | `stylesheets.link` (hrefs) | `<?xml-stylesheet href="…"?>` before the `<svg>` | One shared corporate stylesheet across all output |
+  | `defaultTheme: false` | Default theme left out | Corporate stylesheet takes over entirely |
+
+  When an SVG is embedded inline in a web page, the page's own stylesheets also apply.
+- **Dependency on pele's markup:** edge selectors rely on pele's `data-id` format for
+  edges. That is recorded as a replaceability risk under PT-13.
+
+| ID | Rule |
+|---|---|
+| ST-01 | Compiled Mermaid never contains `classDef`, `style` or `linkStyle` |
+| ST-02 | The default theme is embedded unless `defaultTheme: false`; extra embedded stylesheets come after it |
+| ST-03 | Linked stylesheets appear as `<?xml-stylesheet?>` processing instructions before the `<svg>`, in the order given |
+| ST-04 | Any corporate rule overrides the default theme, whatever its specificity or load order (default selectors are all `:where()`) |
+
 ## VTT parsing
 
 The parser turns a WebVTT file into cues: `{ id, startMs, endMs, speaker, text }`.
@@ -214,7 +275,10 @@ The parser turns a WebVTT file into cues: `{ id, startMs, endMs, speaker, text }
 | Path | Contents |
 |---|---|
 | `src/vtt/` | VTT parser (VT-xx) |
-| `src/model/` | Task Flow Model validation: schema (Ajv) and semantic rules (DS-xx) |
+| `src/model/` | Task Flow Model validation: schema (Ajv) and semantic rules (DS-xx); Likert scales |
+| `src/render/` | Compiler to Mermaid (CM-xx) and renderer (pele + stylesheets, ST-xx). The only code that uses pele |
+| `styles/journey.css` | Default Carbon-based theme |
+| `scripts/render-fixtures.mjs` | Renders all fixtures to `out/fixtures/` (git-ignored) for visual review, optionally with light/dark screenshots |
 | `tests/fixtures/<ID>-<name>/` | `transcript.vtt` and `expected.flow.json` (the `flow` part only: what a perfect extraction would return) |
 
 ## API (initial notes)

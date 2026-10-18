@@ -128,20 +128,20 @@ At current `claude-opus-5-5` prices ($4 / $20 per million tokens) that is roughl
 
 | ID | Result | Date | Notes |
 |---|---|---|---|
-| PT-01 | Pending | | Initial look favours `swimlane-beta` |
-| PT-02 | Pending | | Unassigned nodes form an unlabelled lane |
-| PT-03 | Pending | | |
-| PT-04 | Pending | | Multi-line + italics work |
-| PT-05 | Pending | | |
-| PT-06 | Pending | | |
-| PT-07 | Pending | | |
-| PT-08 | Pending | | |
-| PT-09 | Pending | | |
-| PT-10 | Pending | | |
-| PT-11 | Pending | | |
-| PT-12 | Pending | | |
-| PT-13 | Pending | | |
-| PT-14 | Pending | | Renders correctly without pele CSS in Firefox |
-| PT-15 | Pending | | Shapes, red dashed edges and relative links work; connectors land in the declared lane, not the step's lane, so the compiler must place them |
-| PT-16 | Pending | | |
+| PT-01 | Awaiting review | 2026-10-18 | Compiler uses `swimlane-beta`; all fixtures render (`npm run render:fixtures -- --screenshots`, output in `out/fixtures/`). Reviewer to confirm against `flowchart` |
+| PT-02 | **Pass** | 2026-10-18 | Automated: every node in every fixture diagram is declared in a lane; pele parses all output |
+| PT-03 | Awaiting review | 2026-10-18 | Branch labels sit beside their edges in F2, F7, F8; some long edges cross lanes in F6 |
+| PT-04 | **Pass** | 2026-10-18 | Automated: Likert label + value, `*` for inferred, quotes for text-only, attributes, states, time, attempts |
+| PT-05 | Awaiting review | 2026-10-18 | Outcome classes automated (success/failure/abandonment borders); outcome frequency shown in node |
+| PT-06 | Awaiting review | 2026-10-18 | Flags sit in the target's lane joined by a dotted line; in F6 they add noticeable bulk |
+| PT-07 | Not started | | Cue references are not yet carried into the SVG |
+| PT-08 | Partial | 2026-10-18 | F6 renders in < 10 ms (automated < 1 s). Legibility at 33 steps needs review: LR layout is very wide; options are TB direction, `detail: 'summary'`, or hiding annotation kinds |
+| PT-09 | Awaiting review | 2026-10-18 | Carbon theme (White / Gray 100) via CSS (D-017, D-018); difficulty fill 1–5, frustration = orange 3px border + ▲, outcomes by border colour and dash; values also in text. Light and dark screenshots generated |
+| PT-10 | **Pass** | 2026-10-18 | Automated: every F7 label, condition, annotation and the title render exactly as written |
+| PT-11 | **Pass** | 2026-10-18 | Automated: repeated renders of F6 are byte-identical |
+| PT-12 | Not started | | |
+| PT-13 | Partial | 2026-10-18 | pele used only in `src/render/render.js`. Risk: edge styling relies on pele's edge `data-id` format |
+| PT-14 | Partial | 2026-10-18 | Firefox (automated): standalone file gets the Carbon theme with no external CSS. Chrome and Inkscape not yet checked |
+| PT-15 | **Pass** | 2026-10-18 | Automated: link-out/entry hexagons and return/re-entry double circles, in the right lanes, with relative links both ways. Visually confirmed in F2 |
+| PT-16 | **Pass** | 2026-10-18 | Automated: `above` shows ▲ and the `frustration` class; `below` shows nothing |
 | PE-01 to PE-08 | Pending | | Schema and fixtures ready; needs API credentials |
