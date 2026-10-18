@@ -1,0 +1,253 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://journey.local/schemas/task-flow.schema.json",
+  "title": "Task Flow Document",
+  "description": "A task flow extracted from a WebVTT transcript. `flow` is what Claude produces (see $defs/flow, used as the structured-output schema); everything else is added by the API.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "source", "extraction", "cues", "flow"],
+  "properties": {
+    "schemaVersion": { "const": "0.1.0" },
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["fileName", "sha256", "cueCount", "durationMs"],
+      "properties": {
+        "fileName": { "type": "string" },
+        "sha256": { "type": "string" },
+        "cueCount": { "type": "integer" },
+        "durationMs": { "type": "integer" }
+      }
+    },
+    "extraction": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["model", "createdAt", "options"],
+      "properties": {
+        "model": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "options": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["mainSpeaker", "interviewers"],
+          "properties": {
+            "mainSpeaker": { "anyOf": [{ "type": "string" }, { "type": "null" }] },
+            "interviewers": { "type": "array", "items": { "type": "string" } }
+          }
+        }
+      }
+    },
+    "cues": {
+      "description": "Timing index for every cue, so evidence can be resolved to timestamps without the VTT. Text is deliberately not stored.",
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "startMs", "endMs", "speaker"],
+        "properties": {
+          "id": { "type": "string" },
+          "startMs": { "type": "integer" },
+          "endMs": { "type": "integer" },
+          "speaker": { "anyOf": [{ "type": "string" }, { "type": "null" }] }
+        }
+      }
+    },
+    "flow": { "$ref": "#/$defs/flow" }
+  },
+  "$defs": {
+    "evidence": {
+      "description": "IDs of the transcript cues that support this element. Must not be empty.",
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "likert": {
+      "description": "5-point Likert value. Labels are derived from the value by measure type, not stored.",
+      "anyOf": [{ "enum": [1, 2, 3, 4, 5] }, { "type": "null" }]
+    },
+    "measure": {
+      "description": "A frequency or difficulty measure. `basis`: scale = participant gave a scale value (spontaneously or when asked); inferred = value mapped from free text by the extractor; text = free text only, no value.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["value", "basis", "text", "evidence"],
+      "properties": {
+        "value": { "$ref": "#/$defs/likert" },
+        "basis": { "enum": ["scale", "inferred", "text"] },
+        "text": { "anyOf": [{ "type": "string" }, { "type": "null" }] },
+        "evidence": { "$ref": "#/$defs/evidence" }
+      }
+    },
+    "duration": {
+      "description": "Time as described by the participant, not measured from the recording.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["minutes", "text", "evidence"],
+      "properties": {
+        "minutes": { "anyOf": [{ "type": "number" }, { "type": "null" }] },
+        "text": { "type": "string" },
+        "evidence": { "$ref": "#/$defs/evidence" }
+      }
+    },
+    "attempts": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["count", "text", "evidence"],
+      "properties": {
+        "count": { "anyOf": [{ "type": "number" }, { "type": "null" }] },
+        "text": { "type": "string" },
+        "evidence": { "$ref": "#/$defs/evidence" }
+      }
+    },
+    "metrics": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["timeOnTask", "attempts"],
+      "properties": {
+        "timeOnTask": { "anyOf": [{ "$ref": "#/$defs/duration" }, { "type": "null" }] },
+        "attempts": { "anyOf": [{ "$ref": "#/$defs/attempts" }, { "type": "null" }] }
+      }
+    },
+    "namedValue": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "value", "evidence"],
+      "properties": {
+        "name": { "type": "string" },
+        "value": { "type": "string" },
+        "evidence": { "$ref": "#/$defs/evidence" }
+      }
+    },
+    "participant": {
+      "description": "A VTT speaker label and how it was interpreted.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["speakerLabel", "role", "isMainSpeaker", "sharedConnection", "people"],
+      "properties": {
+        "speakerLabel": { "type": "string" },
+        "role": { "enum": ["interviewer", "participant", "other"] },
+        "isMainSpeaker": { "type": "boolean" },
+        "sharedConnection": { "type": "boolean" },
+        "people": {
+          "description": "Names or descriptions of people speaking under this label, when distinguishable.",
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      }
+    },
+    "actor": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "name", "kind", "speakerLabels", "evidence"],
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "kind": { "enum": ["person", "role", "team", "system", "organisation"] },
+        "speakerLabels": {
+          "description": "VTT speaker labels that are this actor. Empty for actors who are only talked about.",
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "evidence": { "$ref": "#/$defs/evidence" }
+      }
+    },
+    "step": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "actorId", "kind", "label", "description", "outcome", "errorRecovery", "frequency", "difficulty", "attributes", "states", "metrics", "evidence"],
+      "properties": {
+        "id": { "type": "string" },
+        "actorId": { "type": "string" },
+        "kind": {
+          "description": "action = something an actor does; decision = a point where the path depends on a condition (label is the question); outcome = how the task ends.",
+          "enum": ["action", "decision", "outcome"]
+        },
+        "label": { "type": "string" },
+        "description": { "anyOf": [{ "type": "string" }, { "type": "null" }] },
+        "outcome": {
+          "description": "Required when kind is outcome, otherwise null.",
+          "anyOf": [{ "enum": ["success", "failure", "abandonment"] }, { "type": "null" }]
+        },
+        "errorRecovery": {
+          "description": "error = something goes wrong at this step; recovery = this step puts it right.",
+          "enum": ["none", "error", "recovery"]
+        },
+        "frequency": { "anyOf": [{ "$ref": "#/$defs/measure" }, { "type": "null" }] },
+        "difficulty": { "anyOf": [{ "$ref": "#/$defs/measure" }, { "type": "null" }] },
+        "attributes": {
+          "description": "Other properties of the step (e.g. tool used: spreadsheet).",
+          "type": "array",
+          "items": { "$ref": "#/$defs/namedValue" }
+        },
+        "states": {
+          "description": "States of things at this step (e.g. order: on hold).",
+          "type": "array",
+          "items": { "$ref": "#/$defs/namedValue" }
+        },
+        "metrics": { "$ref": "#/$defs/metrics" },
+        "evidence": { "$ref": "#/$defs/evidence" }
+      }
+    },
+    "transition": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "from", "to", "condition", "kind", "evidence"],
+      "properties": {
+        "id": { "type": "string" },
+        "from": { "type": "string" },
+        "to": { "type": "string" },
+        "condition": {
+          "description": "Branch label. Required on transitions leaving a decision, otherwise usually null.",
+          "anyOf": [{ "type": "string" }, { "type": "null" }]
+        },
+        "kind": {
+          "description": "retry = loops back after an error.",
+          "enum": ["normal", "retry"]
+        },
+        "evidence": { "$ref": "#/$defs/evidence" }
+      }
+    },
+    "annotation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "targetId", "kind", "text", "speaker", "evidence"],
+      "properties": {
+        "id": { "type": "string" },
+        "targetId": {
+          "description": "ID of the step, transition or actor this note is about; null for the whole task.",
+          "anyOf": [{ "type": "string" }, { "type": "null" }]
+        },
+        "kind": {
+          "description": "alternativeView = a participant's different approach or view (D-004).",
+          "enum": ["note", "hesitation", "workaround", "opinion", "quote", "alternativeView"]
+        },
+        "text": { "type": "string" },
+        "speaker": { "anyOf": [{ "type": "string" }, { "type": "null" }] },
+        "evidence": { "$ref": "#/$defs/evidence" }
+      }
+    },
+    "flow": {
+      "description": "The task flow as extracted by Claude. Used as the structured-output schema.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["title", "goal", "participants", "actors", "startStepId", "steps", "transitions", "metrics", "annotations"],
+      "properties": {
+        "title": { "type": "string" },
+        "goal": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["text", "evidence"],
+          "properties": {
+            "text": { "type": "string" },
+            "evidence": { "$ref": "#/$defs/evidence" }
+          }
+        },
+        "participants": { "type": "array", "items": { "$ref": "#/$defs/participant" } },
+        "actors": { "type": "array", "items": { "$ref": "#/$defs/actor" } },
+        "startStepId": { "type": "string" },
+        "steps": { "type": "array", "items": { "$ref": "#/$defs/step" } },
+        "transitions": { "type": "array", "items": { "$ref": "#/$defs/transition" } },
+        "metrics": { "$ref": "#/$defs/metrics" },
+        "annotations": { "type": "array", "items": { "$ref": "#/$defs/annotation" } }
+      }
+    }
+  }
+}
