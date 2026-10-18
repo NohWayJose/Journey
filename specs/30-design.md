@@ -180,6 +180,29 @@ JSON Schema can't express everything. After schema validation, the API checks:
 | DS-21 | Every error flow has at least one trigger, and every trigger's `fromStepId` is a main-flow step |
 | DS-22 | Transitions connect steps within the same flow (main-to-error links happen only through triggers and returns) |
 
+## VTT parsing
+
+The parser turns a WebVTT file into cues: `{ id, startMs, endMs, speaker, text }`.
+
+| ID | Rule |
+|---|---|
+| VT-01 | The file must start with `WEBVTT` (an optional BOM is allowed); otherwise it's rejected |
+| VT-02 | A cue is an optional identifier line, a timing line `start --> end` (`hh:mm:ss.mmm` or `mm:ss.mmm`, optional cue settings after), then text lines up to a blank line. CRLF and LF line endings are both accepted |
+| VT-03 | `NOTE`, `STYLE` and `REGION` blocks are ignored |
+| VT-04 | The speaker is taken from the first voice tag (`<v Name>` or `<v.class Name>`). If there is none and the text starts with `Name: ` (Zoom style; name up to 40 characters, no digits-only names), that prefix is the speaker and is removed from the text. Otherwise the speaker is `null` |
+| VT-05 | All other tags are removed (`<c>`, `<i>`, `<b>`, `<u>`, `<lang>`, `<ruby>`, inline timestamps) and entities decoded (`&amp;` `&lt;` `&gt;` `&nbsp;` `&lrm;` `&rlm;`). Text lines are joined with a space |
+| VT-06 | Cues get IDs `c1`, `c2`, … in file order, ignoring the file's own identifiers. Cues whose text is empty after VT-05 are dropped before numbering |
+| VT-07 | A malformed timing line, or an end time before its start time, is an error that reports the line number |
+| VT-08 | Duration is the latest cue end time |
+
+## Code layout
+
+| Path | Contents |
+|---|---|
+| `src/vtt/` | VTT parser (VT-xx) |
+| `src/model/` | Task Flow Model validation: schema (Ajv) and semantic rules (DS-xx) |
+| `tests/fixtures/<ID>-<name>/` | `transcript.vtt` and `expected.flow.json` (the `flow` part only: what a perfect extraction would return) |
+
 ## API (initial notes)
 
 The OpenAPI contract comes later (`20-requirements.md`, then `openapi.yaml`). Settled so far:
