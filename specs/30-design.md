@@ -308,6 +308,10 @@ The parser turns a WebVTT file into cues: `{ id, startMs, endMs, speaker, text }
 |---|---|
 | `src/vtt/` | VTT parser (VT-xx) |
 | `src/model/` | Task Flow Model validation: schema (Ajv) and semantic rules (DS-xx); Likert scales |
+| `src/extract/` | Shared extraction instructions and transcript formatting (EX-xx) |
+| `src/api/` | The API: canonical operations called by every adapter (D-001) |
+| `src/llm/` | Model provider layer (LL-xx); the only code that uses a provider SDK |
+| `src/adapters/mcp/` | MCP adapter (MC-xx); setup in `docs/mcp.md` |
 | `src/render/` | Compiler to Mermaid (CM-xx) and renderer (pele + stylesheets, ST-xx). The only code that uses pele |
 | `styles/journey.css` | Default Carbon-based theme |
 | `scripts/render-fixtures.mjs` | Renders all fixtures to `out/fixtures/` (git-ignored) for visual review, optionally with light/dark screenshots |

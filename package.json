@@ -9,7 +9,8 @@
     "test:e2e": "playwright test --project=e2e",
     "test:ui": "playwright test --ui",
     "test:report": "playwright show-report",
-    "render:fixtures": "node scripts/render-fixtures.mjs"
+    "render:fixtures": "node scripts/render-fixtures.mjs",
+    "mcp": "node src/adapters/mcp/server.js"
   },
   "keywords": [],
   "author": "",
@@ -17,12 +18,17 @@
   "type": "module",
   "dependencies": {
     "@anthropic-ai/sdk": "0.135.0",
+    "@modelcontextprotocol/sdk": "1.32.1",
     "ajv": "8.20.0",
     "ajv-formats": "3.0.1",
-    "pele": "1.6.0"
+    "pele": "1.6.0",
+    "zod": "4.6.7"
   },
   "private": true,
   "devDependencies": {
     "@playwright/test": "1.64.1"
+  },
+  "bin": {
+    "journey-mcp": "src/adapters/mcp/server.js"
   }
 }
