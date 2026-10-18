@@ -1,5 +1,28 @@
 # Journey
 
+## MCP adapter — quick start for a new session
+
+The MCP server is configured in **`.bob/mcp.json`** and loads automatically when Bob opens
+this folder. The tools (`get_extraction_instructions`, `parse_vtt`, `validate_task_flow`,
+`save_task_flow`, `render_task_flow`, `get_source_path`) are described in `docs/mcp.md`.
+
+**Before using the tools on a new machine**, update the absolute paths in `.bob/mcp.json`
+to match the local checkout (both the `args` path to `server.js` and `JOURNEY_ALLOWED_DIRS`).
+
+### Workflow to extract and render a task flow from a VTT
+
+1. Call `get_extraction_instructions` and `parse_vtt` in parallel.
+2. Build the Task Flow Model JSON from the cues, ordering steps by when they happen in the
+   task (not when mentioned). Handle self-corrections, loops and error flows per the rules.
+3. Call `validate_task_flow`; fix every reported error before continuing.
+4. Call `save_task_flow` (output to `out/<name>.flow.json`).
+5. Call `render_task_flow` (output SVGs to `out/<name>/`).
+
+Test fixtures are in `tests/fixtures/` (subdirectories F1–F9). Each has a `transcript.vtt`
+and an `expected.flow.json` to validate against. F8-vat-return-nonlinear has been extracted
+successfully with this workflow and its output is in `out/`.
+
+
 Turns WebVTT interview transcripts into SVG task-flow diagrams: Claude extracts a Task Flow
 Model (JSON), which is compiled to Mermaid and rendered with pele.
 
