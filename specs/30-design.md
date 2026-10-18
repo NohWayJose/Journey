@@ -313,6 +313,78 @@ The parser turns a WebVTT file into cues: `{ id, startMs, endMs, speaker, text }
 | `scripts/render-fixtures.mjs` | Renders all fixtures to `out/fixtures/` (git-ignored) for visual review, optionally with light/dark screenshots |
 | `tests/fixtures/<ID>-<name>/` | `transcript.vtt` and `expected.flow.json` (the `flow` part only: what a perfect extraction would return) |
 
+## Aggregation (phase 2, initial design)
+
+See the [vision](00-vision.md#aggregating-interviews-phase-2) for the purpose and
+definitions. This section will become detailed rules when phase 2 starts.
+
+### Aggregate Model (outline)
+
+| Part | Produced by | Contents |
+|---|---|---|
+| `study` | API | Study name, the interviews (VTT path, SHA-256, Task Flow Model reference), options (thresholds), attribute file path |
+| `canonicalSteps` | **Claude** (align) | `{ id, label, kind, members: [{ interviewId, stepId }] }`. Error flows and loops are aligned the same way (`canonicalErrorFlows`, `canonicalLoops`) |
+| `paths` | Code | Per interview: its main-speaker flow as canonical steps and transitions |
+| `groups` | Code (+ Claude names) | `{ id, kind: common \| variant \| outlier, interviews, distinctiveSteps, distinctiveTransitions, name, description }` |
+| `support` | Code | Per canonical step and transition: interviews containing it, count, percentage |
+| `measures` | Code | Per canonical step: median difficulty and frequency (scale values only; inferred ones counted separately), frustration count, error-flow and loop occurrence |
+| `attributePatterns` | Code | Per group: attribute values over-represented relative to the study (count in group vs count in study) |
+| `alternativeViews` | Code | Within-interview alternative views mapped to canonical steps (reported, not counted as paths, D-021) |
+
+Every canonical element keeps its `members`, so any figure can be traced to interviews,
+their steps and, through them, the transcript cues.
+
+### Alignment (Claude)
+
+- Input: every interview's Task Flow Model (labels, descriptions, actors, order), **not**
+  the transcripts, so the request stays small even for large studies, and **not**
+  participant attributes (D-023).
+- Output (structured output): canonical steps and the mapping of each interview step to one
+  canonical step. A step that matches nothing becomes its own canonical step with a single
+  member, which is how outliers' unusual steps survive.
+- Validated like the Task Flow Model: every interview step mapped exactly once, members
+  refer to existing steps, canonical labels unique.
+
+### Grouping (code)
+
+- Each path is reduced to a set of canonical transitions (plus step presence).
+- Similarity between interviews: candidates to evaluate in PoT Part C are Jaccard
+  similarity on transitions, and sequence alignment of ordered steps.
+- Groups: hierarchical clustering with a cut-off, then the thresholds (D-022) decide
+  common / significant variant / outlier. The **common flow** is the set of steps and
+  transitions with support ≥ 60%, regardless of group.
+- Deterministic: same input, same groups (ties broken by interview order).
+
+### Participant attributes CSV
+
+```csv
+file,role,site,experience
+interview-01.vtt,Night shift,Leeds,5+ years
+interview-02.vtt,Day shift,York,1-2 years
+```
+
+- Header row required; first column `file` matches the VTT file name; any number of
+  attribute columns; empty cells mean unknown.
+- An attribute value is reported for a group when it is over-represented, e.g.
+  *5 of 6 in Variant A vs 8 of 24 in the study*. Descriptive only.
+
+### Caching and incremental runs
+
+Each interview's Task Flow Model is cached, keyed by the VTT's SHA-256, the model and the
+schema version. Adding an interview extracts only that interview; alignment and grouping
+are re-run over all models (cheap: they work on models, not transcripts).
+
+### Output files
+
+All in one directory (as with error flows): `<study>.svg` (aggregate), one
+`<interview>.svg` per interview (plus its `<interview>.error-<id>.svg`), linked both ways.
+
+### API
+
+| Operation | Purpose |
+|---|---|
+| `aggregate` (e.g. `POST /studies/{studyId}/aggregate`) | Input: VTT paths (or existing Task Flow Documents), optional attribute CSV path, thresholds. Output: Aggregate Model + diagrams |
+
 ## API (initial notes)
 
 The OpenAPI contract comes later (`20-requirements.md`, then `openapi.yaml`). Settled so far:

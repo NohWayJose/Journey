@@ -16,11 +16,16 @@ Give the tool a WebVTT transcript of someone describing a task and get back an S
 diagram that a researcher would recognise as a faithful picture of what was said, with
 every element traceable to the moment in the transcript it came from.
 
+Then give it **many** interviews about the same task and get back an aggregate diagram that
+shows whether there is a **common way** of doing the task, which **different ways** are
+shared by significant sub-groups, and which participants are **outliers** who take a
+completely different approach (phase 2, see [Aggregating interviews](#aggregating-interviews-phase-2)).
+
 ## Users
 
 | User | Need |
 |---|---|
-| **UX researcher / analyst** (primary) | Turn interview transcripts into task flows quickly and consistently |
+| **UX researcher / analyst** (primary) | Turn interview transcripts into task flows quickly and consistently; see across a whole study how people do the task, where they agree and where they differ |
 | **Product / service designer** | See where a task branches, stalls or is hard, to target improvements |
 | **Developer integrating the tool** | Call the same capability from scripts or other services |
 
@@ -127,6 +132,67 @@ The Task Flow Model is the core artefact. The SVG is just one view of it. Keepin
 these separate means extraction quality and rendering can be tested independently, and
 the model can be saved, reviewed and edited.
 
+## Aggregating interviews (phase 2)
+
+A separate operation takes **all the interviews of a study** (same task) and produces an
+aggregate model and diagram (D-020).
+
+```
+each .vtt ──► extract (as above) ──► Task Flow Model ┐  cached per interview, validated,
+each .vtt ──► extract (as above) ──► Task Flow Model ┤  individually reviewable
+                                                     ▼
+          align steps across interviews (Claude) ──► canonical steps
+                                                     ▼
+          group interview paths (our code) ──► common flow, variants, outliers
+                                                     ▼
+          name and describe groups (Claude) ──► Aggregate Model ──► aggregate diagram
+```
+
+1. **Align:** people describe the same step in different words. Claude maps each
+   interview's steps (and error flows and loops) onto a shared set of **canonical steps**,
+   citing which interview steps feed each one.
+2. **Group:** our code turns each interview into a path through the canonical steps,
+   measures how similar the paths are, and groups them. **Counts and percentages are
+   calculated, never estimated by the model.**
+3. **Name:** Claude gives each group a short name and description.
+
+### What counts
+
+- **The unit is the interview** (D-021): each interview counts once, using its main
+  speaker's flow. Alternative views inside an interview are reported on the aggregate
+  ("also done this way by 2 secondary participants") but are not separate paths.
+- **Definitions** (D-022, configurable):
+
+  | Finding | Default definition |
+  |---|---|
+  | **Common flow** | Steps and transitions present in **≥ 60%** of interviews |
+  | **Variant** (a different way of doing the task) | A group of interviews sharing a distinctive path; **significant** with **≥ 3 interviews and ≥ 15%** of the study |
+  | **Outlier** | An interview that fits neither the common flow nor any significant variant (members of groups too small to be significant are outliers) |
+
+- **Aggregated measures** per canonical step: median difficulty and frequency, how many
+  participants are above their frustration threshold, how often each error flow and loop
+  occurs.
+- Figures are **descriptive** (e.g. *5 of 6*), not statistical significance tests:
+  studies are usually too small for that.
+
+### Participant attributes
+
+An optional **CSV** maps each VTT file to participant attributes (role, site, experience, …)
+(D-023). Our code uses it to describe groups, e.g. *Variant A: 5 of 6 are night shift
+(8 of 24 in the study)*. **Attributes are not sent to Claude**: they stay local, and they
+can't bias how groups are named.
+
+### The aggregate diagram
+
+- The **common flow** is the backbone; every step and branch shows its support,
+  e.g. *18/24 (75%)*.
+- Each **variant** has its own colour, branches off and rejoins the backbone, and appears
+  in a legend with its name, size and any attribute pattern.
+- Steps show **aggregated measures**, e.g. *Difficulty: median Hard (4) · 7/24 frustrated ▲*.
+- **Outliers** are link-out connectors to their individual diagrams, e.g.
+  *Outlier P17: outsources the whole task →*.
+- Every interview's individual diagram is linked from the aggregate, in the same directory.
+
 ## Delivery shape
 
 **The API is the canonical implementation.**
@@ -159,7 +225,8 @@ the model can be saved, reviewed and edited.
 | | Question | Covered by |
 |---|---|---|
 | **PoT** | Can pele render a task flow with lanes, decisions, properties and notes legibly? Can Claude extract a faithful, schema-valid Task Flow Model from a real VTT? | [`10-pot.md`](10-pot.md) |
-| **PoC** | Do researchers find the generated diagrams accurate and useful enough to adopt? | `20-requirements.md` onwards |
+| **PoC phase 1** | Do researchers find the generated diagrams accurate and useful enough to adopt? | `20-requirements.md` onwards |
+| **PoC phase 2** | Does aggregation reveal the common flow, significant variants and outliers in a way researchers trust? | [`10-pot.md`](10-pot.md) Part C, then requirements |
 
 ## Success / exit criteria (proposed)
 
@@ -176,14 +243,28 @@ The PoC succeeds if, on a set of **5–10 real task-description transcripts**:
 6. **Practicality:** one transcript (≤ 60 min) is processed end-to-end in under 3 minutes,
    at a cost per transcript recorded and judged acceptable.
 
-**Timebox (proposed):** 2 weeks. PoT in the first 2–3 days, with a go / no-go on pele.
+**Phase 2 (aggregation)** succeeds if:
+
+7. **Grouping:** on the synthetic study (known answer), every interview is placed in the
+   right group and every outlier is identified.
+8. **Trust:** on a real study, a reviewer agrees with the common flow and with the group of
+   ≥ 90% of interviews.
+9. **Traceability:** every aggregate element traces back to interviews, steps and cues.
+10. **Incremental:** adding an interview re-uses the existing interviews' models instead
+    of re-extracting them.
+11. **Legibility:** a reviewer can describe the common flow and each variant from the
+    aggregate diagram alone.
+
+**Timebox (proposed):** phase 1: 2 weeks, PoT in the first 2–3 days with a go / no-go on
+pele. Phase 2: a further 2 weeks.
 
 ## Non-goals (for this increment)
 
 - Audio/video transcription; input is an existing `.vtt` file
 - A graphical editor or web UI
-- Merging multiple transcripts into one composite journey
-- Representing more than one alternative flow as full branches (alternative views are annotations for now)
+- Aggregating interviews about *different* tasks (a study covers one task)
+- Statistical significance testing (aggregate figures are descriptive)
+- Representing more than one alternative flow as full branches **within one interview** (alternative views are annotations; across interviews, variants are full branches)
 - Hosting, authentication, multi-user features
 - Non-English transcripts
 - Pixel-perfect or brand-themed styling
@@ -198,6 +279,8 @@ The PoC succeeds if, on a set of **5–10 real task-description transcripts**:
 - **Data:** transcripts may contain personal data and are sent to the Anthropic API.
   Use transcripts you're allowed to process; consider redaction before sending.
 - **Credentials:** API key / profile from the environment; never committed.
+- **Participant attributes** (phase 2) may be personal data; they are processed locally
+  and never sent to the Anthropic API.
 - **Sample transcripts:** real samples will come later. Until then, PoT and tests use
   **synthetic transcripts** written to exercise each rule above (shared connection,
   consensus, divergence, scale vs free text, interviewer questions).
@@ -228,8 +311,10 @@ the length of the recording.
 
 ## Open questions
 
-None at present.
+1. **Attribute CSV format** (proposed in the [design](30-design.md#participant-attributes-csv)):
+   first column `file` (the VTT file name), one column per attribute, header row required.
+   Does that match what you can supply?
 
 ## Decisions
 
-See [decisions.md](decisions.md) (D-001 to D-019).
+See [decisions.md](decisions.md) (D-001 to D-023).

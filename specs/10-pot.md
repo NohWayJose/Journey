@@ -12,7 +12,10 @@ Before building the PoC, prove that the two technologies it depends on can do th
   schema-valid Task Flow Model that follows the
   [interpretation rules](00-vision.md#transcript-interpretation-rules)?
 
-Each check has an ID (`PT-xx` for rendering, `PE-xx` for extraction). Automatable checks
+- **Part C, Aggregation (phase 2):** can many interviews be aligned and grouped into a
+  common flow, significant variants and outliers that a researcher trusts?
+
+Each check has an ID (`PT-xx` for rendering, `PE-xx` for extraction, `PA-xx` for aggregation). Automatable checks
 become tests named after their ID (e.g. `test('PT-10: escapes quotes in step labels')`).
 Judgement checks are recorded by a reviewer in the [results table](#results).
 
@@ -109,6 +112,38 @@ instructions and schema, input is ≈ 25k tokens and output perhaps 5–15k incl
 At current `claude-opus-5-5` prices ($4 / $20 per million tokens) that is roughly
 **$0.20–0.40 per transcript**. PE-06 replaces this estimate with measured figures.
 
+## Part C: Aggregation (phase 2)
+
+Runs after phase 1 is a go. Checks are `PA-xx`.
+
+### Study fixture S1
+
+A synthetic study of **14 interviews about one task**, with a designed answer and an
+attribute CSV:
+
+| Designed group | Interviews | Purpose |
+|---|---|---|
+| Common flow only | 5 | Establishes the backbone |
+| Variant A | 4 | A significant different way of doing part of the task; correlates with one attribute (e.g. 4 of 4 night shift) |
+| Variant B | 3 | A second significant variant, exactly at the threshold (3 interviews, 21%) |
+| Small group | 2 | Share an unusual approach, but too few to be significant: both must be reported as outliers |
+
+Interviews use different wording for the same steps, tell the task out of order, and
+include alternative views, so alignment is tested properly.
+
+### Checks
+
+| ID | Question | Method | Pass when |
+|---|---|---|---|
+| PA-01 | Does alignment map equivalent steps together? | Compare Claude canonical steps for S1 to the designed mapping | ≥ 95% of interview steps mapped to the right canonical step; no two designed-distinct steps merged |
+| PA-02 | Is grouping right? | Run grouping on S1 | Every interview in its designed group; both small-group members reported as outliers |
+| PA-03 | Is the common flow right? | Compare to the designed backbone | Exactly the designed steps and transitions at ≥ 60% support |
+| PA-04 | Are figures correct and reproducible? | Automated tests on hand-made aggregate inputs | Support counts, percentages, medians and frustration counts match hand calculations; repeated runs identical |
+| PA-05 | Are attribute patterns reported correctly? | S1 attribute CSV | Variant A reported with its attribute (4 of 4 vs study rate); no attributes in any Claude request |
+| PA-06 | Is it incremental? | Add a 15th interview to S1 | Only the new interview is extracted; groups update correctly |
+| PA-07 | Is the aggregate diagram legible? | Render S1; reviewer | Reviewer can describe the common flow, each variant and each outlier from the diagram; links to individual diagrams work |
+| PA-08 | Does it fit time and cost limits? | S1 end-to-end, cold and warm cache | Times and costs recorded; warm run (no new interviews) needs no extraction |
+
 ## Go / no-go
 
 - **Go:** PT-01 to PT-07, PT-10, PT-11, PT-13 to PT-15, PE-01 to PE-04 and PE-08 pass.
@@ -120,6 +155,7 @@ At current `claude-opus-5-5` prices ($4 / $20 per million tokens) that is roughl
 - **No-go on extraction:** PE-01 or PE-02 fail and prompt or schema changes don't fix
   them within the timebox. Revisit the approach (e.g. chunking, two-pass extraction,
   human-in-the-loop review) before the PoC.
+- **Phase 2 go:** PA-01 to PA-05 and PA-07 pass. A PA-01 failure means revisiting alignment (e.g. two-pass, or reviewer-confirmed canonical steps) before building the aggregate diagram.
 
 ## Out of scope for the PoT
 
@@ -149,3 +185,4 @@ At current `claude-opus-5-5` prices ($4 / $20 per million tokens) that is roughl
 | PT-16 | **Pass** | 2026-10-18 | Automated: `above` shows ▲ and the `frustration` class; `below` shows nothing |
 | PT-17 | **Pass** | 2026-10-18 | Automated: repeat (× n and for-each) and iteration markers per CM-12, back edge routed through the marker, limit linked to its error flow, loop colour in Firefox. Nested loops in F9 readable; reviewer to confirm |
 | PE-01 to PE-09 | Pending | | Schema and fixtures ready; needs API credentials |
+| PA-01 to PA-08 | Pending | | Phase 2 |
