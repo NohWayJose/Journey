@@ -23,7 +23,8 @@ class PathError extends Error {}
 /** MC-02: allowed directories from JOURNEY_ALLOWED_DIRS (path-separated), defaulting to the working directory. */
 export function allowedDirectories(env = process.env, cwd = process.cwd()) {
   const dirs = env.JOURNEY_ALLOWED_DIRS ? env.JOURNEY_ALLOWED_DIRS.split(delimiter).filter(Boolean) : [cwd];
-  return dirs.map((d) => realpathSync(resolve(cwd, d)));
+  // A directory that doesn't exist yet (e.g. an output folder) is allowed by its resolved path
+  return dirs.map((d) => resolve(cwd, d)).map((d) => (existsSync(d) ? realpathSync(d) : d));
 }
 
 /** Resolves a path (following symlinks where it exists) and refuses it unless it's inside an allowed directory. */

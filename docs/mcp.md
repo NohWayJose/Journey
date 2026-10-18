@@ -6,8 +6,22 @@ No API keys are needed. Design: [specs/30-design.md](../specs/30-design.md#mcp-a
 
 ## Connect IBM Bob
 
-Add a `journey` entry to Bob's MCP settings (`~/.bob/settings/mcp_settings.json`), using the
-path to your Journey checkout and the folders Journey may read and write:
+### For this project only (recommended)
+
+Bob reads project-level MCP servers from **`.bob/mcp.json`** in the project root; they take
+precedence over your global settings
+([Bob docs](https://bob.ibm.com/docs/ide/configuration/mcp/mcp-in-bob)). This checkout has
+one: open the Journey folder in Bob and the `journey` server is available. It allows reading
+`tests/fixtures/` and writing to `out/`.
+
+The file uses absolute paths, because Bob's documentation doesn't say whether relative paths
+work. On another machine (e.g. a work laptop), edit the paths to match that checkout.
+
+### For all projects
+
+Add a `journey` entry to Bob's global MCP settings, using the path to your Journey checkout
+and the folders Journey may read and write. Bob's documentation gives the global file as
+`~/.bob/settings/mcp.json`; on this PC Bob 1.0.2 created `~/.bob/settings/mcp_settings.json`:
 
 ```json
 {

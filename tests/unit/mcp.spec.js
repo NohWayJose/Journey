@@ -93,3 +93,14 @@ test('MC-04: runs as a local stdio server', async () => {
     await client.close();
   }
 });
+
+test('MC-02: an allowed directory that does not exist yet can be written to', async ({}, testInfo) => {
+  const { allowedDirectories } = await import('../../src/adapters/mcp/server.js');
+  mkdirSync(testInfo.outputDir, { recursive: true });
+  const notYet = `${realpathSync(testInfo.outputDir)}/created-later`;
+  const dirs = allowedDirectories({ JOURNEY_ALLOWED_DIRS: `${fixtures}:${notYet}` }, '/');
+  expect(dirs).toEqual([fixtures, notYet]);
+  const client = await connect(dirs);
+  const saved = await call(client, 'save_task_flow', { path: vtt, flow: expected, outFile: `${notYet}/F2.flow.json` });
+  expect(saved.error).toBe(false);
+});
