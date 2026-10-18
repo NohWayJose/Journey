@@ -167,18 +167,34 @@ The PoC succeeds if, on a set of **5–10 real task-description transcripts**:
   **synthetic transcripts** written to exercise each rule above (shared connection,
   consensus, divergence, scale vs free text, interviewer questions).
 
+### Main speaker and interviewer
+
+- The **main speaker** is the participant who contributes most of the task description,
+  measured by speaking time. It can be overridden with a `mainSpeaker` option. On a shared
+  connection it may have to be inferred from the content.
+- **Interviewers** are named with an `interviewers` option (their speaker labels). If it
+  isn't given, they are inferred from who asks the questions.
+
+### Scales
+
+All scaled measures use a **5-point Likert scale** with labels suited to the question:
+
+| Measure | 1 | 2 | 3 | 4 | 5 |
+|---|---|---|---|---|---|
+| **Difficulty** | Very easy | Easy | Neither easy nor hard | Hard | Very hard |
+| **Frequency** | Rarely | Monthly | Weekly | Daily | Multiple times a day |
+
+Further measures follow the same pattern: 5 points, each with a label suited to the question.
+
+### Time on task
+
+Time on task comes from what participants **say** ("takes about 10 minutes"), not from
+the length of the recording.
+
 ## Open questions
 
-1. **Who is the "main speaker"?** Proposed: the participant who contributes most of the
-   task description, measured by speaking time; overridable by a `mainSpeaker` option.
-   On a shared connection, this may need to be inferred from the content.
-2. **Identifying the interviewer:** proposed as an `interviewers` option (speaker labels),
-   with inference from question-asking patterns when not given.
-3. **Scales:** which scales should be standard? Proposed: difficulty 1–5;
-   frequency as an ordered set (e.g. multiple times a day / daily / weekly / monthly / rarely).
-4. **Time on task:** taken from what participants *say* ("takes about 10 minutes"), not
-   from the length of the recording. Correct?
+None at present.
 
 ## Decisions
 
-See [decisions.md](decisions.md) (D-001 to D-007).
+See [decisions.md](decisions.md) (D-001 to D-010).
