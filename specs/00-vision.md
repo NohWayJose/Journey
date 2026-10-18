@@ -35,6 +35,7 @@ every element traceable to the moment in the transcript it came from.
 | **Flow** | The order steps happen in | Arrows between nodes |
 | **Conditionality** | Points where the path depends on a condition ("if it's out of stock…") | Decision node with labelled branches |
 | **Completion metrics** | All of: **outcome** (success / failure / abandonment, and how often each happens), **time on task**, **number of attempts**, **error and recovery points** | Outcome nodes and metric labels |
+| **Repetition** | **Repeats**: steps done a known number of times (*"each of our five sites"*) or once per item (*"for each receipt"*). **Iterations**: steps repeated until a check passes, with known pass/fail criteria, typical number of passes and any limit | A loop marker on a dashed loop-back edge: **↻ × 5**, **↻ for each receipt**, or **↻ until …** (see [design](30-design.md#loops)) |
 | **Error flows** | What happens when something goes wrong, and whether the task continues afterwards | A **separate diagram** per error flow, with standard link-out and return connectors (see [design](30-design.md#error-flows)) |
 | **Annotations** | Other meta notes: hesitations, workarounds, opinions, quotes, **alternative views** | Note shapes attached to the relevant node |
 | **Evidence** | Which transcript cue(s) and timestamp(s) each element came from | Cue references in the model (and, optionally, the SVG) |
@@ -75,6 +76,18 @@ of the flow, add detail to steps they described earlier, and correct themselves.
 - **Unresolved contradictions:** when a participant contradicts themselves without a
   clear correction, the later statement is used and a correction annotation flags the
   contradiction for review.
+
+### Repetition
+
+- **Repeats** have a count: a number when one is given (*"each of our five sites"*), or
+  just the participant's words when the count varies (*"for each receipt"*). Nobody makes
+  a decision each time, so a repeat has no decision step.
+- **Iterations** repeat until a check passes. The check is a real decision step whose
+  branches give the pass and fail criteria. The typical number of passes (*"usually two
+  goes"*) and any limit (*"after three rejections I ring the helpdesk"*) are recorded.
+- **Running out of tries is an error.** An iteration's limit triggers an error flow, drawn
+  like any other.
+- Loops can sit inside one another (*"at each site, for each extinguisher…"*).
 
 ### Measures (frequency and difficulty)
 
@@ -219,4 +232,4 @@ None at present.
 
 ## Decisions
 
-See [decisions.md](decisions.md) (D-001 to D-018).
+See [decisions.md](decisions.md) (D-001 to D-019).

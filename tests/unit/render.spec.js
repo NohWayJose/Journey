@@ -7,7 +7,7 @@ import { renderTaskFlow } from '../../src/render/render.js';
 
 const fixture = (prefix) => {
   const root = new URL('../fixtures/', import.meta.url);
-  const dir = { F1: 'F1-meeting-room', F2: 'F2-expense-claim', F4: 'F4-stock-count-divergence', F5: 'F5-repeat-prescription-scales', F6: 'F6-ward-discharge', F7: 'F7-lab-order-escaping', F8: 'F8-vat-return-nonlinear' }[prefix];
+  const dir = { F1: 'F1-meeting-room', F2: 'F2-expense-claim', F4: 'F4-stock-count-divergence', F5: 'F5-repeat-prescription-scales', F6: 'F6-ward-discharge', F7: 'F7-lab-order-escaping', F8: 'F8-vat-return-nonlinear', F9: 'F9-site-inspections-loops' }[prefix];
   const { cues } = parseVtt(readFileSync(new URL(`${dir}/transcript.vtt`, root), 'utf8'));
   const flow = JSON.parse(readFileSync(new URL(`${dir}/expected.flow.json`, root), 'utf8'));
   return { flow, cues };
@@ -42,7 +42,7 @@ const referencedIds = (mermaid) => new Set(
   mermaid.split('\n').flatMap((l) => [...l.matchAll(/^\s*(\w+) -[-.]+>?(?:\|"[^"]*"\|)? (\w+)$/g)].flatMap((m) => [m[1], m[2]])),
 );
 
-for (const prefix of ['F1', 'F2', 'F4', 'F5', 'F6', 'F7', 'F8']) {
+for (const prefix of ['F1', 'F2', 'F4', 'F5', 'F6', 'F7', 'F8', 'F9']) {
   test(`PT-02 / CM-02: ${prefix} declares every node inside a lane and pele parses it`, () => {
     const { flow, cues } = fixture(prefix);
     for (const d of compileTaskFlow(flow, cues, { name: prefix })) {
@@ -154,4 +154,42 @@ test('ST-03: linked stylesheets come before the svg element, in order', () => {
     '<?xml-stylesheet type="text/css" href="corporate.css"?>',
     '<?xml-stylesheet type="text/css" href="https://example.com/brand.css?a=1&amp;b=2"?>',
   ]);
+});
+
+test('PT-17 / CM-12: loops are drawn as markers on dashed loop-back paths', () => {
+  const { flow, cues } = fixture('F9');
+  const [main] = compileTaskFlow(flow, cues, { name: 'F9' });
+  const svg = renderFixture('F9').main.svg;
+  const lanes = lanesOf(main.mermaid);
+
+  // Repeat with a known count: last step -> marker -> first step
+  expect(nodeClasses(svg, 'l_L1')).toEqual(expect.arrayContaining(['loop', 'loop-repeat']));
+  expect(nodeText(svg, 'l_L1')).toContain('↻ × 5');
+  expect(lanes.get('l_L1')).toBe('Area safety officer');
+  expect(main.mermaid).toContain('n_s6 -.-> l_L1');
+  expect(main.mermaid).toContain('l_L1 -.-> n_s2');
+
+  // Repeat with a varying count (nested inside L1)
+  expect(nodeText(svg, 'l_L2')).toContain('↻ For each extinguisher');
+
+  // Iteration: the back transition is routed through the marker, labelled with the fail branch
+  expect(nodeClasses(svg, 'l_L3')).toEqual(expect.arrayContaining(['loop', 'loop-iterate']));
+  expect(nodeText(svg, 'l_L3')).toContain('↻ until Passes validation? is Yes');
+  expect(nodeText(svg, 'l_L3')).toContain('Usually: 2');
+  expect(nodeText(svg, 'l_L3')).toContain('Limit: 3 → Error flow E1');
+  expect(main.mermaid).toContain('n_s9 -.->|"No"| l_L3');
+  expect(main.mermaid).toContain('l_L3 -.-> n_s7');
+  expect(main.mermaid).not.toMatch(/n_s9 -->\|"No"\| n_s7/);
+
+  // The limit's error flow is linked from the decision like any other error
+  expect(nodeGroup(svg, 'x_out_E1_1')[0]).toContain('href="F9.error-E1.svg"');
+  // A correction to the count attaches to the loop marker
+  expect(main.mermaid).toContain('a_n1 -.- l_L1');
+});
+
+test('CM-12: an existing iteration (F8) is drawn through its marker', () => {
+  const { flow, cues } = fixture('F8');
+  const [main] = compileTaskFlow(flow, cues);
+  expect(main.mermaid).toContain('n_s5 -.->|"No"| l_L1');
+  expect(main.mermaid).toContain('l_L1 -.-> n_s3');
 });

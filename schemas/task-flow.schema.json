@@ -532,6 +532,157 @@
         }
       }
     },
+    "loop": {
+      "description": "A repeated span of steps (D-019). Body = every step on a path from firstStepId to lastStepId. repeat: count known (number) or varying (text only); no decision, no back transition. iterate: lastStepId is the decision that checks the criteria; its back transition to firstStepId is labelled `fail`, its exit labelled `pass`.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "kind",
+        "firstStepId",
+        "lastStepId",
+        "count",
+        "pass",
+        "fail",
+        "iterations",
+        "limit",
+        "evidence"
+      ],
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "kind": {
+          "enum": [
+            "repeat",
+            "iterate"
+          ]
+        },
+        "firstStepId": {
+          "type": "string"
+        },
+        "lastStepId": {
+          "type": "string"
+        },
+        "count": {
+          "description": "repeat only: how many times. value is null when the count varies (e.g. for each receipt).",
+          "anyOf": [
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "value",
+                "text",
+                "evidence"
+              ],
+              "properties": {
+                "value": {
+                  "anyOf": [
+                    {
+                      "type": "number"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "text": {
+                  "type": "string"
+                },
+                "evidence": {
+                  "$ref": "#/$defs/evidence"
+                }
+              }
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "pass": {
+          "description": "iterate only: condition label of the decision branch that leaves the loop.",
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "fail": {
+          "description": "iterate only: condition label of the decision branch that loops back.",
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "iterations": {
+          "description": "iterate only: typical number of passes as stated.",
+          "anyOf": [
+            {
+              "$ref": "#/$defs/attempts"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "limit": {
+          "description": "iterate only: the most tries before giving up; running out triggers errorFlowId from the decision step.",
+          "anyOf": [
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "count",
+                "text",
+                "errorFlowId",
+                "evidence"
+              ],
+              "properties": {
+                "count": {
+                  "anyOf": [
+                    {
+                      "type": "number"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "text": {
+                  "type": "string"
+                },
+                "errorFlowId": {
+                  "anyOf": [
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "evidence": {
+                  "$ref": "#/$defs/evidence"
+                }
+              }
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "evidence": {
+          "$ref": "#/$defs/evidence"
+        }
+      }
+    },
     "errorTrigger": {
       "description": "Where and why the main flow links out to an error flow.",
       "type": "object",
@@ -578,6 +729,7 @@
         "startStepId",
         "steps",
         "transitions",
+        "loops",
         "evidence"
       ],
       "properties": {
@@ -608,6 +760,12 @@
             "$ref": "#/$defs/transition"
           }
         },
+        "loops": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/loop"
+          }
+        },
         "evidence": {
           "$ref": "#/$defs/evidence"
         }
@@ -629,7 +787,7 @@
           "type": "string"
         },
         "targetId": {
-          "description": "ID of the step, transition, actor or error flow this note is about (in any flow); null for the whole task.",
+          "description": "ID of the step, transition, actor, error flow or loop this note is about (in any flow); null for the whole task.",
           "anyOf": [
             {
               "type": "string"
@@ -684,6 +842,7 @@
         "steps",
         "transitions",
         "errorFlows",
+        "loops",
         "metrics",
         "annotations"
       ],
@@ -760,6 +919,12 @@
           "type": "array",
           "items": {
             "$ref": "#/$defs/errorFlow"
+          }
+        },
+        "loops": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/loop"
           }
         },
         "metrics": {

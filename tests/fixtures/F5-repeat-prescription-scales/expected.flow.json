@@ -47,6 +47,7 @@
     { "id": "t8", "from": "s8", "to": "s9", "condition": null, "evidence": ["c15"] }
   ],
   "errorFlows": [],
+  "loops": [],
   "metrics": {
     "timeOnTask": { "minutes": null, "text": "The app bit, five minutes. The queue is the killer.", "evidence": ["c17"] },
     "attempts": null

@@ -1,0 +1,75 @@
+WEBVTT
+
+NOTE F9: single participant. Repeat with a known count (four sites, corrected to five at c16), a "for each extinguisher" repeat nested inside it (count varies), and an iteration (correct and resubmit until it passes validation) with typical passes and a limit of three rejections that triggers an error flow. Synthetic.
+
+1
+00:00:00.000 --> 00:00:06.000
+<v Interviewer>Could you walk me through your monthly safety inspections?</v>
+
+2
+00:00:06.000 --> 00:00:16.000
+<v Sam Okafor>Sure. The goal is that every site is safe, and we've got the paperwork to prove it if the inspector turns up.</v>
+
+3
+00:00:16.000 --> 00:00:22.000
+<v Sam Okafor>I start by printing the inspection checklists, one per site.</v>
+
+4
+00:00:22.000 --> 00:00:31.000
+<v Sam Okafor>Then I go round each of our four sites, one after another, usually over two days.</v>
+
+5
+00:00:31.000 --> 00:00:40.000
+<v Sam Okafor>At each site I travel there, walk all the fire exits, then check the extinguishers.</v>
+
+6
+00:00:40.000 --> 00:00:51.000
+<v Sam Okafor>For each extinguisher I check the tag is in date. Depends on the site, the big warehouse has about thirty.</v>
+
+7
+00:00:51.000 --> 00:00:59.000
+<v Sam Okafor>I note any defects on the checklist, then sign the checklist off before I leave.</v>
+
+8
+00:00:59.000 --> 00:01:03.000
+<v Interviewer>How hard is the extinguisher check, one to five?</v>
+
+9
+00:01:03.000 --> 00:01:07.000
+<v Sam Okafor>A two. It's just tedious.</v>
+
+10
+00:01:07.000 --> 00:01:15.000
+<v Sam Okafor>Back at the office I type up the report in the inspection portal and submit it.</v>
+
+11
+00:01:15.000 --> 00:01:25.000
+<v Sam Okafor>The portal validates it. If it fails, I correct it and submit again. Usually takes two goes.</v>
+
+12
+00:01:25.000 --> 00:01:32.000
+<v Sam Okafor>If it gets rejected three times, I give up and ring the IT helpdesk.</v>
+
+13
+00:01:32.000 --> 00:01:44.000
+<v Sam Okafor>They fix whatever's wrong with the record and I submit it again. That's maybe every few months, and it's a nightmare.</v>
+
+14
+00:01:44.000 --> 00:01:50.000
+<v Sam Okafor>Once it passes, I email a summary to the operations director.</v>
+
+15
+00:01:50.000 --> 00:01:55.000
+<v Sam Okafor>She reviews it, and that's the month done.</v>
+
+16
+00:01:55.000 --> 00:02:03.000
+<v Sam Okafor>Oh, I said four sites. It's five now, we opened Leeds in the summer.</v>
+
+17
+00:02:03.000 --> 00:02:07.000
+<v Interviewer>How long does it take altogether?</v>
+
+18
+00:02:07.000 --> 00:02:14.000
+<v Sam Okafor>Two days on the road, and about half a day on the report.</v>

@@ -44,6 +44,7 @@
     { "id": "t8", "from": "s7", "to": "s8", "condition": null, "evidence": ["c14"] }
   ],
   "errorFlows": [],
+  "loops": [],
   "metrics": {
     "timeOnTask": { "minutes": 150, "text": "About two and a half hours for me, start to finish", "evidence": ["c16"] },
     "attempts": null

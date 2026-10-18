@@ -9,8 +9,8 @@ const fixtures = readdirSync(root, { withFileTypes: true })
   .map((d) => d.name)
   .sort();
 
-test('all PoT fixtures F1-F8 are present', () => {
-  expect(fixtures.map((f) => f.split('-')[0])).toEqual(['F1', 'F2', 'F3', 'F4', 'F5', 'F6', 'F7', 'F8']);
+test('all PoT fixtures F1-F9 are present', () => {
+  expect(fixtures.map((f) => f.split('-')[0])).toEqual(['F1', 'F2', 'F3', 'F4', 'F5', 'F6', 'F7', 'F8', 'F9']);
 });
 
 for (const name of fixtures) {

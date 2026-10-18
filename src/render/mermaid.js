@@ -18,6 +18,7 @@ const SHAPES = {
   rect: (t) => `["${t}"]`,
   diamond: (t) => `{"${t}"}`,
   stadium: (t) => `(["${t}"])`,
+  round: (t) => `("${t}")`,
   flag: (t) => `>"${t}"]`,
   hexagon: (t) => `{{"${t}"}}`,
   doubleCircle: (t) => `((("${t}")))`,
@@ -157,8 +158,40 @@ export function compileTaskFlow(flow, cues, { name = 'flow', direction = 'LR', d
     d.node(lane, laneLabel, nid(step.id), shape, [...lines(step.label), ...props], classes);
   }
 
-  function addTransitions(d, transitions) {
-    for (const t of transitions) d.edge(nid(t.from), nid(t.to), { label: t.condition });
+  const loopMarkers = new Map(); // loop id -> { d, lane, laneLabel, id }
+
+  /** Transitions plus loop markers (CM-11, CM-12). Iteration back edges are routed through their marker. */
+  function addTransitionsAndLoops(d, transitions, loops, stepsInDiagram) {
+    const backEdge = (l) => transitions.find((t) => t.from === l.lastStepId && t.to === l.firstStepId && t.condition === l.fail);
+    const routed = new Set(loops.filter((l) => l.kind === 'iterate').map(backEdge).filter(Boolean));
+    for (const t of transitions) if (!routed.has(t)) d.edge(nid(t.from), nid(t.to), { label: t.condition });
+
+    for (const l of loops) {
+      const first = steps.get(l.firstStepId);
+      const [lane, laneLabel] = laneFor(d, first.actorId, stepsInDiagram);
+      const id = `l_${l.id}`;
+      let text;
+      if (l.kind === 'repeat') {
+        text = l.count.value !== null
+          ? [...lines(`↻ × ${l.count.value}`), small(`“${truncate(l.count.text)}”`)]
+          : lines(`↻ ${l.count.text}`);
+        d.node(lane, laneLabel, id, 'round', text, ['loop', 'loop-repeat']);
+        d.edge(nid(l.lastStepId), id, { style: 'dashed' });
+      } else {
+        const decision = steps.get(l.lastStepId);
+        const it = l.iterations;
+        const lim = l.limit;
+        text = [
+          ...lines(`↻ until ${decision.label} is ${l.pass}`),
+          it ? small(`Usually: ${it.count !== null ? it.count : `“${truncate(it.text)}”`}`) : null,
+          lim ? small(`Limit: ${lim.count !== null ? lim.count : `“${truncate(lim.text)}”`}${lim.errorFlowId ? ` → Error flow ${lim.errorFlowId}` : ''}`) : null,
+        ];
+        d.node(lane, laneLabel, id, 'round', text, ['loop', 'loop-iterate']);
+        d.edge(nid(l.lastStepId), id, { style: 'dashed', label: l.fail });
+      }
+      d.edge(id, nid(l.firstStepId), { style: 'dashed' });
+      loopMarkers.set(l.id, { d, lane, laneLabel, id });
+    }
   }
 
   function annotationText(n) {
@@ -182,7 +215,7 @@ export function compileTaskFlow(flow, cues, { name = 'flow', direction = 'LR', d
   const mainStepIds = new Set(flow.steps.map((s) => s.id));
   const mainTransitions = new Map(flow.transitions.map((t) => [t.id, t]));
   for (const s of flow.steps) addStep(main, s, flow.steps);
-  addTransitions(main, flow.transitions);
+  addTransitionsAndLoops(main, flow.transitions, flow.loops, flow.steps);
 
   const linkOuts = new Map(); // errorFlowId -> first link-out node id
   for (const ef of flow.errorFlows) {
@@ -228,7 +261,7 @@ export function compileTaskFlow(flow, cues, { name = 'flow', direction = 'LR', d
       d.edge(id, nid(start.id), { style: 'dashed' });
       d.click(id, fileOf('main'), `Back to main flow: ${from.label}`);
     });
-    addTransitions(d, ef.transitions);
+    addTransitionsAndLoops(d, ef.transitions, ef.loops, ef.steps);
     return { ef, d, stepIds: new Set(ef.steps.map((s) => s.id)), transitions: new Map(ef.transitions.map((t) => [t.id, t])) };
   });
 
@@ -237,6 +270,11 @@ export function compileTaskFlow(flow, cues, { name = 'flow', direction = 'LR', d
     const target = n.targetId;
     if (target === null) { addAnnotation(main, n, 'task', 'Task', 'task_summary'); continue; }
     if (actors.has(target)) { addAnnotation(main, n, target, actors.get(target).name, null); continue; }
+    if (loopMarkers.has(target)) {
+      const m = loopMarkers.get(target);
+      addAnnotation(m.d, n, m.lane, m.laneLabel, m.id);
+      continue;
+    }
     const errorTarget = errorDiagrams.find((e) => e.ef.id === target);
     if (errorTarget) {
       const start = steps.get(errorTarget.ef.startStepId);

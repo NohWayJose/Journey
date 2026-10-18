@@ -35,6 +35,10 @@
   --journey-difficulty-4: #fff2e8;
   --journey-difficulty-5: #ffd7d9;
 
+  /* Loops: Carbon purple 60 on purple 10 */
+  --journey-loop: #8a3ffc;
+  --journey-loop-background: #f6f2ff;
+
   --journey-font: 'IBM Plex Sans', 'Helvetica Neue', Arial, sans-serif;
 }
 
@@ -63,6 +67,9 @@
     --journey-difficulty-3: #262626;
     --journey-difficulty-4: #5e2900;
     --journey-difficulty-5: #750e13;
+
+    --journey-loop: #a56eff;
+    --journey-loop-background: #31135e;
   }
 }
 
@@ -111,6 +118,10 @@
 :where(.pele-node.annotation) :is(rect, polygon, circle):first-of-type { fill: var(--cds-notification-background-warning); stroke: var(--cds-support-warning); }
 :where(.pele-node.summary) :is(rect, polygon, circle):first-of-type { fill: var(--cds-notification-background-info); stroke: var(--cds-border-interactive); }
 
+/* Loop markers (CM-12) */
+:where(.pele-node.loop) :is(rect, polygon, circle) { stroke: var(--journey-loop); stroke-width: 2px; }
+:where(.pele-node.loop) :is(rect, polygon, circle):first-of-type { fill: var(--journey-loop-background); }
+
 /* Links between diagrams */
 :where(.pele a) { cursor: pointer; }
 :where(.pele a:hover .pele-node) :is(rect, polygon, circle):first-of-type { stroke-width: 3px; }
@@ -122,3 +133,7 @@
 
 /* Annotation edges (annotation node IDs start a_) */
 :where(.pele-edge[data-id^="L_a_"]) > path:not(.pele-marker) { stroke: var(--cds-support-warning); }
+
+/* Loop-back edges: every edge touching a loop marker (node IDs starting l_) */
+:where(.pele-edge[data-id*="_l_"]) > path:not(.pele-marker) { stroke: var(--journey-loop); stroke-width: 1.5px; }
+:where(.pele-edge[data-id*="_l_"]) > .pele-marker { fill: var(--journey-loop); }

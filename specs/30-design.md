@@ -102,6 +102,29 @@ main flow                                      error flow E1 ("Card declined")
 - Error flows can't trigger other error flows in this version (keeps the schema
   non-recursive and the diagrams one level deep).
 
+### Loops
+
+Each flow (main and error) has a `loops` list (D-019). A loop refers to steps by ID, so the
+schema stays non-recursive. Its **body** is every step on a path from `firstStepId` to
+`lastStepId`.
+
+| Field | Repeat | Iterate |
+|---|---|---|
+| `kind` | `repeat` | `iterate` |
+| `firstStepId`, `lastStepId` | First and last step of the repeated span (may be the same step) | First step of the span; `lastStepId` is the **decision** that checks the criteria |
+| `count` | `{ value, text, evidence }`: `value` is a number, or `null` when the count varies (*"for each receipt"*) | `null` |
+| `pass`, `fail` | `null` | The `condition` labels of the decision's exit branch and loop-back branch |
+| `iterations` | `null` | Typical passes as stated (`attempts` shape: `count` + quote), or `null` |
+| `limit` | `null` | `{ count, text, errorFlowId, evidence }`, or `null`. Running out of tries triggers error flow `errorFlowId` (from the decision step) |
+
+- A **repeat has no back transition** in the model: the loop itself says the span repeats.
+- An **iteration's back transition is a real transition** (decision → `firstStepId`, labelled
+  with `fail`); the loop record explains it.
+- Annotations can target a loop (e.g. a correction to its count).
+
+Worked example: fixture F9 (site safety inspections): a repeat × 5 containing a
+"for each extinguisher" repeat, and an iteration with a limit that triggers an error flow.
+
 ### Visual standard for error links
 
 | Element | Appears on | Shape | Content | Style | Link |
@@ -193,6 +216,12 @@ JSON Schema can't express everything. After schema validation, the API checks:
 | DS-20 | No step's evidence consists only of interviewer cues (D-005) |
 | DS-21 | Every error flow has at least one trigger, and every trigger's `fromStepId` is a main-flow step |
 | DS-22 | Transitions connect steps within the same flow (main-to-error links happen only through triggers and returns) |
+| DS-23 | A loop's `firstStepId` and `lastStepId` are steps in the loop's own flow, and `lastStepId` is reachable from `firstStepId` |
+| DS-24 | An `iterate` loop: `lastStepId` is a decision with a transition back to `firstStepId` labelled `fail` and another labelled `pass`; `count` is `null` |
+| DS-25 | A `repeat` loop has a `count` and no `pass`, `fail`, `iterations` or `limit`, and nothing in its body transitions back to `firstStepId` |
+| DS-26 | **Every cycle is a declared iteration:** with each `iterate` loop's back transition removed, every flow is acyclic |
+| DS-27 | Loops nest cleanly: any two loop bodies are either disjoint or one contains the other |
+| DS-28 | An iteration's `limit.errorFlowId`, when set, names an error flow with a trigger from the loop's decision step |
 
 ## Compiling to diagrams
 
@@ -214,6 +243,7 @@ and never calls Claude (D-006).
 | CM-09 | Annotations are flags joined to their target by an undirected dotted line, prefixed by kind (*Note*, *Hesitation*, *Workaround*, *Opinion*, *Quote*, *Alternative view*, *Correction*). Alternative views and corrections show the speaker and the timestamp of their first cue. An annotation on a transition attaches to its source step; on an error flow, to its link-out (main) and entry (error diagram) |
 | CM-10 | All model text is escaped with Mermaid entity codes (`#quot;`, `#lt;`, `#gt;`, `#amp;`, `#35;`), so text appears exactly as written and can't inject markup or syntax |
 | CM-11 | Decision branches are labelled with their `condition` (`-->\|"…"\|`) |
+| CM-12 | Each loop is drawn as a **loop marker** (rounded node, classes `loop` and `loop-repeat` / `loop-iterate`) in the lane of its first step, on a dashed loop-back path: repeat = last step ⇢ marker ⇢ first step, text **↻ × n** (+ the quote) or **↻ \<quote\>** when the count varies; iterate = decision ⇢ (labelled `fail`) ⇢ marker ⇢ first step, replacing the direct back edge, text **↻ until \<decision\> is \<pass\>**, plus *Usually: …* and *Limit: … → Error flow \<id\>* |
 
 ### Styling
 
@@ -232,6 +262,8 @@ diagram the tool produces (D-017).
   | Node shapes | `.pele-shape-*` (e.g. `.pele-shape-hexagon`) |
   | Error edges | `.pele-edge[data-id*="_x_"]` (every edge touching an error connector) |
   | Annotation edges | `.pele-edge[data-id^="L_a_"]` |
+  | Loop markers | `.pele-node.loop`, `.loop-repeat`, `.loop-iterate` |
+  | Loop-back edges | `.pele-edge[data-id*="_l_"]` (every edge touching a loop marker) |
 
 - **Default theme:** [`styles/journey.css`](../styles/journey.css), based on IBM Carbon (D-018), implements the
   [visual standard](#visual-standard-for-error-links). It uses `:where()` selectors

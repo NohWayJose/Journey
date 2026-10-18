@@ -48,6 +48,7 @@
     { "id": "t9", "from": "s9", "to": "s10", "condition": null, "evidence": ["c13"] }
   ],
   "errorFlows": [],
+  "loops": [],
   "metrics": { "timeOnTask": null, "attempts": null },
   "annotations": [
     { "id": "n1", "targetId": null, "kind": "quote", "text": "Both follow a checklist they wrote together", "speaker": "Meeting Room 2", "evidence": ["c10", "c11"] }

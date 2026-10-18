@@ -68,8 +68,13 @@
       "transitions": [
         { "id": "t10", "from": "e1", "to": "e2", "condition": null, "evidence": ["c14"] }
       ],
+      "loops": [],
       "evidence": ["c14", "c15"]
     }
+  ],
+  "loops": [
+    { "id": "L1", "kind": "iterate", "firstStepId": "s3", "lastStepId": "s5", "count": null, "pass": "Yes", "fail": "No",
+      "iterations": null, "limit": null, "evidence": ["c11", "c12"] }
   ],
   "metrics": {
     "timeOnTask": { "minutes": 180, "text": "Half a day. Well, a morning. Let's say three hours.", "evidence": ["c18"] },

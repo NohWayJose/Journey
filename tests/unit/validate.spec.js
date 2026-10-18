@@ -1,6 +1,7 @@
 import { test, expect } from '@playwright/test';
 import { readFileSync } from 'node:fs';
 import { validateDocument, validateFlow } from '../../src/model/validate.js';
+import { parseVtt } from '../../src/vtt/parse.js';
 
 const example = JSON.parse(readFileSync(new URL('../../schemas/examples/checkout.flow.json', import.meta.url), 'utf8'));
 const copy = () => structuredClone(example);
@@ -40,5 +41,32 @@ for (const [rule, breakIt] of Object.entries(cases)) {
     const doc = copy();
     breakIt(doc);
     expect(rules(doc)).toContain(rule);
+  });
+}
+
+// Loop rules break fixture F9 (repeat x5 containing a for-each repeat, plus an iteration with a limit)
+const f9Dir = new URL('../fixtures/F9-site-inspections-loops/', import.meta.url);
+const f9Cues = parseVtt(readFileSync(new URL('transcript.vtt', f9Dir), 'utf8')).cues;
+const f9 = JSON.parse(readFileSync(new URL('expected.flow.json', f9Dir), 'utf8'));
+const loop = (flow, id) => flow.loops.find((l) => l.id === id);
+
+const loopCases = {
+  'DS-23': (f) => { loop(f, 'L1').lastStepId = 's1'; },
+  'DS-24': (f) => { loop(f, 'L3').fail = 'Maybe'; },
+  'DS-25': (f) => { f.transitions.push({ id: 't99', from: 's6', to: 's2', condition: null, evidence: ['c4'] }); },
+  'DS-26': (f) => { f.loops = f.loops.filter((l) => l.id !== 'L3'); },
+  'DS-27': (f) => { loop(f, 'L1').lastStepId = 's3'; loop(f, 'L2').firstStepId = 's3'; },
+  'DS-28': (f) => { f.errorFlows[0].triggers[0].fromStepId = 's8'; },
+};
+
+test('F9 loops pass all rules', () => {
+  expect(validateFlow(f9, f9Cues)).toEqual([]);
+});
+
+for (const [rule, breakIt] of Object.entries(loopCases)) {
+  test(`${rule}: is detected`, () => {
+    const flow = structuredClone(f9);
+    breakIt(flow);
+    expect(validateFlow(flow, f9Cues).map((e) => e.rule)).toContain(rule);
   });
 }

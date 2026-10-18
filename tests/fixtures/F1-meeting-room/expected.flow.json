@@ -40,6 +40,7 @@
     { "id": "t7", "from": "s7", "to": "s8", "condition": null, "evidence": ["c7"] }
   ],
   "errorFlows": [],
+  "loops": [],
   "metrics": {
     "timeOnTask": { "minutes": 2, "text": "two minutes, maybe less", "evidence": ["c9"] },
     "attempts": null

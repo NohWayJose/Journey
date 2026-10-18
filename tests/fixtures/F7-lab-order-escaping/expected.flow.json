@@ -44,6 +44,7 @@
     { "id": "t9", "from": "s8", "to": "s9", "condition": null, "evidence": ["c8"] }
   ],
   "errorFlows": [],
+  "loops": [],
   "metrics": { "timeOnTask": null, "attempts": null },
   "annotations": [
     { "id": "n1", "targetId": "s8", "kind": "quote", "text": "We joke it should be %%end%% because nobody reads it", "speaker": "Zoë O'Brien", "evidence": ["c7"] }

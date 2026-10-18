@@ -55,3 +55,15 @@ test('dark colour scheme uses the Carbon Gray 100 theme', async ({ browser }, te
   expect(await style(page, 'svg', 'backgroundColor')).toBe('rgb(22, 22, 22)');
   await page.close();
 });
+
+test('loop markers and loop-back edges use the loop colour', async ({ page }, testInfo) => {
+  const dir = new URL('../fixtures/F9-site-inspections-loops/', import.meta.url);
+  const f9Cues = parseVtt(readFileSync(new URL('transcript.vtt', dir), 'utf8')).cues;
+  const f9 = JSON.parse(readFileSync(new URL('expected.flow.json', dir), 'utf8'));
+  const [main] = renderTaskFlow(f9, f9Cues, { name: 'F9' });
+  const path = testInfo.outputPath(main.fileName);
+  writeFileSync(path, main.svg);
+  await page.goto(pathToFileURL(path).href);
+  expect(await style(page, '[data-id="l_L1"] rect', 'stroke')).toBe('rgb(138, 63, 252)'); // Carbon purple 60
+  expect(await style(page, '.pele-edge[data-id*="_l_"] path:not(.pele-marker)', 'stroke')).toBe('rgb(138, 63, 252)');
+});

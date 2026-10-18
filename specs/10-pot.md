@@ -32,6 +32,7 @@ uses **synthetic** fixtures in `tests/fixtures/`. Each has a VTT file and a hand
 | F6 | Long interview, 30–60 steps, 3–5 actors, told non-linearly | Size, time, cost, legibility at scale; non-linear telling at scale |
 | F7 | Text with quotes, brackets, `<` `>`, `&`, emoji, accented names | Escaping and robustness |
 | F8 | Single participant who tells the task out of order: jumps ahead, goes back, adds detail later, corrects themselves | Non-linear accounts: task order, merged late detail, corrections |
+| F9 | Single participant with repeated and iterated steps | Repeat with a known count (later corrected), "for each" repeat nested inside it, iteration with typical passes and a limit that triggers an error flow |
 
 The fixtures are in `tests/fixtures/` (see its README); unit tests check every expected
 result against the schema and semantic rules. **F6 is about 6 minutes of dialogue** with
@@ -84,6 +85,7 @@ These are a first look, not results. The checks below confirm or refute them.
 | PT-14 | Is the SVG a usable standalone file? | Open CLI output directly in Firefox, Chrome and Inkscape | Correct colours and fonts with no external CSS; text selectable |
 | PT-15 | Can error flows follow the [visual standard](30-design.md#visual-standard-for-error-links)? | Render F2's main flow and error flows to one directory; open in Firefox and follow the links | Link-out, entry, return and re-entry connectors use the standard shapes and styles, sit in the right lane, and their relative links open the matching diagram |
 | PT-16 | Can threshold judgements be shown? | Render F2 with `above` and `below` measures | `above` shows a clear frustration marker; `below` doesn't clutter the diagram |
+| PT-17 | Can loops be shown? | Render F8 and F9 | Repeat and iteration markers follow CM-12; nested loops readable; the iteration limit links to its error flow |
 
 ## Part B: Extraction (Claude)
 
@@ -100,6 +102,7 @@ Uses the official Anthropic SDK, model `claude-opus-5-5`, with **structured outp
 | PE-06 | Does it fit the size, time and cost limits? | F6 | Within context window; end-to-end < 3 min; cost per transcript recorded |
 | PE-07 | Are failures handled? | Malformed VTT; empty transcript; refusal or `max_tokens` stop reasons | Clear error, no partial or invalid model written |
 | PE-08 | Does it handle non-linear accounts? | F8 | Steps in task order, not telling order; late details merged into existing steps (no duplicates); corrected versions used, each with a correction annotation |
+| PE-09 | Does it recognise repetition? | F8, F9 | Repeats with count (number or text), iterations with pass/fail, typical passes and limit; limit linked to an error flow; every cycle declared |
 
 **Rough cost estimate:** a 60-minute interview is about 10–15k words (≈ 20k tokens). With
 instructions and schema, input is ≈ 25k tokens and output perhaps 5–15k including thinking.
@@ -144,4 +147,5 @@ At current `claude-opus-5-5` prices ($4 / $20 per million tokens) that is roughl
 | PT-14 | Partial | 2026-10-18 | Firefox (automated): standalone file gets the Carbon theme with no external CSS. Chrome and Inkscape not yet checked |
 | PT-15 | **Pass** | 2026-10-18 | Automated: link-out/entry hexagons and return/re-entry double circles, in the right lanes, with relative links both ways. Visually confirmed in F2 |
 | PT-16 | **Pass** | 2026-10-18 | Automated: `above` shows ▲ and the `frustration` class; `below` shows nothing |
-| PE-01 to PE-08 | Pending | | Schema and fixtures ready; needs API credentials |
+| PT-17 | **Pass** | 2026-10-18 | Automated: repeat (× n and for-each) and iteration markers per CM-12, back edge routed through the marker, limit linked to its error flow, loop colour in Firefox. Nested loops in F9 readable; reviewer to confirm |
+| PE-01 to PE-09 | Pending | | Schema and fixtures ready; needs API credentials |

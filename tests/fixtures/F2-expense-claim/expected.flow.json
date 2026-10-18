@@ -61,6 +61,7 @@
       "transitions": [
         { "id": "t10", "from": "e1", "to": "e2", "condition": null, "evidence": ["c8"] }
       ],
+      "loops": [],
       "evidence": ["c7", "c8"]
     },
     {
@@ -88,9 +89,11 @@
         { "id": "t12", "from": "e4", "to": "e5", "condition": "Yes", "evidence": ["c13"] },
         { "id": "t13", "from": "e4", "to": "e6", "condition": "No", "evidence": ["c14"] }
       ],
+      "loops": [],
       "evidence": ["c12", "c13", "c14"]
     }
   ],
+  "loops": [],
   "metrics": {
     "timeOnTask": { "minutes": 20, "text": "My part, about twenty minutes a claim", "evidence": ["c17"] },
     "attempts": null

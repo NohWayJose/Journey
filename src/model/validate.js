@@ -36,7 +36,7 @@ export function semanticErrors(flow, cues) {
   const fail = (rule, message) => errors.push({ rule, message });
 
   const flows = [
-    { id: 'main', startStepId: flow.startStepId, steps: flow.steps, transitions: flow.transitions },
+    { id: 'main', startStepId: flow.startStepId, steps: flow.steps, transitions: flow.transitions, loops: flow.loops },
     ...flow.errorFlows,
   ];
   const stepFlow = new Map(flows.flatMap((f) => f.steps.map((s) => [s.id, f.id])));
@@ -48,7 +48,7 @@ export function semanticErrors(flow, cues) {
   // DS-10
   const ids = [
     ...flow.actors.map((a) => a.id), ...steps.keys(), ...transitions.map((t) => t.id),
-    ...flow.errorFlows.map((f) => f.id), ...flow.annotations.map((n) => n.id),
+    ...flow.errorFlows.map((f) => f.id), ...flows.flatMap((f) => f.loops.map((l) => l.id)), ...flow.annotations.map((n) => n.id),
   ];
   const seen = new Set();
   for (const id of ids) {
@@ -149,6 +149,81 @@ export function semanticErrors(flow, cues) {
     for (const t of f.transitions) {
       if (stepFlow.get(t.from) !== f.id || stepFlow.get(t.to) !== f.id) {
         fail('DS-22', `Transition ${t.id} in flow ${f.id} connects steps outside that flow`);
+      }
+    }
+  }
+
+  // DS-23 to DS-28: loops
+  for (const f of flows) {
+    const backEdges = new Set(); // declared iteration back transitions
+    const valid = [];
+    for (const l of f.loops) {
+      if (stepFlow.get(l.firstStepId) !== f.id || stepFlow.get(l.lastStepId) !== f.id) {
+        fail('DS-23', `Loop ${l.id} must start and end at steps in flow ${f.id}`);
+        continue;
+      }
+      if (l.kind === 'iterate') {
+        const out = f.transitions.filter((t) => t.from === l.lastStepId);
+        const back = out.find((t) => t.to === l.firstStepId && t.condition === l.fail);
+        if (steps.get(l.lastStepId).kind !== 'decision') fail('DS-24', `Iteration ${l.id} must end at a decision`);
+        if (l.pass === null || l.fail === null) fail('DS-24', `Iteration ${l.id} needs pass and fail criteria`);
+        if (!back) fail('DS-24', `Iteration ${l.id} has no transition back to ${l.firstStepId} labelled "${l.fail}"`);
+        if (!out.some((t) => t !== back && t.condition === l.pass)) fail('DS-24', `Iteration ${l.id} has no exit transition labelled "${l.pass}"`);
+        if (l.count !== null) fail('DS-24', `Iteration ${l.id} must not have a count`);
+        if (back) backEdges.add(back.id);
+        // DS-28
+        if (l.limit?.errorFlowId) {
+          const target = flow.errorFlows.find((e) => e.id === l.limit.errorFlowId);
+          if (!target) fail('DS-28', `Iteration ${l.id} limit refers to unknown error flow "${l.limit.errorFlowId}"`);
+          else if (!target.triggers.some((tr) => tr.fromStepId === l.lastStepId)) {
+            fail('DS-28', `Error flow ${target.id} has no trigger from ${l.lastStepId}, where iteration ${l.id} runs out of tries`);
+          }
+        }
+      } else if (l.count === null || l.pass !== null || l.fail !== null || l.iterations !== null || l.limit !== null) {
+        fail('DS-25', `Repeat ${l.id} needs a count and no pass, fail, iterations or limit`);
+      }
+      valid.push(l);
+    }
+
+    const forward = f.transitions.filter((t) => !backEdges.has(t.id));
+    const reach = (start, next) => {
+      const seenSteps = new Set([start]);
+      const queue = [start];
+      while (queue.length) for (const n of next(queue.shift())) if (!seenSteps.has(n)) { seenSteps.add(n); queue.push(n); }
+      return seenSteps;
+    };
+    const bodies = new Map();
+    for (const l of valid) {
+      const after = reach(l.firstStepId, (id) => forward.filter((t) => t.from === id).map((t) => t.to));
+      if (!after.has(l.lastStepId)) { fail('DS-23', `Loop ${l.id}: ${l.lastStepId} is not reachable from ${l.firstStepId}`); continue; }
+      const before = reach(l.lastStepId, (id) => forward.filter((t) => t.to === id).map((t) => t.from));
+      const body = new Set([...after].filter((id) => before.has(id)));
+      bodies.set(l.id, body);
+      if (l.kind === 'repeat' && f.transitions.some((t) => body.has(t.from) && t.to === l.firstStepId)) {
+        fail('DS-25', `Repeat ${l.id} must not have a transition back to ${l.firstStepId}`);
+      }
+    }
+
+    // DS-26: what remains after removing declared back transitions must be acyclic
+    const state = new Map(); // undefined = unvisited, 1 = on stack, 2 = done
+    const visit = (id) => {
+      state.set(id, 1);
+      for (const t of forward.filter((tr) => tr.from === id)) {
+        if (state.get(t.to) === 1) fail('DS-26', `Transition ${t.id} closes a cycle in flow ${f.id} that is not a declared iteration`);
+        else if (!state.has(t.to)) visit(t.to);
+      }
+      state.set(id, 2);
+    };
+    for (const s of f.steps) if (!state.has(s.id)) visit(s.id);
+
+    // DS-27
+    const entries = [...bodies];
+    for (let i = 0; i < entries.length; i++) {
+      for (let j = i + 1; j < entries.length; j++) {
+        const [a, A] = entries[i];
+        const [b, B] = entries[j];
+        const shared = [...A].filter((id) => B.has(id)).length;
+        if (shared && shared !== A.size && shared !== B.size) fail('DS-27', `Loops ${a} and ${b} overlap without one containing the other`);
       }
     }
   }

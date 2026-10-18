@@ -19,6 +19,7 @@ Each `F<n>-<name>/` folder holds:
 | F5 repeat prescription | 17 | 9 | 3 | 0 | Requested scale, spontaneous scale, inferred value, text-only measure; interviewer questions that must not become steps (c11–c12) |
 | F6 ward discharge | 44 | 33 | 5 | 2 | Size and legibility; non-linear telling at scale (jump to the end, jump ahead and retract, late error-flow detail prompted by the interviewer, back-filled step, two corrections); second participant's alternative views; hesitation, workaround, notes; failure outcome |
 | F7 lab order | 8 | 9 | 2 | 0 | Escaping: quotes, brackets, `\|`, `#`, `%%`, `&`, `<…>`, backticks, emoji, accented names; Zoom-style speakers |
-| F8 VAT return | 19 | 11 | 3 | 1 | Non-linear telling: jumps ahead and back, back-filled step with a corrected position, late detail merged into an earlier step, late error flow, corrected scale and time (`correction` annotations) |
+| F8 VAT return | 19 | 11 | 3 | 1 | Non-linear telling: jumps ahead and back, back-filled step with a corrected position, late detail merged into an earlier step, late error flow, corrected scale and time (`correction` annotations); declared iteration loop |
+| F9 site inspections | 18 | 15 | 4 | 1 | Loops: repeat × 5 (count corrected from 4), nested "for each extinguisher" repeat, iteration until validation passes with typical passes and a limit that triggers an error flow; correction annotation on a loop |
 
 `checkout.journey.js` is the small Mermaid sample used by the pele smoke tests.

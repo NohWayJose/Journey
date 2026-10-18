@@ -125,9 +125,11 @@
         "transitions": [
           { "id": "t10", "from": "e1", "to": "e2", "condition": null, "evidence": ["c10"] }
         ],
+        "loops": [],
         "evidence": ["c7", "c10"]
       }
     ],
+    "loops": [],
     "metrics": {
       "timeOnTask": { "minutes": 10, "text": "the whole thing's about ten minutes", "evidence": ["c12"] },
       "attempts": null

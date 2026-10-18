@@ -1,0 +1,103 @@
+{
+  "title": "Monthly site safety inspections",
+  "goal": { "text": "Every site is safe, with the paperwork to prove it if an inspector visits", "evidence": ["c2"] },
+  "frequency": { "value": 2, "basis": "inferred", "threshold": null, "text": "that's the month done", "evidence": ["c15"] },
+  "difficulty": null,
+  "participants": [
+    { "speakerLabel": "Interviewer", "role": "interviewer", "isMainSpeaker": false, "sharedConnection": false, "people": [] },
+    { "speakerLabel": "Sam Okafor", "role": "participant", "isMainSpeaker": true, "sharedConnection": false, "people": ["Sam Okafor"] }
+  ],
+  "actors": [
+    { "id": "a1", "name": "Area safety officer", "kind": "role", "speakerLabels": ["Sam Okafor"], "evidence": ["c3"] },
+    { "id": "a2", "name": "Inspection portal", "kind": "system", "speakerLabels": [], "evidence": ["c10", "c11"] },
+    { "id": "a3", "name": "IT helpdesk", "kind": "team", "speakerLabels": [], "evidence": ["c12"] },
+    { "id": "a4", "name": "Operations director", "kind": "role", "speakerLabels": [], "evidence": ["c14"] }
+  ],
+  "startStepId": "s1",
+  "steps": [
+    { "id": "s1", "actorId": "a1", "kind": "action", "label": "Print inspection checklists", "description": "One per site", "outcome": null, "returnToStepId": null, "frequency": null, "difficulty": null,
+      "attributes": [], "states": [], "metrics": { "timeOnTask": null, "attempts": null }, "evidence": ["c3"] },
+    { "id": "s2", "actorId": "a1", "kind": "action", "label": "Travel to site", "description": null, "outcome": null, "returnToStepId": null, "frequency": null, "difficulty": null,
+      "attributes": [], "states": [], "metrics": { "timeOnTask": null, "attempts": null }, "evidence": ["c5"] },
+    { "id": "s3", "actorId": "a1", "kind": "action", "label": "Walk the fire exits", "description": null, "outcome": null, "returnToStepId": null, "frequency": null, "difficulty": null,
+      "attributes": [], "states": [], "metrics": { "timeOnTask": null, "attempts": null }, "evidence": ["c5"] },
+    { "id": "s4", "actorId": "a1", "kind": "action", "label": "Check extinguisher tag is in date", "description": null, "outcome": null, "returnToStepId": null, "frequency": null,
+      "difficulty": { "value": 2, "basis": "scale", "threshold": null, "text": "A two. It's just tedious.", "evidence": ["c8", "c9"] },
+      "attributes": [], "states": [], "metrics": { "timeOnTask": null, "attempts": null }, "evidence": ["c6"] },
+    { "id": "s5", "actorId": "a1", "kind": "action", "label": "Note defects on checklist", "description": null, "outcome": null, "returnToStepId": null, "frequency": null, "difficulty": null,
+      "attributes": [], "states": [], "metrics": { "timeOnTask": null, "attempts": null }, "evidence": ["c7"] },
+    { "id": "s6", "actorId": "a1", "kind": "action", "label": "Sign off site checklist", "description": "Before leaving the site", "outcome": null, "returnToStepId": null, "frequency": null, "difficulty": null,
+      "attributes": [], "states": [], "metrics": { "timeOnTask": null, "attempts": null }, "evidence": ["c7"] },
+    { "id": "s7", "actorId": "a1", "kind": "action", "label": "Type up or correct report", "description": null, "outcome": null, "returnToStepId": null, "frequency": null, "difficulty": null,
+      "attributes": [{ "name": "Tool", "value": "Inspection portal", "evidence": ["c10"] }], "states": [], "metrics": { "timeOnTask": null, "attempts": null }, "evidence": ["c10", "c11"] },
+    { "id": "s8", "actorId": "a1", "kind": "action", "label": "Submit report", "description": null, "outcome": null, "returnToStepId": null, "frequency": null, "difficulty": null,
+      "attributes": [], "states": [], "metrics": { "timeOnTask": null, "attempts": null }, "evidence": ["c10", "c11"] },
+    { "id": "s9", "actorId": "a2", "kind": "decision", "label": "Passes validation?", "description": null, "outcome": null, "returnToStepId": null, "frequency": null, "difficulty": null,
+      "attributes": [], "states": [], "metrics": { "timeOnTask": null, "attempts": null }, "evidence": ["c11"] },
+    { "id": "s10", "actorId": "a1", "kind": "action", "label": "Email summary to operations director", "description": null, "outcome": null, "returnToStepId": null, "frequency": null, "difficulty": null,
+      "attributes": [], "states": [], "metrics": { "timeOnTask": null, "attempts": null }, "evidence": ["c14"] },
+    { "id": "s11", "actorId": "a4", "kind": "action", "label": "Review summary", "description": null, "outcome": null, "returnToStepId": null, "frequency": null, "difficulty": null,
+      "attributes": [], "states": [], "metrics": { "timeOnTask": null, "attempts": null }, "evidence": ["c15"] },
+    { "id": "s12", "actorId": "a4", "kind": "outcome", "label": "Month's inspections complete", "description": null, "outcome": "success", "returnToStepId": null, "frequency": null, "difficulty": null,
+      "attributes": [], "states": [], "metrics": { "timeOnTask": null, "attempts": null }, "evidence": ["c15"] }
+  ],
+  "transitions": [
+    { "id": "t1", "from": "s1", "to": "s2", "condition": null, "evidence": ["c4"] },
+    { "id": "t2", "from": "s2", "to": "s3", "condition": null, "evidence": ["c5"] },
+    { "id": "t3", "from": "s3", "to": "s4", "condition": null, "evidence": ["c5"] },
+    { "id": "t4", "from": "s4", "to": "s5", "condition": null, "evidence": ["c7"] },
+    { "id": "t5", "from": "s5", "to": "s6", "condition": null, "evidence": ["c7"] },
+    { "id": "t6", "from": "s6", "to": "s7", "condition": null, "evidence": ["c10"] },
+    { "id": "t7", "from": "s7", "to": "s8", "condition": null, "evidence": ["c10"] },
+    { "id": "t8", "from": "s8", "to": "s9", "condition": null, "evidence": ["c11"] },
+    { "id": "t9", "from": "s9", "to": "s10", "condition": "Yes", "evidence": ["c14"] },
+    { "id": "t10", "from": "s9", "to": "s7", "condition": "No", "evidence": ["c11"] },
+    { "id": "t11", "from": "s10", "to": "s11", "condition": null, "evidence": ["c15"] },
+    { "id": "t12", "from": "s11", "to": "s12", "condition": null, "evidence": ["c15"] }
+  ],
+  "errorFlows": [
+    {
+      "id": "E1",
+      "title": "Report rejected three times",
+      "triggers": [
+        { "fromStepId": "s9", "condition": "Rejected three times",
+          "frequency": { "value": null, "basis": "text", "threshold": "above", "text": "That's maybe every few months, and it's a nightmare.", "evidence": ["c13"] },
+          "evidence": ["c12"] }
+      ],
+      "startStepId": "e1",
+      "steps": [
+        { "id": "e1", "actorId": "a1", "kind": "action", "label": "Ring IT helpdesk", "description": null, "outcome": null, "returnToStepId": null, "frequency": null, "difficulty": null,
+          "attributes": [], "states": [], "metrics": { "timeOnTask": null, "attempts": null }, "evidence": ["c12"] },
+        { "id": "e2", "actorId": "a3", "kind": "action", "label": "Fix the portal record", "description": null, "outcome": null, "returnToStepId": null, "frequency": null, "difficulty": null,
+          "attributes": [], "states": [], "metrics": { "timeOnTask": null, "attempts": null }, "evidence": ["c13"] },
+        { "id": "e3", "actorId": "a1", "kind": "return", "label": "Submit again", "description": null, "outcome": null, "returnToStepId": "s8", "frequency": null, "difficulty": null,
+          "attributes": [], "states": [], "metrics": { "timeOnTask": null, "attempts": null }, "evidence": ["c13"] }
+      ],
+      "transitions": [
+        { "id": "t20", "from": "e1", "to": "e2", "condition": null, "evidence": ["c13"] },
+        { "id": "t21", "from": "e2", "to": "e3", "condition": null, "evidence": ["c13"] }
+      ],
+      "loops": [],
+      "evidence": ["c12", "c13"]
+    }
+  ],
+  "loops": [
+    { "id": "L1", "kind": "repeat", "firstStepId": "s2", "lastStepId": "s6",
+      "count": { "value": 5, "text": "It's five now, we opened Leeds in the summer", "evidence": ["c4", "c16"] },
+      "pass": null, "fail": null, "iterations": null, "limit": null, "evidence": ["c4", "c5", "c16"] },
+    { "id": "L2", "kind": "repeat", "firstStepId": "s4", "lastStepId": "s4",
+      "count": { "value": null, "text": "For each extinguisher (the big warehouse has about thirty)", "evidence": ["c6"] },
+      "pass": null, "fail": null, "iterations": null, "limit": null, "evidence": ["c6"] },
+    { "id": "L3", "kind": "iterate", "firstStepId": "s7", "lastStepId": "s9", "count": null, "pass": "Yes", "fail": "No",
+      "iterations": { "count": 2, "text": "Usually takes two goes", "evidence": ["c11"] },
+      "limit": { "count": 3, "text": "If it gets rejected three times", "errorFlowId": "E1", "evidence": ["c12"] },
+      "evidence": ["c11", "c12"] }
+  ],
+  "metrics": {
+    "timeOnTask": { "minutes": null, "text": "Two days on the road, and about half a day on the report", "evidence": ["c18"] },
+    "attempts": null
+  },
+  "annotations": [
+    { "id": "n1", "targetId": "L1", "kind": "correction", "text": "Number of sites first given as four (00:00:22), corrected to five (00:01:55)", "speaker": "Sam Okafor", "evidence": ["c4", "c16"] }
+  ]
+}
