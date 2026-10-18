@@ -1,0 +1,79 @@
+WEBVTT
+
+NOTE F8: single participant telling the task out of order. Jumps ahead (c3), goes back (c4), back-fills a step (c8) then corrects its position (c9), adds detail to an earlier step (c10), mentions an error late (c14), and corrects a time (c18) and a scale (c19). Synthetic.
+
+1
+00:00:00.000 --> 00:00:05.000
+<v Interviewer>How do you do your VAT return?</v>
+
+2
+00:00:05.000 --> 00:00:13.000
+<v Nadia>The goal is just to file it on time every quarter and not get a penalty.</v>
+
+3
+00:00:13.000 --> 00:00:22.000
+<v Nadia>So I log in to the accounting software and press submit to HMRC, that's the main bit really.</v>
+
+4
+00:00:22.000 --> 00:00:30.000
+<v Nadia>Sorry, I'm jumping ahead. First I download the bank statements for the quarter.</v>
+
+5
+00:00:30.000 --> 00:00:38.000
+<v Nadia>Then I match the transactions in the software. The bank feed does most of it.</v>
+
+6
+00:00:38.000 --> 00:00:45.000
+<v Nadia>Then I check the VAT figures look sensible against last quarter.</v>
+
+7
+00:00:45.000 --> 00:00:50.000
+<v Interviewer>How hard is the matching, on a scale of one to five?</v>
+
+8
+00:00:50.000 --> 00:01:01.000
+<v Nadia>A three. Oh, and before the matching, I forgot, I chase my accountant for any invoices she's raised for me.</v>
+
+9
+00:01:01.000 --> 00:01:09.000
+<v Nadia>Actually, no, I chase her before I download the statements, otherwise I forget.</v>
+
+10
+00:01:09.000 --> 00:01:20.000
+<v Nadia>Going back to the matching: anything the feed can't match, I match by hand. There's always ten or twenty.</v>
+
+11
+00:01:20.000 --> 00:01:27.000
+<v Nadia>If the figures look off compared with last quarter, I go back through the matching.</v>
+
+12
+00:01:27.000 --> 00:01:31.000
+<v Nadia>If they look fine, I submit.</v>
+
+13
+00:01:31.000 --> 00:01:38.000
+<v Nadia>HMRC accepts it and I get a confirmation reference.</v>
+
+14
+00:01:38.000 --> 00:01:50.000
+<v Nadia>Oh, and on submitting: if HMRC rejects it, it's usually because the connection's expired. I reauthorise the software and submit again.</v>
+
+15
+00:01:50.000 --> 00:01:56.000
+<v Nadia>That's maybe one quarter in four. Annoying, but I'm used to it.</v>
+
+16
+00:01:56.000 --> 00:02:03.000
+<v Nadia>I save the confirmation reference in my records folder. Then I'm done.</v>
+
+17
+00:02:03.000 --> 00:02:06.000
+<v Interviewer>How long does it take?</v>
+
+18
+00:02:06.000 --> 00:02:13.000
+<v Nadia>Half a day. Well, a morning. Let's say three hours.</v>
+
+19
+00:02:13.000 --> 00:02:21.000
+<v Nadia>Actually, going back to the matching, I said a three. Honestly, it's a four.</v>

@@ -31,6 +31,7 @@ uses **synthetic** fixtures in `tests/fixtures/`. Each has a VTT file and a hand
 | F5 | Interviewer asks for scales on some steps, not others | Scale vs free text, scale preferred, inferred values marked, questions excluded |
 | F6 | ~60-minute interview, 30–60 steps, 3–5 actors | Size, time, cost, legibility at scale |
 | F7 | Text with quotes, brackets, `<` `>`, `&`, emoji, accented names | Escaping and robustness |
+| F8 | Single participant who tells the task out of order: jumps ahead, goes back, adds detail later, corrects themselves | Non-linear accounts: task order, merged late detail, corrections |
 
 The fixtures are in `tests/fixtures/` (see its README); unit tests check every expected
 result against the schema and semantic rules. **F6 is about 8 minutes of dialogue** with
@@ -98,6 +99,7 @@ Uses the official Anthropic SDK, model `claude-opus-5-5`, with **structured outp
 | PE-05 | Is it consistent between runs? | F2 and F6, 3 runs each | Same actors, goal, decisions and outcomes; step count varies by ≤ 10% |
 | PE-06 | Does it fit the size, time and cost limits? | F6 | Within context window; end-to-end < 3 min; cost per transcript recorded |
 | PE-07 | Are failures handled? | Malformed VTT; empty transcript; refusal or `max_tokens` stop reasons | Clear error, no partial or invalid model written |
+| PE-08 | Does it handle non-linear accounts? | F8 | Steps in task order, not telling order; late details merged into existing steps (no duplicates); corrected versions used, each with a correction annotation |
 
 **Rough cost estimate:** a 60-minute interview is about 10–15k words (≈ 20k tokens). With
 instructions and schema, input is ≈ 25k tokens and output perhaps 5–15k including thinking.
@@ -106,7 +108,7 @@ At current `claude-opus-5-5` prices ($4 / $20 per million tokens) that is roughl
 
 ## Go / no-go
 
-- **Go:** PT-01 to PT-07, PT-10, PT-11, PT-13 to PT-15 and PE-01 to PE-04 pass.
+- **Go:** PT-01 to PT-07, PT-10, PT-11, PT-13 to PT-15, PE-01 to PE-04 and PE-08 pass.
 - **Conditional go:** a failure has a workaround that fits the timebox (e.g. annotations
   as tooltips instead of note nodes). The workaround is recorded in decisions.
 - **No-go on pele:** lanes with unambiguous decisions can't be drawn legibly, output isn't
@@ -142,4 +144,4 @@ At current `claude-opus-5-5` prices ($4 / $20 per million tokens) that is roughl
 | PT-14 | Pending | | Renders correctly without pele CSS in Firefox |
 | PT-15 | Pending | | Shapes, red dashed edges and relative links work; connectors land in the declared lane, not the step's lane, so the compiler must place them |
 | PT-16 | Pending | | |
-| PE-01 to PE-07 | Pending | | Blocked on Task Flow Model schema draft |
+| PE-01 to PE-08 | Pending | | Schema and fixtures ready; needs API credentials |

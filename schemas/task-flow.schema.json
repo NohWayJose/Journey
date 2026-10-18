@@ -640,14 +640,15 @@
           ]
         },
         "kind": {
-          "description": "alternativeView = a participant's different approach or view (D-004).",
+          "description": "alternativeView = a participant's different approach or view (D-004); correction = a participant revised or contradicted their own account, and the flow uses the corrected version (D-016).",
           "enum": [
             "note",
             "hesitation",
             "workaround",
             "opinion",
             "quote",
-            "alternativeView"
+            "alternativeView",
+            "correction"
           ]
         },
         "text": {

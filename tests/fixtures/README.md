@@ -19,5 +19,6 @@ Each `F<n>-<name>/` folder holds:
 | F5 repeat prescription | 17 | 9 | 3 | 0 | Requested scale, spontaneous scale, inferred value, text-only measure; interviewer questions that must not become steps (c11–c12) |
 | F6 ward discharge | 48 | 33 | 5 | 2 | Size and legibility; second participant's alternative views; hesitation, workaround, notes; failure outcome |
 | F7 lab order | 8 | 9 | 2 | 0 | Escaping: quotes, brackets, `\|`, `#`, `%%`, `&`, `<…>`, backticks, emoji, accented names; Zoom-style speakers |
+| F8 VAT return | 19 | 11 | 3 | 1 | Non-linear telling: jumps ahead and back, back-filled step with a corrected position, late detail merged into an earlier step, late error flow, corrected scale and time (`correction` annotations) |
 
 `checkout.journey.js` is the small Mermaid sample used by the pele smoke tests.

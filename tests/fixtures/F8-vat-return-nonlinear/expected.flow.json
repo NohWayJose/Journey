@@ -1,0 +1,83 @@
+{
+  "title": "Filing a quarterly VAT return",
+  "goal": { "text": "File the VAT return on time every quarter and avoid a penalty", "evidence": ["c2"] },
+  "frequency": { "value": 1, "basis": "inferred", "threshold": null, "text": "every quarter", "evidence": ["c2"] },
+  "difficulty": null,
+  "participants": [
+    { "speakerLabel": "Interviewer", "role": "interviewer", "isMainSpeaker": false, "sharedConnection": false, "people": [] },
+    { "speakerLabel": "Nadia", "role": "participant", "isMainSpeaker": true, "sharedConnection": false, "people": ["Nadia"] }
+  ],
+  "actors": [
+    { "id": "a1", "name": "Nadia", "kind": "person", "speakerLabels": ["Nadia"], "evidence": ["c2"] },
+    { "id": "a2", "name": "Accountant", "kind": "person", "speakerLabels": [], "evidence": ["c8"] },
+    { "id": "a3", "name": "HMRC", "kind": "organisation", "speakerLabels": [], "evidence": ["c3", "c13"] }
+  ],
+  "startStepId": "s1",
+  "steps": [
+    { "id": "s1", "actorId": "a1", "kind": "action", "label": "Chase accountant for invoices", "description": "Done first, otherwise she forgets", "outcome": null, "returnToStepId": null, "frequency": null, "difficulty": null,
+      "attributes": [], "states": [], "metrics": { "timeOnTask": null, "attempts": null }, "evidence": ["c8", "c9"] },
+    { "id": "s2", "actorId": "a1", "kind": "action", "label": "Download bank statements", "description": "For the quarter", "outcome": null, "returnToStepId": null, "frequency": null, "difficulty": null,
+      "attributes": [], "states": [], "metrics": { "timeOnTask": null, "attempts": null }, "evidence": ["c4"] },
+    { "id": "s3", "actorId": "a1", "kind": "action", "label": "Match transactions", "description": "The bank feed matches most; the rest are matched by hand", "outcome": null, "returnToStepId": null, "frequency": null,
+      "difficulty": { "value": 4, "basis": "scale", "threshold": null, "text": "I said a three. Honestly, it's a four.", "evidence": ["c7", "c8", "c19"] },
+      "attributes": [
+        { "name": "Tool", "value": "Accounting software bank feed", "evidence": ["c5"] },
+        { "name": "Matched by hand", "value": "Always ten or twenty transactions", "evidence": ["c10"] }
+      ],
+      "states": [], "metrics": { "timeOnTask": null, "attempts": null }, "evidence": ["c5", "c10"] },
+    { "id": "s4", "actorId": "a1", "kind": "action", "label": "Check VAT figures against last quarter", "description": null, "outcome": null, "returnToStepId": null, "frequency": null, "difficulty": null,
+      "attributes": [], "states": [], "metrics": { "timeOnTask": null, "attempts": null }, "evidence": ["c6"] },
+    { "id": "s5", "actorId": "a1", "kind": "decision", "label": "Figures look sensible?", "description": null, "outcome": null, "returnToStepId": null, "frequency": null, "difficulty": null,
+      "attributes": [], "states": [], "metrics": { "timeOnTask": null, "attempts": null }, "evidence": ["c11", "c12"] },
+    { "id": "s6", "actorId": "a1", "kind": "action", "label": "Submit return to HMRC", "description": null, "outcome": null, "returnToStepId": null, "frequency": null, "difficulty": null,
+      "attributes": [{ "name": "Tool", "value": "Accounting software", "evidence": ["c3"] }], "states": [], "metrics": { "timeOnTask": null, "attempts": null }, "evidence": ["c3", "c12"] },
+    { "id": "s7", "actorId": "a3", "kind": "action", "label": "Accept return and issue confirmation reference", "description": null, "outcome": null, "returnToStepId": null, "frequency": null, "difficulty": null,
+      "attributes": [], "states": [], "metrics": { "timeOnTask": null, "attempts": null }, "evidence": ["c13"] },
+    { "id": "s8", "actorId": "a1", "kind": "action", "label": "Save confirmation reference", "description": null, "outcome": null, "returnToStepId": null, "frequency": null, "difficulty": null,
+      "attributes": [{ "name": "Location", "value": "Records folder", "evidence": ["c16"] }], "states": [], "metrics": { "timeOnTask": null, "attempts": null }, "evidence": ["c16"] },
+    { "id": "s9", "actorId": "a1", "kind": "outcome", "label": "Return filed", "description": null, "outcome": "success", "returnToStepId": null, "frequency": null, "difficulty": null,
+      "attributes": [], "states": [], "metrics": { "timeOnTask": null, "attempts": null }, "evidence": ["c16"] }
+  ],
+  "transitions": [
+    { "id": "t1", "from": "s1", "to": "s2", "condition": null, "evidence": ["c9"] },
+    { "id": "t2", "from": "s2", "to": "s3", "condition": null, "evidence": ["c5"] },
+    { "id": "t3", "from": "s3", "to": "s4", "condition": null, "evidence": ["c6"] },
+    { "id": "t4", "from": "s4", "to": "s5", "condition": null, "evidence": ["c11"] },
+    { "id": "t5", "from": "s5", "to": "s3", "condition": "No", "evidence": ["c11"] },
+    { "id": "t6", "from": "s5", "to": "s6", "condition": "Yes", "evidence": ["c12"] },
+    { "id": "t7", "from": "s6", "to": "s7", "condition": null, "evidence": ["c13"] },
+    { "id": "t8", "from": "s7", "to": "s8", "condition": null, "evidence": ["c16"] },
+    { "id": "t9", "from": "s8", "to": "s9", "condition": null, "evidence": ["c16"] }
+  ],
+  "errorFlows": [
+    {
+      "id": "E1",
+      "title": "Submission rejected",
+      "triggers": [
+        { "fromStepId": "s7", "condition": "HMRC rejects the return (connection expired)",
+          "frequency": { "value": null, "basis": "text", "threshold": "below", "text": "That's maybe one quarter in four. Annoying, but I'm used to it.", "evidence": ["c15"] },
+          "evidence": ["c14"] }
+      ],
+      "startStepId": "e1",
+      "steps": [
+        { "id": "e1", "actorId": "a1", "kind": "action", "label": "Reauthorise accounting software", "description": null, "outcome": null, "returnToStepId": null, "frequency": null, "difficulty": null,
+          "attributes": [], "states": [{ "name": "HMRC connection", "value": "Expired", "evidence": ["c14"] }], "metrics": { "timeOnTask": null, "attempts": null }, "evidence": ["c14"] },
+        { "id": "e2", "actorId": "a1", "kind": "return", "label": "Submit again", "description": null, "outcome": null, "returnToStepId": "s6", "frequency": null, "difficulty": null,
+          "attributes": [], "states": [], "metrics": { "timeOnTask": null, "attempts": null }, "evidence": ["c14"] }
+      ],
+      "transitions": [
+        { "id": "t10", "from": "e1", "to": "e2", "condition": null, "evidence": ["c14"] }
+      ],
+      "evidence": ["c14", "c15"]
+    }
+  ],
+  "metrics": {
+    "timeOnTask": { "minutes": 180, "text": "Half a day. Well, a morning. Let's say three hours.", "evidence": ["c18"] },
+    "attempts": null
+  },
+  "annotations": [
+    { "id": "n1", "targetId": "s1", "kind": "correction", "text": "First placed between downloading statements and matching (00:00:50), then corrected to before downloading statements (00:01:01)", "speaker": "Nadia", "evidence": ["c8", "c9"] },
+    { "id": "n2", "targetId": "s3", "kind": "correction", "text": "Rated matching a 3 (00:00:50), then corrected it to a 4 (00:02:13)", "speaker": "Nadia", "evidence": ["c8", "c19"] },
+    { "id": "n3", "targetId": null, "kind": "correction", "text": "Time on task first given as half a day, then a morning, settled on three hours", "speaker": "Nadia", "evidence": ["c18"] }
+  ]
+}

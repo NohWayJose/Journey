@@ -59,6 +59,23 @@ When more than one participant describes the task:
   flow, and add an **annotation** on the affected step that records the alternative view
   and its **timestamp** (and speaker, where known).
 
+### Non-linear accounts
+
+Real interviews are not told in order. Participants jump forward and back between parts
+of the flow, add detail to steps they described earlier, and correct themselves.
+
+- **The flow follows the task, not the telling.** Steps are ordered by when they happen,
+  whatever order they were described in.
+- **Later detail enriches the existing step.** It doesn't create a duplicate step; the step
+  cites every cue that describes it, wherever those cues are in the transcript.
+- **Corrections win.** When a participant corrects themselves ("actually, no, I do that
+  first"), the corrected version is used, and a **correction** annotation records what
+  changed and where, so a reviewer can check it. A correction is one speaker revising
+  their own account; a disagreement between participants is a divergence (see above).
+- **Unresolved contradictions:** when a participant contradicts themselves without a
+  clear correction, the later statement is used and a correction annotation flags the
+  contradiction for review.
+
 ### Measures (frequency and difficulty)
 
 - Participants may give these in **free text** ("every morning", "a real pain") or on a
@@ -202,4 +219,4 @@ None at present.
 
 ## Decisions
 
-See [decisions.md](decisions.md) (D-001 to D-015).
+See [decisions.md](decisions.md) (D-001 to D-016).

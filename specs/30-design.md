@@ -41,7 +41,7 @@ case cue references may no longer match.
 | `steps[].metrics`, `flow.metrics` | Completion metrics | `timeOnTask` (as stated, in minutes + quote) and `attempts`, per step and for the whole task |
 | `transitions` | Flow, Conditionality | `condition` labels branches out of decisions |
 | `errorFlows` | Completion metrics (errors and recovery) | Separate flows followed when something goes wrong (see [Error flows](#error-flows)) |
-| `annotations` | Annotations | `kind`: note, hesitation, workaround, opinion, quote, `alternativeView` (D-004). Attached to any step, transition, actor or error flow, or to the whole task (`targetId: null`) |
+| `annotations` | Annotations | `kind`: note, hesitation, workaround, opinion, quote, `alternativeView` (D-004), `correction` (D-016). Attached to any step, transition, actor or error flow, or to the whole task (`targetId: null`) |
 | every `evidence` | Evidence | Cue IDs that support the element |
 
 IDs are unique across the whole document, including error flows, so any element can be
@@ -146,6 +146,19 @@ Because they share a directory, the connector links are **relative file names**
 - Claude cites cue IDs only. **Timestamps are always looked up from `cues` by our code**,
   so the model can't invent a timestamp.
 - Every element must cite at least one cue (PE-02).
+- Because accounts are non-linear ([vision](00-vision.md#non-linear-accounts)), a step's
+  evidence often cites cues far apart in the transcript, e.g. where it was first
+  described and where a detail or correction was added later.
+
+### Extraction sees the whole transcript
+
+Extraction sends the **whole transcript in one request**, never in sequential chunks
+(D-016). Participants jump back and forth and correct themselves, so the meaning of a
+cue can depend on something said much earlier or later. A 60-minute interview is about
+20k tokens, well within the model's context window.
+
+If a transcript is ever too long for one request, the fallback is a two-pass approach
+(extract per section, then reconcile across the whole), not independent chunks.
 
 ### Structured-output constraints
 
