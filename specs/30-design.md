@@ -20,7 +20,7 @@ and stores it, and renderers draw it.
 | Part | Produced by | Contents |
 |---|---|---|
 | `source` | API | **Fully qualified path** to the VTT file, its SHA-256 at extraction time, cue count, duration (D-015) |
-| `extraction` | API | Model used, timestamp, options (`mainSpeaker`, `interviewers`) |
+| `extraction` | API | Provider and model used (D-024), timestamp, options (`mainSpeaker`, `interviewers`) |
 | `cues` | API (VTT parser) | Timing index: cue ID, start, end, speaker. **No text**: the text stays in the VTT file at `source.path` |
 | `flow` | **Claude** | The extracted task flow; `$defs/flow` is the structured-output schema |
 
@@ -384,6 +384,96 @@ All in one directory (as with error flows): `<study>.svg` (aggregate), one
 | Operation | Purpose |
 |---|---|
 | `aggregate` (e.g. `POST /studies/{studyId}/aggregate`) | Input: VTT paths (or existing Task Flow Documents), optional attribute CSV path, thresholds. Output: Aggregate Model + diagrams |
+
+## Model providers
+
+The LLM used for extraction (and, in phase 2, alignment and group naming) is selectable
+(D-024). **Claude is the default.**
+
+### Provider interface
+
+All LLM use goes through one small interface in `src/llm/`; nothing else imports a
+provider SDK:
+
+```js
+generateStructured({ system, prompt, schema, schemaName, maxOutputTokens })
+  → { json, usage: { inputTokens, outputTokens }, stopReason, provider, model }
+```
+
+- Prompts, schemas and validation are ours and provider-independent. **Validation always
+  runs on the result** (D-006), whatever the provider.
+- Each provider declares its **capabilities**:
+
+  | Capability | Use |
+  |---|---|
+  | `structuredOutput`: `native` / `json` / `none` | `native`: schema-constrained output (Claude: `output_config.format`). `json`: JSON mode, then validate, retry up to 2 times with the validation errors. `none`: not supported for extraction |
+  | `contextWindow` (tokens) | A transcript that doesn't fit is **rejected with a clear error**, never truncated or chunked (D-016) |
+  | `maxOutputTokens` | Request sizing |
+
+- Provider-specific failures (refusals, output cut off at the token limit, rate limits)
+  are mapped to common error types; no partial model is ever written (PE-07).
+
+### Providers
+
+| Provider | Status | Notes |
+|---|---|---|
+| `anthropic` | **Default**, PoC | Official Anthropic SDK; `claude-opus-5-5`; structured outputs; adaptive thinking; streaming for long requests |
+| `openai-compatible` | Later | Any server with an OpenAI-compatible API, including **local models** (e.g. Ollama, vLLM) that keep transcripts in-house |
+| Others (e.g. Bedrock, Vertex, Gemini) | Later | Added as needed behind the same interface |
+
+### Model profiles
+
+Named profiles live in a **server configuration file** (`journey.config.json`, committed,
+no secrets):
+
+```json
+{
+  "llm": {
+    "defaultProfile": "default",
+    "profiles": {
+      "default": { "provider": "anthropic", "model": "claude-opus-5-5", "effort": "high",
+                   "credential": "provider-default" },
+      "local":   { "provider": "openai-compatible", "baseUrl": "http://localhost:11434/v1",
+                   "model": "my-local-model", "credential": null,
+                   "allowedModels": ["my-local-model", "my-other-model"] }
+    }
+  }
+}
+```
+
+- **Selecting through the API:** a request's optional `llm` field names a profile, with an
+  optional model override if the profile lists it in `allowedModels`:
+  `"llm": "local"` or `"llm": { "profile": "default", "model": "claude-opus-5-5" }`.
+  Without `llm`, `defaultProfile` is used.
+- **Callers can't supply a provider address or credential.** Otherwise a caller could send
+  our credentials to a server of their choosing. Only the server operator defines profiles.
+- Phase 2 may choose a profile per operation (`extract`, `align`, `name`), defaulting to the
+  same one.
+- The **provider and model used are recorded** in each Task Flow Document
+  (`extraction.provider`, `extraction.model`) and are part of the extraction cache key.
+- **Qualifying a model:** before a profile is used for real work, its model runs the
+  extraction checks (PE-01 to PE-09) on the fixtures, and its results are recorded.
+
+### Credentials
+
+Profiles **reference** credentials; secrets are never in configuration files, requests,
+Task Flow Documents, logs or error messages (D-025).
+
+| `credential` value | Resolved from |
+|---|---|
+| `provider-default` | The provider SDK's own credential chain. For Anthropic: `ANTHROPIC_API_KEY`, else a profile stored by `ant auth login`, else workload identity federation |
+| `env:NAME` | Environment variable `NAME` |
+| `null` | No credential (e.g. a local model server) |
+| Later: `vault:…`, `aws-sm:…`, `gcp-sm:…`, `azure-kv:…` | A secrets manager |
+
+Recommended practice:
+
+| Where | How |
+|---|---|
+| Developer machine | Preferably the provider's login (`ant auth login`), so no key sits in the project. Otherwise a git-ignored `.env`, loaded with Node's built-in `node --env-file=.env` |
+| CI | CI secret store, injected as environment variables |
+| Server | Secrets manager, or keyless workload identity where the provider supports it |
+| Everywhere | `.env*` git-ignored; a secret scanner (e.g. gitleaks) as a pre-commit hook is recommended |
 
 ## API (initial notes)
 

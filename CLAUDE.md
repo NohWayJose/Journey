@@ -16,7 +16,7 @@ Model (JSON), which is compiled to Mermaid and rendered with pele.
 
 - The **API is the canonical implementation** (OpenAPI contract). CLI, HTTP and other
   interfaces are thin adapters with **no business logic** (D-001).
-- Claude outputs a schema-validated Task Flow Model; Claude never writes Mermaid (D-006).
+- The LLM (Claude by default) outputs a schema-validated Task Flow Model; it never writes Mermaid (D-006).
 - pele sits behind our own render interface so it can be replaced.
 - Timestamps are resolved from cue IDs by our code, never taken from model output.
 
@@ -32,6 +32,6 @@ Model (JSON), which is compiled to Mermaid and rendered with pele.
 
 - Node 25, ES modules, plain JavaScript for now.
 - Pin dependencies to exact versions (`npm install --save-exact`).
-- Claude API: official `@anthropic-ai/sdk`, model `claude-opus-5-5`, structured outputs.
-  Credentials come from the environment and are never committed.
+- LLM access only through `src/llm/` (provider interface, D-024). Default provider: official `@anthropic-ai/sdk`, model `claude-opus-5-5`, structured outputs.
+  Credentials are referenced by name (D-025): never committed, logged or sent in requests.
 - Commit each green, self-contained step.

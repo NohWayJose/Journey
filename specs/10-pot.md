@@ -92,8 +92,10 @@ These are a first look, not results. The checks below confirm or refute them.
 
 ## Part B: Extraction (Claude)
 
-Uses the official Anthropic SDK, model `claude-opus-5-5`, with **structured outputs**
-(`output_config.format`) to constrain the response to the Task Flow Model JSON Schema.
+Runs through the provider interface (D-024) with the **default profile: Anthropic
+`claude-opus-5-5`**, using **structured outputs** (`output_config.format`) to constrain the
+response to the Task Flow Model JSON Schema. Results are recorded **per model**: the same
+checks qualify any other model before its profile is used for real work.
 
 | ID | Question | Method | Pass when |
 |---|---|---|---|

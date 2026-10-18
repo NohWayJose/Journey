@@ -217,7 +217,9 @@ can't bias how groups are named.
                      │  (OpenAPI contract)│   defined by openapi.yaml
                      └─────────┬──────────┘
                  ┌─────────────┼─────────────┐
-            VTT parser   Claude extraction   pele renderer
+            VTT parser   LLM extraction      pele renderer
+                         (model provider:
+                          Claude by default)
 ```
 
 ## Proof of Technology vs Proof of Concept
@@ -274,11 +276,15 @@ pele. Phase 2: a further 2 weeks.
 - **Runtime:** Node.js (v25), ES modules; tests with Playwright (`unit` + Firefox `e2e`).
 - **Rendering:** pele 1.6.0, pinned. It's very new (first release October 2026), so it sits
   behind our own small interface so it can be replaced.
-- **LLM:** Claude API via the official Anthropic TypeScript/JS SDK, default model
-  `claude-opus-5-5`, with schema-constrained JSON output (structured outputs).
-- **Data:** transcripts may contain personal data and are sent to the Anthropic API.
-  Use transcripts you're allowed to process; consider redaction before sending.
-- **Credentials:** API key / profile from the environment; never committed.
+- **LLM:** the model provider and model are **selectable through the API** by named model
+  profile (D-024). The **default is Claude** (`claude-opus-5-5` via the official Anthropic
+  SDK, with structured outputs). Other providers, including a model on your own servers,
+  plug in behind the same interface and must pass the extraction checks before use.
+- **Data:** transcripts may contain personal data and are sent to the chosen model
+  provider. Use transcripts you're allowed to process; consider redaction before sending,
+  or a local model profile to keep transcripts in-house.
+- **Credentials:** referenced by name in server configuration, never sent in requests,
+  stored in documents or logged (D-025). See the [design](30-design.md#credentials).
 - **Participant attributes** (phase 2) may be personal data; they are processed locally
   and never sent to the Anthropic API.
 - **Sample transcripts:** real samples will come later. Until then, PoT and tests use
@@ -317,4 +323,4 @@ the length of the recording.
 
 ## Decisions
 
-See [decisions.md](decisions.md) (D-001 to D-023).
+See [decisions.md](decisions.md) (D-001 to D-025).

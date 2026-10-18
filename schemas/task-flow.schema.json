@@ -46,13 +46,19 @@
       "type": "object",
       "additionalProperties": false,
       "required": [
+        "provider",
         "model",
         "createdAt",
         "options"
       ],
       "properties": {
-        "model": {
+        "provider": {
+          "description": "Model provider used for extraction (D-024), e.g. anthropic.",
           "type": "string"
+        },
+        "model": {
+          "type": "string",
+          "description": "Model used for extraction, e.g. claude-opus-5-5."
         },
         "createdAt": {
           "type": "string",
