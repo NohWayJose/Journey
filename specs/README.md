@@ -10,6 +10,7 @@ Change the spec first, then the code.
 | `20-requirements.md` | User stories with numbered, testable acceptance criteria (`R-01`, `R-01a`, …) |
 | `30-design.md` | Architecture, data model and key design decisions |
 | `40-tasks.md` | Ordered implementation tasks, each linked to requirement IDs |
+| `50-live.md` | Live mode: an aspiration, not scheduled (D-027) |
 | `decisions.md` | Decision log: what was decided, when, why, and the alternatives |
 
 Tests are named after the acceptance criteria they verify, e.g. `test('R-03a: …')`.

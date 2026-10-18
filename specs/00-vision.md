@@ -229,6 +229,7 @@ can't bias how groups are named.
 | **PoT** | Can pele render a task flow with lanes, decisions, properties and notes legibly? Can Claude extract a faithful, schema-valid Task Flow Model from a real VTT? | [`10-pot.md`](10-pot.md) |
 | **PoC phase 1** | Do researchers find the generated diagrams accurate and useful enough to adopt? | `20-requirements.md` onwards |
 | **PoC phase 2** | Does aggregation reveal the common flow, significant variants and outliers in a way researchers trust? | [`10-pot.md`](10-pot.md) Part C, then requirements |
+| **Live mode** (aspiration, not scheduled) | Can a diagram follow an interview live, from local transcription, as the participant adds detail, reorders and corrects? | [`50-live.md`](50-live.md) (D-027) |
 
 ## Success / exit criteria (proposed)
 
@@ -262,7 +263,7 @@ pele. Phase 2: a further 2 weeks.
 
 ## Non-goals (for this increment)
 
-- Audio/video transcription; input is an existing `.vtt` file
+- Audio/video transcription; input is an existing `.vtt` file (live transcription is a separate, unscheduled aspiration: [`50-live.md`](50-live.md))
 - A graphical editor or web UI
 - Aggregating interviews about *different* tasks (a study covers one task)
 - Statistical significance testing (aggregate figures are descriptive)
@@ -323,4 +324,4 @@ the length of the recording.
 
 ## Decisions
 
-See [decisions.md](decisions.md) (D-001 to D-026).
+See [decisions.md](decisions.md) (D-001 to D-027).
