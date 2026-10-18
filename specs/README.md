@@ -6,7 +6,7 @@ Change the spec first, then the code.
 | File | Purpose |
 |---|---|
 | `00-vision.md` | Problem, users, non-goals, timebox and exit criteria |
-| `10-pot-pele.md` | Proof of Technology: questions pele must answer, with pass/fail criteria |
+| `10-pot.md` | Proof of Technology: rendering (pele) and extraction (Claude) checks, with pass/fail criteria |
 | `20-requirements.md` | User stories with numbered, testable acceptance criteria (`R-01`, `R-01a`, …) |
 | `30-design.md` | Architecture, data model and key design decisions |
 | `40-tasks.md` | Ordered implementation tasks, each linked to requirement IDs |

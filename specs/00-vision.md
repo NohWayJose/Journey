@@ -123,7 +123,7 @@ the model can be saved, reviewed and edited.
 
 | | Question | Covered by |
 |---|---|---|
-| **PoT** | Can pele render a task flow with lanes, decisions, properties and notes legibly? Can Claude extract a faithful, schema-valid Task Flow Model from a real VTT? | `10-pot-pele.md` (+ extraction spike) |
+| **PoT** | Can pele render a task flow with lanes, decisions, properties and notes legibly? Can Claude extract a faithful, schema-valid Task Flow Model from a real VTT? | [`10-pot.md`](10-pot.md) |
 | **PoC** | Do researchers find the generated diagrams accurate and useful enough to adopt? | `20-requirements.md` onwards |
 
 ## Success / exit criteria (proposed)
