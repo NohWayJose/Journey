@@ -1,0 +1,11 @@
+# Decisions
+
+| ID | Date | Decision | Reason | Alternatives considered |
+|---|---|---|---|---|
+| D-001 | 2026-10-18 | The **API**, defined by an OpenAPI contract, is the canonical implementation. CLI, HTTP and other interfaces are thin adapters with no business logic. | One implementation to build and test. Every interface behaves the same. | CLI generated from OpenAPI; CLI calling a local HTTP service |
+| D-002 | 2026-10-18 | Capture **all** completion metrics: outcome (success / failure / abandonment), time on task, attempts, error and recovery points. | All are needed to judge how well a task works. | A subset |
+| D-003 | 2026-10-18 | Frequency and difficulty are held as **both** scale value and free text. **Scale is preferred** when both exist. | Interviewees speak freely; some questions request a scale. | Free text only; scale only |
+| D-004 | 2026-10-18 | With several participants: use the **consensus** flow; where they differ, follow the **main speaker** and add an **annotation with timestamp** for the alternative. | Keeps one readable flow without losing dissent. | Parallel branches per participant; one diagram per participant |
+| D-005 | 2026-10-18 | **Interviewer questions are excluded** from the diagram (used only as context). | The diagram describes the participant's task, not the interview. | Showing questions as annotations |
+| D-006 | 2026-10-18 | Claude produces a **schema-validated Task Flow Model (JSON)**, compiled deterministically to a Mermaid `flowchart` for pele. Claude does not write Mermaid. | Testable, traceable, editable, and independent of the renderer. | Claude writes Mermaid directly |
+| D-007 | 2026-10-18 | Use pele's **`flowchart`** type (not `journey`) for the task-flow view. | `journey` cannot express conditional branching. Tested: `flowchart` handles lanes, decisions, labelled edges, in-node properties and notes. | `journey`; `swimlane` (syntax not yet established, to be evaluated in PoT) |
