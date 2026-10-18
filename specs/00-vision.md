@@ -323,4 +323,4 @@ the length of the recording.
 
 ## Decisions
 
-See [decisions.md](decisions.md) (D-001 to D-025).
+See [decisions.md](decisions.md) (D-001 to D-026).

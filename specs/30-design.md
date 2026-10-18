@@ -20,7 +20,7 @@ and stores it, and renderers draw it.
 | Part | Produced by | Contents |
 |---|---|---|
 | `source` | API | **Fully qualified path** to the VTT file, its SHA-256 at extraction time, cue count, duration (D-015) |
-| `extraction` | API | Provider and model used (D-024), timestamp, options (`mainSpeaker`, `interviewers`) |
+| `extraction` | API | Route (provider or MCP), provider or MCP client, model (D-024, D-026), timestamp, options (`mainSpeaker`, `interviewers`) |
 | `cues` | API (VTT parser) | Timing index: cue ID, start, end, speaker. **No text**: the text stays in the VTT file at `source.path` |
 | `flow` | **Claude** | The extracted task flow; `$defs/flow` is the structured-output schema |
 
@@ -384,6 +384,65 @@ All in one directory (as with error flows): `<study>.svg` (aggregate), one
 | Operation | Purpose |
 |---|---|
 | `aggregate` (e.g. `POST /studies/{studyId}/aggregate`) | Input: VTT paths (or existing Task Flow Documents), optional attribute CSV path, thresholds. Output: Aggregate Model + diagrams |
+
+## Extraction
+
+`extract(vttPath, { llm, mainSpeaker, interviewers })` turns a transcript into a validated
+Task Flow Document. Two routes share everything except who runs the model (D-026):
+
+| | Provider route | MCP route |
+|---|---|---|
+| Who runs the model | Journey, through a model profile (Claude by default) | The MCP client's own model (e.g. IBM Bob, Claude Code) |
+| Instructions | The shared extraction instructions, as the system prompt | The same instructions, served by an MCP tool |
+| Output constraint | Structured outputs where the provider supports them | None: the validator is the guarantee |
+| Fix-ups | Automatic retry with validation errors (EX-05) | The client fixes and resubmits |
+| Provenance | `route: provider`, provider and serving model | `route: mcp`, client name as reported, model as reported (or `unknown`) |
+
+### Shared extraction instructions
+
+The interpretation rules (speakers, consensus and divergence, non-linear accounts,
+repetition, measures, scales, evidence) are written **once**, in `src/extract/instructions.js`,
+and used by both routes. They restate the [vision's rules](00-vision.md#transcript-interpretation-rules)
+for the model; when a rule changes in the vision, the instructions change with it.
+
+### Prompt
+
+- The transcript is sent whole (D-016), one cue per line: `[c12 00:04:12 Sam] text`.
+- A **speaker summary** computed by our code comes first: each label's speaking time and
+  cue count, plus any `mainSpeaker` / `interviewers` options. The model decides roles from
+  this and the content (D-008, D-009).
+
+| ID | Rule |
+|---|---|
+| EX-01 | The VTT is parsed (VT-xx); a file with no cues is rejected before any model call |
+| EX-02 | The prompt contains the speaker summary, then every cue in order, each with its ID, timestamp and speaker |
+| EX-03 | The model is asked for `$defs/flow` as a standalone JSON Schema (the flow plus all definitions it uses) |
+| EX-04 | Every result is validated (schema + DS rules) against the parsed cues |
+| EX-05 | Provider route: if validation fails, the request is repeated up to **2** more times with the validation errors appended; after that, extraction fails with the errors. Nothing invalid is ever returned or saved |
+| EX-06 | The document is assembled by code: `source` (fully qualified VTT path, SHA-256, cue count, duration), `extraction` (route, provider, client, model, timestamp, options), `cues` (timing index, no text) and the validated `flow` |
+| EX-07 | The recorded model is the one that **served** the final request (LL-05) |
+
+## MCP adapter
+
+An MCP server (`src/adapters/mcp/`) exposes the API to MCP clients such as IBM Bob, so a
+client's own model can do extraction while Journey supplies the rules, validation and
+rendering (D-026). Like every adapter it contains no business logic.
+
+| Tool | Does |
+|---|---|
+| `parse_vtt(path)` | Parses the transcript; returns the speaker summary and the numbered cues, formatted as in the prompt |
+| `get_extraction_instructions()` | Returns the shared instructions and the flow JSON Schema |
+| `validate_task_flow(path, flow)` | Validates a flow against that transcript; returns the errors (empty if valid) |
+| `save_task_flow(path, flow, outFile, model?)` | Validates, assembles the document (route `mcp`, client name from the MCP connection, model as reported) and writes it |
+| `render_task_flow(file, outDir)` | Renders a saved Task Flow Document to SVGs (main + error flows) |
+| `get_source_path(file)` | Returns the fully qualified VTT path of a saved document (as `GET /flows/{flowId}/path`) |
+
+| ID | Rule |
+|---|---|
+| MC-01 | Tools call the API functions; no business logic in the adapter |
+| MC-02 | File access is limited to **allowed directories**: `JOURNEY_ALLOWED_DIRS` (path-separated), defaulting to the server's working directory. Paths outside them are refused |
+| MC-03 | Tool errors (invalid VTT, validation failures, refused paths) are returned as tool errors with readable messages, never crashes |
+| MC-04 | Runs locally over stdio; it makes no model calls of its own |
 
 ## Model providers
 

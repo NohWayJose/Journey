@@ -46,19 +46,46 @@
       "type": "object",
       "additionalProperties": false,
       "required": [
+        "route",
         "provider",
+        "client",
         "model",
         "createdAt",
         "options"
       ],
       "properties": {
+        "route": {
+          "description": "How the flow was extracted (D-026): provider = Journey called a model profile; mcp = an MCP client ran its own model.",
+          "enum": [
+            "provider",
+            "mcp"
+          ]
+        },
         "provider": {
-          "description": "Model provider used for extraction (D-024), e.g. anthropic.",
-          "type": "string"
+          "description": "Model provider (provider route), e.g. anthropic; null on the MCP route.",
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "client": {
+          "description": "MCP client name and version as reported by the connection (MCP route); null on the provider route.",
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
         },
         "model": {
-          "type": "string",
-          "description": "Model used for extraction, e.g. claude-opus-5-5."
+          "description": "Model that served the final request (provider route), or the model reported by the MCP client, or \"unknown\".",
+          "type": "string"
         },
         "createdAt": {
           "type": "string",
