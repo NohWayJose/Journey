@@ -1,6 +1,6 @@
 # Status
 
-Last updated: 2026-10-18 · Update this file whenever a step lands or priorities change.
+Last updated: 2026-10-27 · Update this file whenever a step lands or priorities change.
 
 The detailed results of each check are in the [PoT results table](10-pot.md#results); this
 file is the short version: where we are, what's next and what's left loose.
@@ -24,6 +24,16 @@ Phase: **Proof of Technology** (see [vision](00-vision.md#proof-of-technology-vs
 | Extraction checks | PE-01 to PE-09 pending: need API credentials (or a qualified MCP client) |
 | Phase 2 (aggregation) | Specified, not started (PA-01 to PA-08) |
 | Live mode | Aspiration only, not scheduled ([50-live.md](50-live.md), D-027) |
+
+## First real study: making tea or coffee
+
+- The team has been asked to describe how they make a cup of tea or coffee. **Deadline:
+  Friday 2026-10-30.** Received so far: 1 (coffee).
+- It is the first real data: for the extraction checks (PE) on real transcripts, and a
+  natural first aggregation study (common flow, tea/coffee variants, quirks).
+- Keep the transcripts in `studies/hot-drinks/` locally. `/studies/` is git-ignored because
+  the repository is **public**; never commit real transcripts.
+- Check that contributors agree to their transcript being sent to the model provider.
 
 ## Next
 

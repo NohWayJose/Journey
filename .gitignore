@@ -6,3 +6,6 @@ node_modules/
 /out/
 .env
 .env.*
+
+# Real study data (personal data; the repository is public)
+/studies/
