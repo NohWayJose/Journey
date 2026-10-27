@@ -17,6 +17,53 @@ one: open the Journey folder in Bob and the `journey` server is available. It al
 The file uses absolute paths, because Bob's documentation doesn't say whether relative paths
 work. On another machine (e.g. a work laptop), edit the paths to match that checkout.
 
+### Setting up on a Mac
+
+Bob is started from the Dock or Finder, so it doesn't get your terminal's `PATH`. With Node
+installed through nvm, `"command": "node"` then fails and the server never starts. Use the
+full path to `node`; the script below does this.
+
+1. Install Node 25 (e.g. [nvm](https://github.com/nvm-sh/nvm), then `nvm install 25`).
+2. Clone and install:
+
+   ```sh
+   mkdir -p ~/Development && cd ~/Development
+   git clone https://github.com/NohWayJose/Journey.git
+   cd Journey
+   npm install
+   mkdir -p studies/hot-drinks out
+   ```
+
+3. From inside the checkout, write `.bob/mcp.json` for this machine and stop git tracking
+   your local version:
+
+   ```sh
+   cat > .bob/mcp.json <<EOF
+   {
+     "mcpServers": {
+       "journey": {
+         "command": "$(which node)",
+         "args": ["$PWD/src/adapters/mcp/server.js"],
+         "cwd": "$PWD",
+         "env": { "JOURNEY_ALLOWED_DIRS": "$PWD/tests/fixtures:$PWD/studies:$PWD/out" },
+         "alwaysAllow": [],
+         "disabled": false
+       }
+     }
+   }
+   EOF
+   git update-index --skip-worktree .bob/mcp.json
+   ```
+
+   `command` must be a full path (e.g. `/Users/<you>/.nvm/versions/node/v25.x.x/bin/node`).
+   Re-run this step after upgrading Node.
+4. Open the folder in Bob and check that `journey` is running in its MCP servers panel.
+5. If it doesn't connect, run `"$(which node)" src/adapters/mcp/server.js` in the terminal:
+   if it waits silently, the server works and the problem is in Bob's configuration.
+
+Real study transcripts go in `studies/` (git-ignored: the repository is public). Copy them
+across by hand, never through git.
+
 ### For all projects
 
 Add a `journey` entry to Bob's global MCP settings, using the path to your Journey checkout
