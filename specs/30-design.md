@@ -327,13 +327,17 @@ definitions. This section will become detailed rules when phase 2 starts.
 | Part | Produced by | Contents |
 |---|---|---|
 | `study` | API | Study name, the interviews (VTT path, SHA-256, Task Flow Model reference), options (thresholds), attribute file path |
-| `canonicalSteps` | **Claude** (align) | `{ id, label, kind, members: [{ interviewId, stepId }] }`. Error flows and loops are aligned the same way (`canonicalErrorFlows`, `canonicalLoops`) |
+| `stages` | **Claude** (align) | `{ id, label, canonicalSteps }`: what a part of the task achieves; its canonical steps are the different ways of doing it (D-028). A stage with one way has one canonical step |
+| `canonicalSteps` | **Claude** (align) | `{ id, stage, label, kind, members: [{ interviewId, stepId }] }`. Error flows and loops are aligned the same way (`canonicalErrorFlows`, `canonicalLoops`) |
 | `paths` | Code | Per interview: its main-speaker flow as canonical steps and transitions |
 | `groups` | Code (+ Claude names) | `{ id, kind: common \| variant \| outlier, interviews, distinctiveSteps, distinctiveTransitions, name, description }` |
 | `support` | Code | Per canonical step and transition: interviews containing it, count, percentage |
 | `measures` | Code | Per canonical step: median difficulty and frequency (scale values only; inferred ones counted separately), frustration count, error-flow and loop occurrence |
 | `attributePatterns` | Code | Per group: attribute values over-represented relative to the study (count in group vs count in study) |
 | `alternativeViews` | Code | Within-interview alternative views mapped to canonical steps (reported, not counted as paths, D-021) |
+| `quirks` | Code | `{ id, element: { type: step \| transition \| loop \| errorFlow, ref }, stage, interviews, support }` for each rare element in a non-outlier interview (D-028) |
+| `workarounds` | Code (+ Claude groups wording) | `{ id, canonicalStep, label, members: [{ interviewId, annotationId }], support }`: `workaround` annotations gathered by canonical step; similar wordings merged by alignment |
+| `findings` | **Claude** (report) + code | Report statements (D-029), see [Findings report](#findings-report) |
 
 Every canonical element keeps its `members`, so any figure can be traced to interviews,
 their steps and, through them, the transcript cues.
@@ -346,8 +350,14 @@ their steps and, through them, the transcript cues.
 - Output (structured output): canonical steps and the mapping of each interview step to one
   canonical step. A step that matches nothing becomes its own canonical step with a single
   member, which is how outliers' unusual steps survive.
-- Validated like the Task Flow Model: every interview step mapped exactly once, members
-  refer to existing steps, canonical labels unique.
+- **Stages and methods** (D-028): steps are mapped to the same canonical step only when they
+  achieve the same thing **in the same way**. Different ways of achieving the same thing
+  (kettle vs microwave) are separate canonical steps in one stage. Differences in wording,
+  order or detail alone don't make a new canonical step.
+- Alignment also groups `workaround` annotations that describe the same workaround.
+- Validated like the Task Flow Model: every interview step mapped exactly once, every
+  canonical step in exactly one stage, members refer to existing steps, canonical labels
+  unique.
 
 ### Grouping (code)
 
@@ -358,6 +368,11 @@ their steps and, through them, the transcript cues.
   common / significant variant / outlier. The **common flow** is the set of steps and
   transitions with support ≥ 60%, regardless of group.
 - Deterministic: same input, same groups (ties broken by interview order).
+- **Quirks** (D-028) come after grouping: every canonical step, transition, loop and error
+  flow with support below the variant threshold (D-022: < 3 interviews or < 15%) that
+  occurs in a non-outlier interview. Thresholds are the same configurable ones, so a quirk is
+  exactly "too rare to be a variant". A quirk is attached to its stage, so the report can say
+  *1 of 8 microwaves the water; the rest boil a kettle*.
 
 ### Participant attributes CSV
 
@@ -380,14 +395,37 @@ are re-run over all models (cheap: they work on models, not transcripts).
 
 ### Output files
 
-All in one directory (as with error flows): `<study>.svg` (aggregate), one
-`<interview>.svg` per interview (plus its `<interview>.error-<id>.svg`), linked both ways.
+All in one directory (as with error flows): `<study>.svg` (aggregate), `<study>.findings.md`
+(report), one `<interview>.svg` per interview (plus its `<interview>.error-<id>.svg`), linked
+both ways.
+
+### Findings report
+
+The conclusions in words (D-029), written after grouping, as `<study>.findings.md` (and
+held in the Aggregate Model as `findings`).
+
+- **Input to Claude:** the Aggregate Model only: groups, stages, canonical steps, support,
+  measures, quirks, workarounds, outliers. **Not** transcripts and **not** participant
+  attributes; attribute patterns are inserted by code.
+- **Output (structured):** sections as in the [vision](00-vision.md#the-findings-report), each
+  a list of statements `{ text, cites, quotes }`:
+  - `text` refers to figures only through placeholders, e.g. `{support:cs-heat-kettle}` or
+    `{groupSize:variant-a}`; it must not contain numbers of its own. Code fills in the
+    placeholders from the Aggregate Model.
+  - `cites`: the groups, stages, canonical steps, quirks or workarounds the statement is
+    about (at least one).
+  - `quotes`: optional cue references (`interviewId` + cue ID). Code looks the text up in the
+    VTT (D-015), so quotes are always verbatim.
+- **Validation:** every placeholder and citation resolves; no digits in `text` outside
+  placeholders; every quirk, outlier and variant is mentioned at least once.
+- **Rendering:** Markdown, each statement followed by links to the interviews' diagrams.
+  Small studies get a caveat on sample size automatically.
 
 ### API
 
 | Operation | Purpose |
 |---|---|
-| `aggregate` (e.g. `POST /studies/{studyId}/aggregate`) | Input: VTT paths (or existing Task Flow Documents), optional attribute CSV path, thresholds. Output: Aggregate Model + diagrams |
+| `aggregate` (e.g. `POST /studies/{studyId}/aggregate`) | Input: VTT paths (or existing Task Flow Documents), optional attribute CSV path, thresholds. Output: Aggregate Model, diagrams and findings report |
 
 ## Extraction
 

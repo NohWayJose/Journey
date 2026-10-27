@@ -18,8 +18,9 @@ every element traceable to the moment in the transcript it came from.
 
 Then give it **many** interviews about the same task and get back an aggregate diagram that
 shows whether there is a **common way** of doing the task, which **different ways** are
-shared by significant sub-groups, and which participants are **outliers** who take a
-completely different approach (phase 2, see [Aggregating interviews](#aggregating-interviews-phase-2)).
+shared by significant sub-groups, which participants are **outliers** who take a
+completely different approach, and which **quirks and workarounds** individuals use within an
+otherwise ordinary flow, together with a **findings report** that says this in words (phase 2, see [Aggregating interviews](#aggregating-interviews-phase-2)).
 
 ## Users
 
@@ -146,6 +147,8 @@ each .vtt ──► extract (as above) ──► Task Flow Model ┤  individual
           group interview paths (our code) ──► common flow, variants, outliers
                                                      ▼
           name and describe groups (Claude) ──► Aggregate Model ──► aggregate diagram
+                                                     ▼
+          write findings (Claude prose, our numbers) ──► findings report
 ```
 
 1. **Align:** people describe the same step in different words. Claude maps each
@@ -155,6 +158,8 @@ each .vtt ──► extract (as above) ──► Task Flow Model ┤  individual
    measures how similar the paths are, and groups them. **Counts and percentages are
    calculated, never estimated by the model.**
 3. **Name:** Claude gives each group a short name and description.
+4. **Report:** Claude writes the findings report from the Aggregate Model; every number in it
+   is filled in by our code, and every statement cites the groups, steps and cues behind it.
 
 ### What counts
 
@@ -168,6 +173,14 @@ each .vtt ──► extract (as above) ──► Task Flow Model ┤  individual
   | **Common flow** | Steps and transitions present in **≥ 60%** of interviews |
   | **Variant** (a different way of doing the task) | A group of interviews sharing a distinctive path; **significant** with **≥ 3 interviews and ≥ 15%** of the study |
   | **Outlier** | An interview that fits neither the common flow nor any significant variant (members of groups too small to be significant are outliers) |
+  | **Quirk** | A step, way of doing a stage, branch, loop or error flow that only a few interviews have (support below the variant threshold: **< 3 interviews or < 15%**), found in an interview that is **not** an outlier. An outlier's unusual elements are reported with the outlier instead (D-028) |
+  | **Workaround** | Every `workaround` annotation, gathered across interviews by the step it belongs to and counted, however common. A workaround many people share is a pain point, not a quirk |
+
+- **Stages and methods** (D-028): when people achieve the same thing in different ways
+  (*boil the kettle*, *microwave a mug of water*, *use the hot tap*), alignment keeps each
+  way as its own canonical step and groups them under one **stage** (*heat the water*). So a
+  rare method shows up as a quirk (*1 of 8 microwaves the water*) instead of being merged
+  away into the common step.
 
 - **Aggregated measures** per canonical step: median difficulty and frequency, how many
   participants are above their frustration threshold, how often each error flow and loop
@@ -191,7 +204,26 @@ can't bias how groups are named.
 - Steps show **aggregated measures**, e.g. *Difficulty: median Hard (4) · 7/24 frustrated ▲*.
 - **Outliers** are link-out connectors to their individual diagrams, e.g.
   *Outlier P17: outsources the whole task →*.
+- **Quirks and workarounds** are notes on the stage or step they belong to, e.g.
+  *Quirk: microwaves the water (P3) →* or *Workaround (4/24): pre-fills the kettle the night
+  before*, linking to the individual diagrams. The full list is in the findings report.
 - Every interview's individual diagram is linked from the aggregate, in the same directory.
+
+### The findings report
+
+A readable report (D-029) next to the aggregate diagram that draws the conclusions:
+
+1. **Summary:** the main conclusions in a few sentences.
+2. **Common flow:** what most people do, with support figures.
+3. **Different ways:** each variant: what is distinctive, how many, any attribute pattern.
+4. **Quirks and workarounds:** rare methods, steps and branches; shared workarounds.
+5. **Outliers:** who takes a completely different approach, and how.
+6. **Difficulty and frustration:** the hardest and most frustrating steps.
+7. **Caveats:** study size, figures are descriptive, what wasn't asked about.
+
+Each statement links to the interviews (and their diagrams) and can quote the transcript
+cues behind it. **The model writes the words; our code supplies every number**, so a count in
+the report always matches the Aggregate Model.
 
 ## Delivery shape
 
@@ -252,11 +284,16 @@ The PoC succeeds if, on a set of **5–10 real task-description transcripts**:
    right group and every outlier is identified.
 8. **Trust:** on a real study, a reviewer agrees with the common flow and with the group of
    ≥ 90% of interviews.
-9. **Traceability:** every aggregate element traces back to interviews, steps and cues.
+9. **Traceability:** every aggregate element and every findings-report statement traces back
+   to interviews, steps and cues; every number in the report matches the Aggregate Model.
 10. **Incremental:** adding an interview re-uses the existing interviews' models instead
     of re-extracting them.
 11. **Legibility:** a reviewer can describe the common flow and each variant from the
     aggregate diagram alone.
+12. **Quirks:** on the synthetic study, every designed quirk and shared workaround is
+    reported, and no common-flow element is reported as a quirk.
+13. **Conclusions:** on a real study, a reviewer judges the findings report accurate and
+    finds nothing important missing.
 
 **Timebox (proposed):** phase 1: 2 weeks, PoT in the first 2–3 days with a go / no-go on
 pele. Phase 2: a further 2 weeks.
@@ -324,4 +361,4 @@ the length of the recording.
 
 ## Decisions
 
-See [decisions.md](decisions.md) (D-001 to D-027).
+See [decisions.md](decisions.md) (D-001 to D-029).

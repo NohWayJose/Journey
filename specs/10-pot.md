@@ -133,6 +133,16 @@ attribute CSV:
 Interviews use different wording for the same steps, tell the task out of order, and
 include alternative views, so alignment is tested properly.
 
+Designed **quirks and workarounds** (D-028), spread over non-outlier interviews:
+
+| Designed element | Where | Must be reported as |
+|---|---|---|
+| A different method for a common stage (e.g. microwave instead of kettle) | 1 common-flow interview | Quirk on that stage, not merged into the common step |
+| A unique extra step | 1 Variant A interview | Quirk |
+| A rare branch (an edge case of a common decision) | 2 interviews in different groups | Quirk (transition) |
+| The same workaround, worded differently | 4 interviews across groups | One workaround, 4/14 |
+| A one-off workaround | 1 interview | Workaround, 1/14 |
+
 ### Checks
 
 | ID | Question | Method | Pass when |
@@ -145,6 +155,8 @@ include alternative views, so alignment is tested properly.
 | PA-06 | Is it incremental? | Add a 15th interview to S1 | Only the new interview is extracted; groups update correctly |
 | PA-07 | Is the aggregate diagram legible? | Render S1; reviewer | Reviewer can describe the common flow, each variant and each outlier from the diagram; links to individual diagrams work |
 | PA-08 | Does it fit time and cost limits? | S1 end-to-end, cold and warm cache | Times and costs recorded; warm run (no new interviews) needs no extraction |
+| PA-09 | Are quirks and workarounds found? | S1 designed quirks and workarounds | Every designed quirk and workaround reported, with the right support; the method quirk sits in the right stage; no common-flow or variant element reported as a quirk |
+| PA-10 | Is the findings report accurate and traceable? | Generate for S1; automated checks, then reviewer | Automated: every figure matches the Aggregate Model, every citation resolves, quotes are verbatim, every variant, outlier and quirk mentioned. Reviewer: conclusions match the designed answer; nothing misleading |
 
 ## Go / no-go
 
@@ -157,7 +169,7 @@ include alternative views, so alignment is tested properly.
 - **No-go on extraction:** PE-01 or PE-02 fail and prompt or schema changes don't fix
   them within the timebox. Revisit the approach (e.g. chunking, two-pass extraction,
   human-in-the-loop review) before the PoC.
-- **Phase 2 go:** PA-01 to PA-05 and PA-07 pass. A PA-01 failure means revisiting alignment (e.g. two-pass, or reviewer-confirmed canonical steps) before building the aggregate diagram.
+- **Phase 2 go:** PA-01 to PA-05, PA-07, PA-09 and PA-10 pass. A PA-01 failure means revisiting alignment (e.g. two-pass, or reviewer-confirmed canonical steps) before building the aggregate diagram.
 
 ## Out of scope for the PoT
 
@@ -187,4 +199,4 @@ include alternative views, so alignment is tested properly.
 | PT-16 | **Pass** | 2026-10-18 | Automated: `above` shows ▲ and the `frustration` class; `below` shows nothing |
 | PT-17 | **Pass** | 2026-10-18 | Automated: repeat (× n and for-each) and iteration markers per CM-12, back edge routed through the marker, limit linked to its error flow, loop colour in Firefox. Nested loops in F9 readable; reviewer to confirm |
 | PE-01 to PE-09 | Pending | | Schema and fixtures ready; needs API credentials |
-| PA-01 to PA-08 | Pending | | Phase 2 |
+| PA-01 to PA-10 | Pending | | Phase 2 |

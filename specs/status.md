@@ -22,7 +22,7 @@ Phase: **Proof of Technology** (see [vision](00-vision.md#proof-of-technology-vs
 | Adapters | MCP adapter done (IBM Bob / Claude Code, see [docs/mcp.md](../docs/mcp.md)). CLI not started |
 | Rendering checks | PT-02, 04, 10, 11, 15, 16, 17 pass. PT-01, 03, 05, 06, 09 await human review. PT-08, 13, 14 partial. PT-07, 12 not started |
 | Extraction checks | PE-01 to PE-09 pending: need API credentials (or a qualified MCP client) |
-| Phase 2 (aggregation) | Specified, not started (PA-01 to PA-08) |
+| Phase 2 (aggregation) | Specified, not started (PA-01 to PA-10). Includes quirks, workarounds and a findings report (D-028, D-029) |
 | Live mode | Aspiration only, not scheduled ([50-live.md](50-live.md), D-027) |
 
 ## First real study: making tea or coffee
